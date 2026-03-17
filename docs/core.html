@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+  <head>
+<script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@1.0.0-RC.8/bundles/datastar.js"></script><script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"></script><script src="js/highlight.js" type="module"></script>    <style>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; } code { font-family: 'SF Mono', Consolas, monospace; }</style>
+    <title>core - html-tags</title>
+  </head>
+  <body data-signals="{search: ''}" style="display: flex; height: 100vh; margin: 0; background: #121212;">
+    <nav>
+      <style>
+            me { padding: 1rem; background: #1a1a1a; min-width: 180px; }
+            me h3 { margin: 0 0 1rem 0; color: #fff; }
+            me ul { list-style: none; padding: 0; margin: 0; }
+            me .back-link { color: #888; text-decoration: none; font-size: 0.85rem; }
+            me .back-link:hover { color: #fff; }
+            me .nav-link { color: #aaa; text-decoration: none; }
+            me .nav-link:hover { color: #fff; }
+            me .nav-link.active { color: #fff; }
+            me input { width: 100%; padding: 0.5rem; border: 1px solid #333; border-radius: 4px; background: #252525; color: #fff; margin-bottom: 1rem; box-sizing: border-box; }
+        </style>
+      <h3>html-tags</h3>
+      <input type="text" placeholder="Search..." data-bind="search">
+      <ul>
+        <li>
+<a href="index.html" class="back-link">← Index</a>        </li>
+        <li>
+<a href="core.html" class="nav-link active">core</a>        </li>
+      </ul>
+    </nav>
+    <div style="flex: 1; display: flex; flex-direction: column;">
+      <header>
+        <style>
+            me { padding: 1rem; background: #1e1e1e; border-bottom: 1px solid #333; }
+            me .header-row { display: flex; align-items: center; justify-content: space-between; }
+            me h1 { margin: 0; font-size: 1.5rem; color: #fff; }
+            me .wasm-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.5rem 0.75rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+            me .wasm-link { text-decoration: none; }
+        </style>
+        <div class="header-row">
+          <h1>core</h1>
+<a href="wasm/core/index.html" target="_blank" class="wasm-link"><button class="wasm-btn"><icon-external-link><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link-icon lucide-external-link"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></icon-external-link>Run in Browser</button></a>        </div>
+      </header>
+      <div>
+        <style>
+            me { padding: 1rem; background: #121212; overflow-y: auto; flex: 1; }
+        </style>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">attrmap</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-attrmap').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-attrmap"><span class="code-line">def attrmap(k): return attr_map.get(k, k.lstrip('_').replace('_', '-'))</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">render_attrs</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-render_attrs').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-render_attrs"><span class="code-line"># def render_attrs(d):</span><span class="code-line">#     parts = []</span><span class="code-line">#     for k,v in d.items():</span><span class="code-line">#         k = attrmap(k)</span><span class="code-line">#         if v is True: parts.append(f' {k}')</span><span class="code-line">#         elif v not in (False, None): parts.append(f' {k}="{v}"')</span><span class="code-line">#     return ''.join(parts)</span><span class="code-line"></span><span class="code-line">def render_attrs(d):</span><span class="code-line">    out = ''</span><span class="code-line">    for k,v in d.items():</span><span class="code-line">        k = attrmap(k)</span><span class="code-line">        if v is True: out += f' {k}'</span><span class="code-line">        elif v not in (False, None): out += f' {k}="{v}"'</span><span class="code-line">    return out</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">is_void</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-is_void').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-is_void"><span class="code-line">def is_void(t): return t.tag in VOID_TAGS</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">is_raw</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-is_raw').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-is_raw"><span class="code-line">def is_raw(t): return t.tag in RAW_TAGS</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">to_html</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-to_html').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-to_html"><span class="code-line"># def to_html(t, raw=False):</span><span class="code-line">#     if isinstance(t, str): return t.replace('\x00', '') if raw else escape(t.replace('\x00', ''))</span><span class="code-line">#     if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))</span><span class="code-line">#     attrs = render_attrs(t.attrs)</span><span class="code-line">#     if is_raw(t):</span><span class="code-line">#         inner = ''.join(str(c).replace('\x00', '') for c in t.children)</span><span class="code-line">#         validate_raw(t.tag, inner)</span><span class="code-line">#     else:</span><span class="code-line">#         inner = ''.join(to_html(c, raw=False) for c in t.children)</span><span class="code-line">#     if not t.tag: return inner</span><span class="code-line">#     if is_void(t): return f'&lt;{t.tag}{attrs}&gt;'</span><span class="code-line">#     return f'&lt;{t.tag}{attrs}&gt;{inner}&lt;/{t.tag}&gt;'</span><span class="code-line"></span><span class="code-line"></span><span class="code-line"></span><span class="code-line">def to_html(t, raw=False):</span><span class="code-line">    if isinstance(t, str): return escape(t)</span><span class="code-line">    if not hasattr(t, 'tag'): return escape(str(t))</span><span class="code-line">    attrs = render_attrs(t.attrs) if t.attrs else ''</span><span class="code-line">    if is_raw(t):</span><span class="code-line">        inner = ''.join(str(c) for c in t.children)</span><span class="code-line">        validate_raw(t.tag, inner)</span><span class="code-line">    elif len(t.children) == 1: inner = to_html(t.children[0])</span><span class="code-line">    else: inner = ''.join(to_html(c) for c in t.children)</span><span class="code-line">    if not t.tag: return inner</span><span class="code-line">    if is_void(t): return f'&lt;{t.tag}{attrs}&gt;'</span><span class="code-line">    return f'&lt;{t.tag}{attrs}&gt;{inner}&lt;/{t.tag}&gt;'</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">mktag</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-mktag').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-mktag"><span class="code-line">def mktag(name):</span><span class="code-line">    def f(*c, **kw): return tag(name, *c, **kw)</span><span class="code-line">    f.__name__ = name.capitalize()</span><span class="code-line">    return f</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#8b5cf6;">class</span><span class="full-name"><span class="mod">core.</span><span class="name">TagNS</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-TagNS').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-TagNS"><span class="code-line">class TagNS:</span><span class="code-line">    def __getattr__(self, name): return mktag(name.lower())</span><span class="code-line">    def export(self, *names): return [getattr(self, n) for n in names]</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">Fragment</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-Fragment').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-Fragment"><span class="code-line">def Fragment(*c, **kw): return tag('', *c, **kw)</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">flatten</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-flatten').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-flatten"><span class="code-line">def flatten(c):</span><span class="code-line">    for o in c:</span><span class="code-line">        if o is None or o is False: continue</span><span class="code-line">        if hasattr(o, 'tag'): yield o</span><span class="code-line">        elif isinstance(o, (list, tuple, map, filter, types.GeneratorType)): yield from flatten(o)</span><span class="code-line">        else: yield o</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">tag</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-tag').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-tag"><span class="code-line">def tag(name, *c, **kw):</span><span class="code-line">    children = tuple(flatten(o for o in c if not isinstance(o, dict)))</span><span class="code-line">    attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}</span><span class="code-line">    return Tag(name, children, {**attrs, **kw})</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">validate_raw</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-validate_raw').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-validate_raw"><span class="code-line">def validate_raw(tag, text):</span><span class="code-line">    if RAW_CLOSE_RE.search(text): raise ValueError(f'Raw text in &lt;{tag}&gt; must not contain closing tag pattern: {text!r}')</span></code></pre>        </article>
+      </div>
+    </div>
+  </body>
+</html>

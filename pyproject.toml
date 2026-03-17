@@ -1,0 +1,24 @@
+[project]
+name = "html-tags"
+version = "0.0.4"
+description = "concise html tag generation"
+readme = "README.md"
+authors = [
+    { name = "Deufel", email = "MDeufel13@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "memory-profiler>=0.61.0",
+]
+
+[dependency-groups]
+dev = [
+    "marimo>=0.20.4",
+    "marimo-dev>=0.3.1",
+    
+]
+
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
