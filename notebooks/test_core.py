@@ -1,0 +1,140 @@
+import marimo
+
+__generated_with = "0.21.0"
+app = marimo.App()
+
+
+@app.cell
+def _():
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags
+    from b_sse import patch_elements, patch_signals
+    import a_core as t
+    import pytest
+    setup_tags()
+
+    return (
+        Fragment,
+        patch_elements,
+        patch_signals,
+        pytest,
+        render_attrs,
+        to_html,
+    )
+
+
+@app.cell
+def _(
+    A,
+    Article,
+    B,
+    Br,
+    Div,
+    Fragment,
+    Img,
+    Input,
+    Label,
+    Li,
+    P,
+    Script,
+    Section,
+    Span,
+    Style,
+    Ul,
+    pytest,
+    render_attrs,
+    to_html,
+):
+    def test_basic_tag(): assert to_html(Div('hello')) == '<div>hello</div>'
+    def test_nested_tags(): assert to_html(Div(P('inner'))) == '<div><p>inner</p></div>'
+    def test_deeply_nested(): assert to_html(Div(Ul(Li(B('deep'))))) == '<div><ul><li><b>deep</b></li></ul></div>'
+    def test_multiple_children(): assert to_html(Div('a', 'b', 'c')) == '<div>abc</div>'
+    def test_attrs_cls(): assert to_html(Div('hi', cls='box')) == '<div class="box">hi</div>'
+    def test_attrs_multiple(): assert to_html(Div('hi', cls='box', id='main')) == '<div class="box" id="main">hi</div>'
+    def test_attrs_boolean_true(): assert to_html(Input(type='text', disabled=True)) == '<input type="text" disabled>'
+    def test_attrs_boolean_false(): assert 'disabled' not in to_html(Input(type='text', disabled=False))
+    def test_attrs_none_skipped(): assert 'title' not in to_html(Div('hi', title=None))
+    def test_attrs_underscore_to_hyphen(): assert to_html(Div('hi', data_value='5')) == '<div data_value="5">hi</div>'  
+    
+    def test_render_attrs_dict(): assert render_attrs({"data-on:click__debounce.500ms": "@get('/endpoint', {contentType: 'form'})"}) == ' data-on:click__debounce.500ms="@get(\'/endpoint\', {contentType: \'form\'})"'
+
+    def test_render_attrs_bool(): assert render_attrs(dict(disabled=True)) == ' disabled'
+    def test_render_attrs_false(): assert render_attrs(dict(disabled=False)) == ''
+    def test_render_attrs_none(): assert render_attrs(dict(disabled=None)) == ''
+    def test_render_attrs_cls(): assert render_attrs(dict(cls='foo')) == ' class="foo"'
+    def test_render_attrs_for(): assert render_attrs(dict(_for='myid')) == ' for="myid"'
+    def test_render_attrs_amp(): assert render_attrs(dict(title='a&b')) == ' title="a&amp;b"'
+    def test_render_attrs_lt(): assert render_attrs(dict(title='a<b')) == ' title="a&lt;b"'
+    def test_attrs_for(): assert to_html(Label('Name', _for='name')) == '<label for="name">Name</label>'
+    def test_void_br(): assert to_html(Br()) == '<br>'
+    def test_void_img(): assert to_html(Img(src='cat.jpg', alt='cat')) == '<img src="cat.jpg" alt="cat">'
+    def test_void_no_children(): assert to_html(Br()) == '<br>'
+    def test_escape_text(): assert to_html(Div('<script>alert("xss")</script>')) == '<div>&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;</div>'
+    def test_escape_ampersand(): assert to_html(P('a & b')) == '<p>a &amp; b</p>'
+    def test_raw_script(): assert to_html(Script('let x = 1 < 2;')) == '<script>let x = 1 < 2;</script>'
+    def test_raw_style(): assert to_html(Style('body { color: red; }')) == '<style>body { color: red; }</style>'
+    def test_none_filtered(): assert to_html(Div('a', None, 'b')) == '<div>ab</div>'
+    def test_false_filtered(): assert to_html(Div('a', False, 'b')) == '<div>ab</div>'
+    def test_conditional_rendering():
+        show = False
+        assert to_html(P('hi', show and A('link'))) == '<p>hi</p>'
+    def test_conditional_rendering_true():
+        show = True
+        assert to_html(P('hi ', show and A('link', href='/'))) == '<p>hi <a href="/">link</a></p>'
+    def test_list_flattening(): assert to_html(Ul([Li('a'), Li('b')])) == '<ul><li>a</li><li>b</li></ul>'
+    def test_nested_list_flattening(): assert to_html(Div([[P('a')], [P('b')]])) == '<div><p>a</p><p>b</p></div>'
+    def test_generator_children(): assert to_html(Ul(Li(str(i)) for i in range(3))) == '<ul><li>0</li><li>1</li><li>2</li></ul>'
+    def test_int_child(): assert to_html(Div('count: ', 42)) == '<div>count: 42</div>'
+    def test_float_child(): assert to_html(Span(3.14)) == '<span>3.14</span>'
+    def test_fragment(): assert to_html(Fragment(P('a'), P('b'))) == '<p>a</p><p>b</p>'
+    def test_fragment_empty(): assert to_html(Fragment()) == ''
+    def test_str_method(): assert str(Div('hello')) == '<div>hello</div>'
+    def test_html_method(): assert Div('hello').__html__() == '<div>hello</div>'
+    def test_tagns_any_tag(): assert to_html(Article(Section('hi'))) == '<article><section>hi</section></article>'
+    def test_empty_tag(): assert to_html(Div()) == '<div></div>'
+    def test_mixed_children(): assert to_html(Div('text', B('bold'), ' more')) == '<div>text<b>bold</b> more</div>'
+    def test_null_byte_stripped_raw(): assert to_html(Script('alert\x00("hi")')) == '<script>alert("hi")</script>'
+    def test_null_byte_stripped_raw_style(): assert to_html(Style('body\x00 { color: red; }')) == '<style>body { color: red; }</style>'
+    def test_null_byte_escaped_normal(): assert to_html(Div('hello\x00world')) == '<div>helloworld</div>'
+    def test_raw_str_not_escaped(): assert to_html(Script('1 < 2 && 3 > 1')) == '<script>1 < 2 && 3 > 1</script>'
+    def test_raw_validates_script():
+        with pytest.raises(ValueError): to_html(Script('</script>'))
+    def test_raw_validates_style():
+        with pytest.raises(ValueError): to_html(Style('</style >'))
+    def test_raw_validates_case_insensitive():
+        with pytest.raises(ValueError): to_html(Script('</SCRIPT>'))
+    def test_non_tag_escaped(): assert to_html(Div(42)) == '<div>42</div>'
+    def test_fragment_renders_inner_only(): assert to_html(Fragment(Div('a'), Div('b'))) == '<div>a</div><div>b</div>'
+    def test_void_no_closing(): assert to_html(Br()) == '<br>'
+    def test_void_with_attrs(): assert to_html(Img(src='x.png')) == '<img src="x.png">'
+    def test_empty_string_child(): assert to_html(Div('')) == '<div></div>'
+
+
+
+    return
+
+
+@app.cell
+def _(Div, P, Span, patch_elements, patch_signals, to_html):
+    def test_xss_attr(): assert to_html(Div(href='"><script>alert(1)</script>')) == '<div href="&quot;>&lt;script>alert(1)&lt;/script>"></div>'
+    def test_class_alias(): assert to_html(Div('hi', _class='box')) == '<div class="box">hi</div>'
+    def test_curry_call(): assert str(Div(cls='box')('hello')) == '<div class="box">hello</div>'
+    def test_dict_attrs_positional(): assert to_html(Div({'id': 'main'}, 'hi')) == '<div id="main">hi</div>'
+    def test_curry_attrs_first(): assert str(Div(cls='container')(P('hello'))) == '<div class="container"><p>hello</p></div>'
+    def test_curry_chained(): assert str(Div(id='a')(Span(cls='b')('hi'))) == '<div id="a"><span class="b">hi</span></div>'
+    def test_curry_multiple_children(): assert str(Div(cls='box')('a', 'b', 'c')) == '<div class="box">abc</div>'
+    def test_patch_elements_basic(): assert 'event: datastar-patch-elements' in patch_elements('<div>hi</div>')
+    def test_patch_elements_selector(): assert 'data: selector #foo' in patch_elements('<div>hi</div>', selector='#foo')
+    def test_patch_elements_tag(): assert '<div>hi</div>' in patch_elements(Div('hi'))
+    def test_patch_signals_basic(): assert 'event: datastar-patch-signals' in patch_signals('{"foo": 1}')
+    def test_patch_signals_only_if_missing(): assert 'data: onlyIfMissing true' in patch_signals('{"foo": 1}', only_if_missing=True)
+
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+if __name__ == "__main__":
+    app.run()

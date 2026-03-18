@@ -27,9 +27,9 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
 @app.function
 def attrmap(k):
     match k:
-        case 'cls'|'klass'|'_class': return 'class'
-        case '_for'|'fr': return 'for'
-        case _: return k.lstrip('_').replace('_', '-')
+        case 'cls'|'_class': return 'class'
+        case '_for': return 'for'
+        case _: return k
 
 
 @app.function
@@ -37,8 +37,9 @@ def render_attrs(d):
     out = ''
     for k,v in d.items():
         k = attrmap(k)
+        v2 = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
         if v is True: out += f' {k}'
-        elif v not in (False, None): out += f' {k}="{escape(str(v))}"'
+        elif v not in (False, None): out += f' {k}="{v2}"'
     return out
 
 
@@ -145,75 +146,7 @@ def _():
     t = TagNS()
     Div,P,Span,A,Img,Button,Form,Input,Label = [getattr(H, n) for n in 
         ['Div','P','Span','A','Img','Button','Form','Input','Label']]
-    return A, Div, Img, P, Span, t
-
-
-@app.cell
-def _():
-    import pytest
-
-    return (pytest,)
-
-
-@app.cell(hide_code=True)
-def _(A, B, Br, Div, Img, Li, P, Script, Span, Ul, pytest, t):
-    def test_basic_tag(): assert to_html(Div('hello')) == '<div>hello</div>'
-    def test_nested_tags(): assert to_html(Div(P('inner'))) == '<div><p>inner</p></div>'
-    def test_deeply_nested(): assert to_html(Div(Ul(Li(B('deep'))))) == '<div><ul><li><b>deep</b></li></ul></div>'
-    def test_multiple_children(): assert to_html(Div('a', 'b', 'c')) == '<div>abc</div>'
-    def test_attrs_cls(): assert to_html(Div('hi', cls='box')) == '<div class="box">hi</div>'
-    def test_attrs_multiple(): assert to_html(Div('hi', cls='box', id='main')) == '<div class="box" id="main">hi</div>'
-    def test_attrs_boolean_true(): assert to_html(t.Input(type='text', disabled=True)) == '<input type="text" disabled>'
-    def test_attrs_boolean_false(): assert 'disabled' not in to_html(t.Input(type='text', disabled=False))
-    def test_attrs_none_skipped(): assert 'title' not in to_html(Div('hi', title=None))
-    def test_attrs_underscore_to_hyphen(): assert to_html(Div('hi', data_value='5')) == '<div data-value="5">hi</div>'
-    def test_attrs_for(): assert to_html(t.Label('Name', _for='name')) == '<label for="name">Name</label>'
-    def test_void_br(): assert to_html(Br()) == '<br>'
-    def test_void_img(): assert to_html(Img(src='cat.jpg', alt='cat')) == '<img src="cat.jpg" alt="cat">'
-    def test_void_no_children(): assert to_html(Br()) == '<br>'
-    def test_escape_text(): assert to_html(Div('<script>alert("xss")</script>')) == '<div>&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;</div>'
-    def test_escape_ampersand(): assert to_html(P('a & b')) == '<p>a &amp; b</p>'
-    def test_raw_script(): assert to_html(Script('let x = 1 < 2;')) == '<script>let x = 1 < 2;</script>'
-    def test_raw_style(): assert to_html(t.Style('body { color: red; }')) == '<style>body { color: red; }</style>'
-    def test_none_filtered(): assert to_html(Div('a', None, 'b')) == '<div>ab</div>'
-    def test_false_filtered(): assert to_html(Div('a', False, 'b')) == '<div>ab</div>'
-    def test_conditional_rendering():
-        show = False
-        assert to_html(P('hi', show and A('link'))) == '<p>hi</p>'
-    def test_conditional_rendering_true():
-        show = True
-        assert to_html(P('hi ', show and A('link', href='/'))) == '<p>hi <a href="/">link</a></p>'
-    def test_list_flattening(): assert to_html(Ul([Li('a'), Li('b')])) == '<ul><li>a</li><li>b</li></ul>'
-    def test_nested_list_flattening(): assert to_html(Div([[P('a')], [P('b')]])) == '<div><p>a</p><p>b</p></div>'
-    def test_generator_children(): assert to_html(Ul(Li(str(i)) for i in range(3))) == '<ul><li>0</li><li>1</li><li>2</li></ul>'
-    def test_int_child(): assert to_html(Div('count: ', 42)) == '<div>count: 42</div>'
-    def test_float_child(): assert to_html(Span(3.14)) == '<span>3.14</span>'
-    def test_fragment(): assert to_html(Fragment(P('a'), P('b'))) == '<p>a</p><p>b</p>'
-    def test_fragment_empty(): assert to_html(Fragment()) == ''
-    def test_str_method(): assert str(Div('hello')) == '<div>hello</div>'
-    def test_html_method(): assert Div('hello').__html__() == '<div>hello</div>'
-    def test_tagns_any_tag(): assert to_html(t.Article(t.Section('hi'))) == '<article><section>hi</section></article>'
-    def test_empty_tag(): assert to_html(Div()) == '<div></div>'
-    def test_mixed_children(): assert to_html(Div('text', B('bold'), ' more')) == '<div>text<b>bold</b> more</div>'
-    def test_null_byte_stripped_raw(): assert to_html(Script('alert\x00("hi")')) == '<script>alert("hi")</script>'
-    def test_null_byte_stripped_raw_style(): assert to_html(t.Style('body\x00 { color: red; }')) == '<style>body { color: red; }</style>'
-    def test_null_byte_escaped_normal(): assert to_html(Div('hello\x00world')) == '<div>helloworld</div>'
-    def test_raw_str_not_escaped(): assert to_html(Script('1 < 2 && 3 > 1')) == '<script>1 < 2 && 3 > 1</script>'
-    def test_raw_validates_script():
-        with pytest.raises(ValueError): to_html(Script('</script>'))
-    def test_raw_validates_style():
-        with pytest.raises(ValueError): to_html(t.Style('</style >'))
-    def test_raw_validates_case_insensitive():
-        with pytest.raises(ValueError): to_html(Script('</SCRIPT>'))
-    def test_non_tag_escaped(): assert to_html(Div(42)) == '<div>42</div>'
-    def test_fragment_renders_inner_only(): assert to_html(Fragment(Div('a'), Div('b'))) == '<div>a</div><div>b</div>'
-    def test_void_no_closing(): assert to_html(Br()) == '<br>'
-    def test_void_with_attrs(): assert to_html(Img(src='x.png')) == '<img src="x.png">'
-    def test_empty_string_child(): assert to_html(Div('')) == '<div></div>'
-
-
-
-    return
+    return Div, Img, P, t
 
 
 @app.cell(hide_code=True)

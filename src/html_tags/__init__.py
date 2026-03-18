@@ -1,5 +1,5 @@
 """concise html tag generation"""
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 __author__ = 'Deufel'
 from .core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, ui_head
 from .sse import patch_elements, patch_signals, datastar_stream

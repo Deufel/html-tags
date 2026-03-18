@@ -15,16 +15,17 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
 
 def attrmap(k):
     match k:
-        case 'cls'|'klass'|'_class': return 'class'
-        case '_for'|'fr': return 'for'
-        case _: return k.lstrip('_').replace('_', '-')
+        case 'cls'|'_class': return 'class'
+        case '_for': return 'for'
+        case _: return k
 
 def render_attrs(d):
     out = ''
     for k,v in d.items():
         k = attrmap(k)
+        v2 = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
         if v is True: out += f' {k}'
-        elif v not in (False, None): out += f' {k}="{escape(str(v))}"'
+        elif v not in (False, None): out += f' {k}="{v2}"'
     return out
 
 def is_void(t): return t.tag in VOID_TAGS
