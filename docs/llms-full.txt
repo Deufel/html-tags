@@ -6,51 +6,37 @@
 ## core
 
 
-def attrmap(k): return attr_map.get(k, k.lstrip('_').replace('_', '-'))
+class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
+    def __str__(self): return to_html(self)
+    __html__ = _repr_html_ = __str__
+    def __call__(self, *c, **kw):
+        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw})
 
-# def render_attrs(d):
-#     parts = []
-#     for k,v in d.items():
-#         k = attrmap(k)
-#         if v is True: parts.append(f' {k}')
-#         elif v not in (False, None): parts.append(f' {k}="{v}"')
-#     return ''.join(parts)
+def attrmap(k):
+    match k:
+        case 'cls'|'klass'|'_class': return 'class'
+        case '_for'|'fr': return 'for'
+        case _: return k.lstrip('_').replace('_', '-')
 
 def render_attrs(d):
     out = ''
     for k,v in d.items():
         k = attrmap(k)
         if v is True: out += f' {k}'
-        elif v not in (False, None): out += f' {k}="{v}"'
+        elif v not in (False, None): out += f' {k}="{escape(str(v))}"'
     return out
 
 def is_void(t): return t.tag in VOID_TAGS
 
 def is_raw(t): return t.tag in RAW_TAGS
 
-# def to_html(t, raw=False):
-#     if isinstance(t, str): return t.replace('\x00', '') if raw else escape(t.replace('\x00', ''))
-#     if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))
-#     attrs = render_attrs(t.attrs)
-#     if is_raw(t):
-#         inner = ''.join(str(c).replace('\x00', '') for c in t.children)
-#         validate_raw(t.tag, inner)
-#     else:
-#         inner = ''.join(to_html(c, raw=False) for c in t.children)
-#     if not t.tag: return inner
-#     if is_void(t): return f'<{t.tag}{attrs}>'
-#     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
-
-
-
 def to_html(t, raw=False):
-    if isinstance(t, str): return escape(t)
-    if not hasattr(t, 'tag'): return escape(str(t))
+    if isinstance(t, str): return escape(t.replace('\x00', ''))
+    if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))
     attrs = render_attrs(t.attrs) if t.attrs else ''
     if is_raw(t):
-        inner = ''.join(str(c) for c in t.children)
+        inner = ''.join(str(c).replace('\x00', '') for c in t.children)
         validate_raw(t.tag, inner)
-    elif len(t.children) == 1: inner = to_html(t.children[0])
     else: inner = ''.join(to_html(c) for c in t.children)
     if not t.tag: return inner
     if is_void(t): return f'<{t.tag}{attrs}>'
@@ -81,3 +67,49 @@ def tag(name, *c, **kw):
 
 def validate_raw(tag, text):
     if RAW_CLOSE_RE.search(text): raise ValueError(f'Raw text in <{tag}> must not contain closing tag pattern: {text!r}')
+
+def setup_tags(
+    ns=None  # Optional namespace
+):
+    "Create tag constructors in the given namespace (or caller's globals)"
+    import inspect
+    if ns is None: ns = inspect.currentframe().f_back.f_globals
+    H = TagNS()
+    for name in ALL_TAGS: ns[name] = getattr(H, name)
+
+def ui_head(color=None, scheme=None, density=None, size=None):
+    "Emit <script> + <style> for the UI framework"
+    attrs = {}
+    if color: attrs['style'] = f'--_color:{color}'
+    if scheme: attrs['data_ui_scheme'] = scheme
+    if density: attrs['data_ui_density'] = density
+    if size: attrs['data_ui_size'] = size
+    return Fragment(
+        tag('script', src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"),
+        
+        tag('html', **attrs) if attrs else None)
+
+## sse
+
+
+def patch_elements(elements, selector=None, mode=None, namespace=None, use_view_transition=None):
+    "Format a datastar-patch-elements SSE event"
+    if hasattr(elements, 'tag'): elements = to_html(elements)
+    lines = []
+    if selector: lines.append(f'data: selector {selector}')
+    if mode: lines.append(f'data: mode {mode}')
+    if namespace: lines.append(f'data: namespace {namespace}')
+    if use_view_transition is not None: lines.append(f'data: useViewTransition {str(use_view_transition).lower()}')
+    for line in elements.split('\n'): lines.append(f'data: elements {line}')
+    return 'event: datastar-patch-elements\n' + '\n'.join(lines) + '\n\n'
+
+def patch_signals(signals, only_if_missing=None):
+    "Format a datastar-patch-signals SSE event"
+    lines = []
+    if only_if_missing is not None: lines.append(f'data: onlyIfMissing {str(only_if_missing).lower()}')
+    lines.append(f'data: signals {signals}')
+    return 'event: datastar-patch-signals\n' + '\n'.join(lines) + '\n\n'
+
+def datastar_stream(events):
+    "Return (headers, generator) for a datastar SSE response"
+    return dict(Content_Type='text/event-stream', Cache_Control='no-cache', X_Accel_Buffering='no'), (e for e in events)

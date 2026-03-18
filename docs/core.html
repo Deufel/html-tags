@@ -24,6 +24,8 @@
 <a href="index.html" class="back-link">← Index</a>        </li>
         <li>
 <a href="core.html" class="nav-link active">core</a>        </li>
+        <li>
+<a href="sse.html" class="nav-link ">sse</a>        </li>
       </ul>
     </nav>
     <div style="flex: 1; display: flex; flex-direction: column;">
@@ -64,11 +66,37 @@
         </style>
           <div class="header">
             <div class="header-left">
+<span class="tag" style="background:#8b5cf6;">class</span><span class="full-name"><span class="mod">core.</span><span class="name">Tag</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-Tag').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+<pre><code class="language-python" id="code-core-Tag"><span class="code-line">class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):</span><span class="code-line">    def __str__(self): return to_html(self)</span><span class="code-line">    __html__ = _repr_html_ = __str__</span><span class="code-line">    def __call__(self, *c, **kw):</span><span class="code-line">        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw})</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
 <span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">attrmap</span></span>            </div>
             <div class="header-right">
 <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-attrmap').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
           </div>
-<pre><code class="language-python" id="code-core-attrmap"><span class="code-line">def attrmap(k): return attr_map.get(k, k.lstrip('_').replace('_', '-'))</span></code></pre>        </article>
+<pre><code class="language-python" id="code-core-attrmap"><span class="code-line">def attrmap(k):</span><span class="code-line">    match k:</span><span class="code-line">        case 'cls'|'klass'|'_class': return 'class'</span><span class="code-line">        case '_for'|'fr': return 'for'</span><span class="code-line">        case _: return k.lstrip('_').replace('_', '-')</span></code></pre>        </article>
         <article>
           <style>
             me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
@@ -94,7 +122,7 @@
             <div class="header-right">
 <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-render_attrs').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
           </div>
-<pre><code class="language-python" id="code-core-render_attrs"><span class="code-line"># def render_attrs(d):</span><span class="code-line">#     parts = []</span><span class="code-line">#     for k,v in d.items():</span><span class="code-line">#         k = attrmap(k)</span><span class="code-line">#         if v is True: parts.append(f' {k}')</span><span class="code-line">#         elif v not in (False, None): parts.append(f' {k}="{v}"')</span><span class="code-line">#     return ''.join(parts)</span><span class="code-line"></span><span class="code-line">def render_attrs(d):</span><span class="code-line">    out = ''</span><span class="code-line">    for k,v in d.items():</span><span class="code-line">        k = attrmap(k)</span><span class="code-line">        if v is True: out += f' {k}'</span><span class="code-line">        elif v not in (False, None): out += f' {k}="{v}"'</span><span class="code-line">    return out</span></code></pre>        </article>
+<pre><code class="language-python" id="code-core-render_attrs"><span class="code-line">def render_attrs(d):</span><span class="code-line">    out = ''</span><span class="code-line">    for k,v in d.items():</span><span class="code-line">        k = attrmap(k)</span><span class="code-line">        if v is True: out += f' {k}'</span><span class="code-line">        elif v not in (False, None): out += f' {k}="{escape(str(v))}"'</span><span class="code-line">    return out</span></code></pre>        </article>
         <article>
           <style>
             me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
@@ -172,7 +200,7 @@
             <div class="header-right">
 <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-to_html').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
           </div>
-<pre><code class="language-python" id="code-core-to_html"><span class="code-line"># def to_html(t, raw=False):</span><span class="code-line">#     if isinstance(t, str): return t.replace('\x00', '') if raw else escape(t.replace('\x00', ''))</span><span class="code-line">#     if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))</span><span class="code-line">#     attrs = render_attrs(t.attrs)</span><span class="code-line">#     if is_raw(t):</span><span class="code-line">#         inner = ''.join(str(c).replace('\x00', '') for c in t.children)</span><span class="code-line">#         validate_raw(t.tag, inner)</span><span class="code-line">#     else:</span><span class="code-line">#         inner = ''.join(to_html(c, raw=False) for c in t.children)</span><span class="code-line">#     if not t.tag: return inner</span><span class="code-line">#     if is_void(t): return f'&lt;{t.tag}{attrs}&gt;'</span><span class="code-line">#     return f'&lt;{t.tag}{attrs}&gt;{inner}&lt;/{t.tag}&gt;'</span><span class="code-line"></span><span class="code-line"></span><span class="code-line"></span><span class="code-line">def to_html(t, raw=False):</span><span class="code-line">    if isinstance(t, str): return escape(t)</span><span class="code-line">    if not hasattr(t, 'tag'): return escape(str(t))</span><span class="code-line">    attrs = render_attrs(t.attrs) if t.attrs else ''</span><span class="code-line">    if is_raw(t):</span><span class="code-line">        inner = ''.join(str(c) for c in t.children)</span><span class="code-line">        validate_raw(t.tag, inner)</span><span class="code-line">    elif len(t.children) == 1: inner = to_html(t.children[0])</span><span class="code-line">    else: inner = ''.join(to_html(c) for c in t.children)</span><span class="code-line">    if not t.tag: return inner</span><span class="code-line">    if is_void(t): return f'&lt;{t.tag}{attrs}&gt;'</span><span class="code-line">    return f'&lt;{t.tag}{attrs}&gt;{inner}&lt;/{t.tag}&gt;'</span></code></pre>        </article>
+<pre><code class="language-python" id="code-core-to_html"><span class="code-line">def to_html(t, raw=False):</span><span class="code-line">    if isinstance(t, str): return escape(t.replace('\x00', ''))</span><span class="code-line">    if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))</span><span class="code-line">    attrs = render_attrs(t.attrs) if t.attrs else ''</span><span class="code-line">    if is_raw(t):</span><span class="code-line">        inner = ''.join(str(c).replace('\x00', '') for c in t.children)</span><span class="code-line">        validate_raw(t.tag, inner)</span><span class="code-line">    else: inner = ''.join(to_html(c) for c in t.children)</span><span class="code-line">    if not t.tag: return inner</span><span class="code-line">    if is_void(t): return f'&lt;{t.tag}{attrs}&gt;'</span><span class="code-line">    return f'&lt;{t.tag}{attrs}&gt;{inner}&lt;/{t.tag}&gt;'</span></code></pre>        </article>
         <article>
           <style>
             me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
@@ -329,6 +357,60 @@
 <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-validate_raw').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
           </div>
 <pre><code class="language-python" id="code-core-validate_raw"><span class="code-line">def validate_raw(tag, text):</span><span class="code-line">    if RAW_CLOSE_RE.search(text): raise ValueError(f'Raw text in &lt;{tag}&gt; must not contain closing tag pattern: {text!r}')</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">setup_tags</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-setup_tags').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+          <p class="doc">Create tag constructors in the given namespace (or caller's globals)</p>
+<pre><code class="language-python" id="code-core-setup_tags"><span class="code-line">def setup_tags(</span><span class="code-line">    ns=None  # Optional namespace</span><span class="code-line">):</span><span class="code-line">    "Create tag constructors in the given namespace (or caller's globals)"</span><span class="code-line">    import inspect</span><span class="code-line">    if ns is None: ns = inspect.currentframe().f_back.f_globals</span><span class="code-line">    H = TagNS()</span><span class="code-line">    for name in ALL_TAGS: ns[name] = getattr(H, name)</span></code></pre>        </article>
+        <article>
+          <style>
+            me { margin-bottom: 0.75rem; border-radius: 8px; overflow: hidden; background: #1e1e1e; max-width: 100%; }
+            me .header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; }
+            me .header-left { display: flex; align-items: center; }
+            me .header-right { display: flex; align-items: center; gap: 0.5rem; }
+            me .tag { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+            me .full-name { font-weight: 500; font-size: 1rem; margin-left: 0.75rem; }
+            me .mod { color: #666; }
+            me .name { color: #e5e5e5; }
+            me .doc { margin: 0; padding: 0 1rem 0.5rem 1rem; color: #888; font-size: 0.85rem; }
+            me .gh-btn { display: flex; align-items: center; gap: 0.25rem; background: #333; border: 1px solid #444; color: #ccc; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+            me .gh-link { text-decoration: none; }
+            me .copy-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 0.25rem; }
+            me pre { background: #1a1a1a; border-top: 1px solid #2a2a2a; margin: 0; padding: 0.5rem 0; }
+            me code { counter-reset: line; font-size: 0.8rem; line-height: 1.6; color: #ccc; }
+            me .code-line { display: block; padding-left: 3.5em; white-space: pre-wrap; word-break: break-all; position: relative; }
+            me .code-line::before { content: counter(line); counter-increment: line; position: absolute; left: 0; width: 2.5em; text-align: right; color: #555; user-select: none; }
+        </style>
+          <div class="header">
+            <div class="header-left">
+<span class="tag" style="background:#10b981;">func</span><span class="full-name"><span class="mod">core.</span><span class="name">ui_head</span></span>            </div>
+            <div class="header-right">
+<button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('code-core-ui_head').textContent).then(() =&gt; this.textContent = '✓').then(() =&gt; setTimeout(() =&gt; this.textContent = '📋', 1500))">📋</button>            </div>
+          </div>
+          <p class="doc">Emit &lt;script&gt; + &lt;style&gt; for the UI framework</p>
+<pre><code class="language-python" id="code-core-ui_head"><span class="code-line">def ui_head(color=None, scheme=None, density=None, size=None):</span><span class="code-line">    "Emit &lt;script&gt; + &lt;style&gt; for the UI framework"</span><span class="code-line">    attrs = {}</span><span class="code-line">    if color: attrs['style'] = f'--_color:{color}'</span><span class="code-line">    if scheme: attrs['data_ui_scheme'] = scheme</span><span class="code-line">    if density: attrs['data_ui_density'] = density</span><span class="code-line">    if size: attrs['data_ui_size'] = size</span><span class="code-line">    return Fragment(</span><span class="code-line">        tag('script', src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"),</span><span class="code-line">        </span><span class="code-line">        tag('html', **attrs) if attrs else None)</span></code></pre>        </article>
       </div>
     </div>
   </body>

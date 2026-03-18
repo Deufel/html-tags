@@ -2,6 +2,7 @@
 
 > 
 
-- [core](/core): attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw
+- [core](/core): Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, ui_head
+- [sse](/sse): patch_elements, patch_signals, datastar_stream
 
 - [llms-full.txt](/llms-full.txt): Complete source code

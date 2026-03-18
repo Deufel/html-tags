@@ -1,68 +1,73 @@
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.21.0"
 app = marimo.App()
 
 with app.setup:
     import timeit
+    from html import escape
+    from fastcore.xml import ft, to_xml
+    import rusty_tags as rt
 
     from a_core import Fragment, TagNS, attrmap, flatten, is_raw, is_void, mktag, render_attrs, tag, to_html, validate_raw
 
 
 @app.cell
 def _():
-    t = TagNS()
-    Div,B,Span,Img,A,P,H1,Ul,Li,Script,Br,Input,Form,Label,Button = t.export(
-    'Div','B','Span','Img','A','P','H1','Ul','Li','Script','Br','Input','Form','Label','Button')
-
-    return A, Div, H1, Li, P, Span, Ul, t
 
 
-@app.cell
-def _(A, Div, H1, Li, P, Span, Ul, t):
+    def bench(fn, n=10000): return timeit.timeit(fn, number=n) / n * 1e6
 
-    simple = Div('hello world', cls='test')
-    medium = Div(H1('Title'), Ul([Li(f'Item {i}') for i in range(20)]), cls='container')
-    deep = Div(Div(Div(Div(Div(Span('deep'))))))
-    wide = Div(*[P(f'Paragraph {i}', cls=f'p-{i}') for i in range(100)])
-    page = Div(
-        t.Head(t.Title('Test'), t.Meta(charset='utf-8')),
-        t.Body(t.Header(H1('Hello')), t.Main(Ul([Li(A(f'Link {i}', href=f'/{i}')) for i in range(50)])),
-               t.Footer(P('bye'))), cls='page')
-
-    for name, obj in [('simple', simple), ('medium', medium), ('deep', deep), ('wide', wide), ('page', page)]:
-        us = timeit.timeit(lambda: to_html(obj), number=10000) / 10000 * 1e6
-        print(f'{name:8s}  {us:8.1f} µs')
-
-    return deep, medium, page, simple, wide
+    cases = dict(
+        simple=lambda: to_html(tag('div', 'hello world', cls='test')),
+        medium=lambda: to_html(tag('div', tag('h1', 'Title'), tag('ul', *[tag('li', f'Item {i}') for i in range(20)]), cls='container')),
+        deep=  lambda: to_html(tag('div', tag('div', tag('div', tag('div', tag('div', tag('span', 'deep'))))))),
+        wide=  lambda: to_html(tag('div', *[tag('p', f'Paragraph {i}', cls=f'p-{i}') for i in range(100)])),
+        page=  lambda: to_html(tag('div', tag('head', tag('title','Test'), tag('meta', charset='utf-8')),
+                    tag('body', tag('header', tag('h1','Hello')), tag('main', tag('ul', *[tag('li', tag('a', f'Link {i}', href=f'/{i}')) for i in range(50)])),
+                        tag('footer', tag('p','bye'))), cls='page')),
+    )
 
 
-@app.cell
-def _(deep, medium, page, simple, wide):
-    from fastcore.xml import ft, to_xml, FT
+    for name,fn in cases.items():
+        t = bench(fn)
+        rps = 1e6/t
+        print(f'{name:8s}  {t:8.1f} µs  {rps:>12,.0f} renders/sec')
 
-    fc_simple = ft('div', 'hello world', cls='test')
-    fc_medium = ft('div', ft('h1', 'Title'), ft('ul', *[ft('li', f'Item {i}') for i in range(20)]), cls='container')
-    fc_deep = ft('div', ft('div', ft('div', ft('div', ft('div', ft('span', 'deep'))))))
-    fc_wide = ft('div', *[ft('p', f'Paragraph {i}', cls=f'p-{i}') for i in range(100)])
-    fc_page = ft('div', ft('head', ft('title', 'Test'), ft('meta', charset='utf-8')),
-        ft('body', ft('header', ft('h1', 'Hello')), ft('main', ft('ul', *[ft('li', ft('a', f'Link {i}', href=f'/{i}')) for i in range(50)])),
-           ft('footer', ft('p', 'bye'))), cls='page')
+    return
 
-    ours = [('simple',simple), ('medium',medium), ('deep',deep), ('wide',wide), ('page',page)]
-    fcs  = [('simple',fc_simple), ('medium',fc_medium), ('deep',fc_deep), ('wide',fc_wide), ('page',fc_page)]
 
-    print(f'{"case":8s}  {"html-tags":>12s}  {"fastcore":>12s}  {"ratio":>8s}')
-    for (_name,o), (_,fc) in zip(ours, fcs):
-        ht_us = timeit.timeit(lambda o=o: to_html(o), number=10000) / 10000 * 1e6
-        fc_us = timeit.timeit(lambda fc=fc: to_xml(fc), number=10000) / 10000 * 1e6
-        print(f'{_name:8s}  {ht_us:10.1f} µs  {fc_us:10.1f} µs  {ht_us/fc_us:7.2f}x')
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Results
+    > M3 Max
+
+    ```
+    simple         1.2 µs       850,569 renders/sec
+    medium        24.8 µs        40,367 renders/sec
+    deep           4.5 µs       223,771 renders/sec
+    wide         138.7 µs         7,212 renders/sec
+    page         114.3 µs         8,746 renders/sec
+    ```
+
+    ```
+    case          html-tags       fastcore     rusty-tags
+    simple           1.6 µs         4.7 µs         0.6 µs
+    medium          18.9 µs        53.0 µs         7.2 µs
+    deep             3.8 µs        13.1 µs         1.3 µs
+    wide           110.4 µs       338.7 µs        64.3 µs
+    page           102.5 µs       305.8 µs        41.3 µs
+    ```
+    """)
     return
 
 
 @app.cell
 def _():
-    return
+    import marimo as mo
+
+    return (mo,)
 
 
 if __name__ == "__main__":
