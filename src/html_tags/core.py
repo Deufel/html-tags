@@ -161,9 +161,10 @@ def pretty(
     children = '\n'.join(pretty(c, indent, indent_script, indent_style, _depth + 1) for c in t.children)
     return f'{prefix}{pad}<{t.tag}{attrs}>\n{children}\n{pad}</{t.tag}>'
 
+
 def __getattr__(
-        name: str     # Custom html tag user generated
-    ):
-        """ Import html custom tags directly from module """
-        if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    name: str     # Custom html tag user generated
+):
+    """ Import html custom tags directly from module """
+    if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

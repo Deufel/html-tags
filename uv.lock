@@ -267,12 +267,8 @@ wheels = [
 
 [[package]]
 name = "html-tags"
-version = "0.0.7"
+version = "0.0.9"
 source = { editable = "." }
-dependencies = [
-    { name = "marimo" },
-    { name = "marimo-dev" },
-]
 
 [package.dev-dependencies]
 dev = [
@@ -281,15 +277,11 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "marimo", specifier = ">=0.21.1" },
-    { name = "marimo-dev", specifier = ">=0.3.2" },
-]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "marimo", specifier = ">=0.21.0" },
-    { name = "marimo-dev", specifier = ">=0.3.1" },
+    { name = "marimo", specifier = ">=0.21.1" },
+    { name = "marimo-dev", specifier = ">=0.3.2" },
 ]
 
 [[package]]

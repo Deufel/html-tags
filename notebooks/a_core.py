@@ -224,21 +224,6 @@ def dunder_getattr(
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
-@app.cell
-def _():
-    #| internal 
-    #| raw
-
-    def __getattr__(
-        name: str     # Custom html tag user generated
-    ):
-        """ Import html custom tags directly from module """
-        if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
-
-    return
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
