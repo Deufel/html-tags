@@ -4,5 +4,6 @@
 
 - [core](/core): setup_tags, Tag, attrmap, render_attrs, is_void, is_raw, is_root, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, pretty, dunder_getattr
 - [sse](/sse): patch_elements, patch_signals, datastar_stream
+- [svg](/svg): setup_svg
 
 - [llms-full.txt](/llms-full.txt): Complete source code

@@ -34,7 +34,7 @@ def setup_tags(
 @app.class_definition
 #| internal
 
-class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
+class Tag(namedtuple('Tag', 'tag children attrs mode', defaults=((), {}, 'normal'))):
     "An HTML element with a tag name, children, and attributes"
     def __str__(self) -> str: return to_html(self)
     __html__ = _repr_html_ = __str__
@@ -43,7 +43,7 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
         **kw   # Additional attributes to merge
     ) -> 'Tag': # New Tag with combined children and attributes
         "Create a new Tag with appended children and merged attributes"
-        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw})
+        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw}, self.mode)
 
 
 @app.function
@@ -79,12 +79,12 @@ def render_attrs(
 
 @app.function
 #| internal
-def is_void(t): return t.tag in VOID_TAGS
+def is_void(t): return t.mode == 'void'
 
 
 @app.function
 #| internal
-def is_raw(t): return t.tag in RAW_TAGS
+def is_raw(t): return t.mode == 'raw'
 
 
 @app.function
@@ -97,6 +97,7 @@ def to_html(
     t  # Tag tree, string, or any object
 ) -> str:  # HTML string, with DOCTYPE prepended for root <html>
     "Convert a tag tree to an HTML string. Escapes text, validates raw tags, and prepends DOCTYPE for root <html>."
+    if hasattr(t, '__html__') and not isinstance(t, Tag): return t.__html__()
     if isinstance(t, str): return escape(t.replace('\x00', ''))
     if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))
     attrs = render_attrs(t.attrs) if t.attrs else ''
@@ -113,8 +114,8 @@ def to_html(
 @app.function
 #| internal
 
-def mktag(name):
-    def f(*c, **kw): return tag(name, *c, **kw)
+def mktag(name, mode='normal'):
+    def f(*c, **kw): return tag(name, *c, mode=mode, **kw)
     f.__name__ = name.capitalize()
     return f
 
@@ -123,8 +124,12 @@ def mktag(name):
 #| internal
 
 class TagNS:
-    def __getattr__(self, name): return mktag(name.lower())
-    def export(self, *names): return [getattr(self, n) for n in names]
+    def __getattr__(self, name):
+        n = name.lower()
+        if n in VOID_TAGS: mode = 'void'
+        elif n in RAW_TAGS: mode = 'raw'
+        else: mode = 'normal'
+        return mktag(n, mode)
 
 
 @app.function
@@ -153,18 +158,25 @@ def flatten(c):
 #| internal
 
 def tag(
-    name,  # HTML tag name (e.g. 'div', 'p', '')
-    *c,    # Children and/or attribute dicts, intermixed
-    **kw   # Additional attributes as keyword arguments
-) -> Tag:  # Named tuple of (tag, children, attrs)
-    "Create a Tag from a name, positional children/attr dicts, and keyword attrs. Dicts in *c are merged as attributes; all other values become children."
-
+    name,           # HTML tag name (e.g. 'div', 'p', '')
+    *c,             # Children and/or attribute dicts, intermixed
+    mode='normal',  # 'normal', 'void', or 'raw'
+    **kw            # Additional attributes as keyword arguments
+) -> Tag:
+    "Create a Tag from a name, positional children/attr dicts, and keyword attrs."
     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
     if name:
         for child in children:
-            if hasattr(child, 'tag') and child.tag == 'html': raise ValueError('<html> cannot be nested inside another element')
+            if hasattr(child, 'tag') and child.tag == 'html':
+                raise ValueError('<html> cannot be nested inside another element')
+    if mode == 'void' and children:
+        raise ValueError(f'Void element <{name}> cannot have children')
+    if mode == 'raw':
+        for child in children:
+            if hasattr(child, 'tag'):
+                raise ValueError(f'Raw element <{name}> cannot contain nested tags')
     attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
-    return Tag(name, children, {**attrs, **kw})
+    return Tag(name, children, {**attrs, **kw}, mode)
 
 
 @app.function
@@ -187,6 +199,7 @@ def pretty(
     _depth: int=0               # Internal: current nesting depth (for indentation only)
 ) -> str:                       # Indented HTML string for debugging
     "Pretty-print an HTML tag tree with indentation. Not for production use — may alter whitespace-sensitive rendering."
+    if hasattr(t, '__html__') and not isinstance(t, Tag): return t.__html__()
     pad = ' ' * (indent * _depth)
     pad1 = ' ' * (indent * (_depth + 1))
     if isinstance(t, str): return pad + escape(t.replace('\x00', ''))

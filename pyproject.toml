@@ -1,6 +1,6 @@
 [project]
 name = "html-tags"
-version = "0.0.9"
+version = "0.0.10"
 description = "concise html tag generation"
 readme = "README.md"
 authors = [
