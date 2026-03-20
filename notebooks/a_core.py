@@ -20,6 +20,8 @@ with app.setup:
     DANGEROUS_URL_RE = re.compile(r'^\s*(javascript|vbscript|data)\s*:', re.IGNORECASE)
 
 
+
+
 @app.function
 def setup_tags(
     ns=None  # Optional namespace
@@ -32,11 +34,9 @@ def setup_tags(
 
 
 @app.class_definition
-#| internal
-
 class Tag(namedtuple('Tag', 'tag children attrs mode', defaults=((), {}, 'normal'))):
     "An HTML element with a tag name, children, and attributes"
-    def __str__(self) -> str: return to_html(self)
+    def __str__(self) -> str: return globals()['to_html'](self) # [see if we can fix this hack late lookup]
     __html__ = _repr_html_ = __str__
     def __call__(self,
         *c,    # Additional children to append
@@ -112,8 +112,6 @@ def to_html(
 
 
 @app.function
-#| internal
-
 def mktag(name, mode='normal'):
     def f(*c, **kw): return tag(name, *c, mode=mode, **kw)
     f.__name__ = name.capitalize()

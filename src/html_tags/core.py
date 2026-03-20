@@ -19,10 +19,9 @@ def setup_tags(
     H = TagNS()
     for name in ALL_TAGS: ns[name] = getattr(H, name)
 
-
 class Tag(namedtuple('Tag', 'tag children attrs mode', defaults=((), {}, 'normal'))):
     "An HTML element with a tag name, children, and attributes"
-    def __str__(self) -> str: return to_html(self)
+    def __str__(self) -> str: return globals()['to_html'](self) # [see if we can fix this hack late lookup]
     __html__ = _repr_html_ = __str__
     def __call__(self,
         *c,    # Additional children to append
@@ -78,7 +77,6 @@ def to_html(
     if is_void(t): return f'<{t.tag}{attrs}>'
     if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
-
 
 def mktag(name, mode='normal'):
     def f(*c, **kw): return tag(name, *c, mode=mode, **kw)
