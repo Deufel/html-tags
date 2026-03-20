@@ -1,6 +1,6 @@
 [project]
 name = "html-tags"
-version = "0.0.6"
+version = "0.0.7"
 description = "concise html tag generation"
 readme = "README.md"
 authors = [
@@ -8,8 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "memory-profiler>=0.61.0",
-    "rusty-tags>=0.6.36",
+    "marimo>=0.21.1",
 ]
 
 [project.urls]

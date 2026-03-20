@@ -1,9 +1,11 @@
 import marimo
 
-__generated_with = "0.21.0"
+__generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup:
+
+
     import types, re
     from collections import namedtuple
     from html import escape
@@ -13,19 +15,48 @@ with app.setup:
     VOID_TAGS = frozenset({"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"})
     RAW_TAGS = frozenset({"script", "style"})
     RAW_CLOSE_RE = re.compile(r'</(script|style)[\s/>]', re.IGNORECASE)
+    SAFE_ATTR_RE = re.compile(r'^[a-zA-Z_][\w\-:.]*$')
+    URL_ATTRS = frozenset({'href', 'src', 'action', 'formaction', 'data', 'poster', 'codebase', 'cite', 'background', 'dynsrc', 'lowsrc'})
+    DANGEROUS_URL_RE = re.compile(r'^\s*(javascript|vbscript|data)\s*:', re.IGNORECASE)
 
+
+
+
+
+
+@app.function
+def setup_tags(
+    ns=None  # Optional namespace
+):
+    """Create tag constructors in the given namespace (or caller's globals)"""
+    import inspect
+    if ns is None: ns = inspect.currentframe().f_back.f_globals
+    H = TagNS()
+    for name in ALL_TAGS: ns[name] = getattr(H, name)
 
 
 @app.class_definition
+#| internal
+
 class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
-    def __str__(self): return to_html(self)
+    "An HTML element with a tag name, children, and attributes"
+    def __str__(self) -> str: return to_html(self)
     __html__ = _repr_html_ = __str__
-    def __call__(self, *c, **kw):
+    def __call__(self,
+        *c,    # Additional children to append
+        **kw   # Additional attributes to merge
+    ) -> 'Tag': # New Tag with combined children and attributes
+        "Create a new Tag with appended children and merged attributes"
         return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw})
 
 
 @app.function
-def attrmap(k):
+#| internal
+
+def attrmap(
+    k: str  # Python attribute name to map
+) -> str:   # HTML-safe attribute name
+    """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class')."""
     match k:
         case 'cls'|'_class': return 'class'
         case '_for': return 'for'
@@ -33,26 +64,43 @@ def attrmap(k):
 
 
 @app.function
-def render_attrs(d):
+#| internal
+
+def render_attrs(
+    d: dict  # Attribute key-value pairs (e.g. {"class": "main", "id": "app"})
+) -> str:    # Rendered HTML attribute string (e.g. ' class="main" id="app"')
+    """Render a dict of attributes to an HTML attribute string. Escapes values, validates keys and URL schemes."""
     out = ''
     for k,v in d.items():
         k = attrmap(k)
+        if not SAFE_ATTR_RE.match(k): raise ValueError(f'Unsafe attribute name: {k!r}')
         v2 = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
+        if k in URL_ATTRS and DANGEROUS_URL_RE.match(str(v)): raise ValueError(f'Dangerous URL scheme in {k}: {str(v)[:60]!r}')
         if v is True: out += f' {k}'
         elif v not in (False, None): out += f' {k}="{v2}"'
     return out
 
 
 @app.function
+#| internal
 def is_void(t): return t.tag in VOID_TAGS
 
 
 @app.function
+#| internal
 def is_raw(t): return t.tag in RAW_TAGS
 
 
 @app.function
-def to_html(t, raw=False):
+#| internal
+def is_root(t): return t.tag == 'html'
+
+
+@app.function
+def to_html(
+    t  # Tag tree, string, or any object
+) -> str:  # HTML string, with DOCTYPE prepended for root <html>
+    "Convert a tag tree to an HTML string. Escapes text, validates raw tags, and prepends DOCTYPE for root <html>."
     if isinstance(t, str): return escape(t.replace('\x00', ''))
     if not hasattr(t, 'tag'): return escape(str(t).replace('\x00', ''))
     attrs = render_attrs(t.attrs) if t.attrs else ''
@@ -62,10 +110,13 @@ def to_html(t, raw=False):
     else: inner = ''.join(to_html(c) for c in t.children)
     if not t.tag: return inner
     if is_void(t): return f'<{t.tag}{attrs}>'
+    if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
 
 
 @app.function
+#| internal
+
 def mktag(name):
     def f(*c, **kw): return tag(name, *c, **kw)
     f.__name__ = name.capitalize()
@@ -73,16 +124,27 @@ def mktag(name):
 
 
 @app.class_definition
+#| internal
+
 class TagNS:
     def __getattr__(self, name): return mktag(name.lower())
     def export(self, *names): return [getattr(self, n) for n in names]
 
 
 @app.function
-def Fragment(*c, **kw): return tag('', *c, **kw)
+#| internal
+
+def Fragment(
+    *c,    # Children to render without a wrapping element
+    **kw   # Attributes (passed through but rarely used)
+) -> Tag:  # Tag with empty name — renders children only, no outer element
+    """Create a virtual grouping node. Renders its children without any wrapping HTML element."""
+    return tag('', *c, **kw)
 
 
 @app.function
+#| internal
+
 def flatten(c):
     for o in c:
         if o is None or o is False: continue
@@ -92,26 +154,82 @@ def flatten(c):
 
 
 @app.function
-def tag(name, *c, **kw):
+#| internal
+
+def tag(
+    name,  # HTML tag name (e.g. 'div', 'p', '')
+    *c,    # Children and/or attribute dicts, intermixed
+    **kw   # Additional attributes as keyword arguments
+) -> Tag:  # Named tuple of (tag, children, attrs)
+    "Create a Tag from a name, positional children/attr dicts, and keyword attrs. Dicts in *c are merged as attributes; all other values become children."
+
     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
+    if name:
+        for child in children:
+            if hasattr(child, 'tag') and child.tag == 'html': raise ValueError('<html> cannot be nested inside another element')
     attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
     return Tag(name, children, {**attrs, **kw})
 
 
 @app.function
-def validate_raw(tag, text):
+#| internal
+
+def validate_raw(
+    tag: str,   # Tag name (e.g. 'script', 'style')
+    text: str   # Raw text content to validate
+) -> None:      # Raises ValueError if closing tag pattern found
+    """Ensure raw text content does not contain a closing tag injection (e.g. </script>)."""
     if RAW_CLOSE_RE.search(text): raise ValueError(f'Raw text in <{tag}> must not contain closing tag pattern: {text!r}')
 
 
 @app.function
-def setup_tags(
-    ns=None  # Optional namespace
-):
-    "Create tag constructors in the given namespace (or caller's globals)"
-    import inspect
-    if ns is None: ns = inspect.currentframe().f_back.f_globals
-    H = TagNS()
-    for name in ALL_TAGS: ns[name] = getattr(H, name)
+def pretty(
+    t,                          # Tag tree, string, or any object
+    indent: int=2,              # Spaces per indentation level
+    indent_script: bool=False,  # Indent <script> content?
+    indent_style: bool=True,    # Indent <style> content?
+    _depth: int=0               # Internal: current nesting depth (for indentation only)
+) -> str:                       # Indented HTML string for debugging
+    "Pretty-print an HTML tag tree with indentation. Not for production use — may alter whitespace-sensitive rendering."
+    pad = ' ' * (indent * _depth)
+    pad1 = ' ' * (indent * (_depth + 1))
+    if isinstance(t, str): return pad + escape(t.replace('\x00', ''))
+    if not hasattr(t, 'tag'): return pad + escape(str(t).replace('\x00', ''))
+    attrs = render_attrs(t.attrs) if t.attrs else ''
+    if is_void(t): return f'{pad}<{t.tag}{attrs}>'
+    if is_raw(t):
+        inner = ''.join(str(c).replace('\x00', '') for c in t.children)
+        validate_raw(t.tag, inner)
+        should_indent = (t.tag == 'style' and indent_style) or (t.tag == 'script' and indent_script)
+        if should_indent and inner.strip():
+            lines = inner.strip().splitlines()
+            inner = '\n'.join(pad1 + line for line in lines)
+            return f'{pad}<{t.tag}{attrs}>\n{inner}\n{pad}</{t.tag}>'
+        if not inner: return f'{pad}<{t.tag}{attrs}></{t.tag}>'
+        return f'{pad}<{t.tag}{attrs}>{inner}</{t.tag}>'
+    if not t.tag: return '\n'.join(pretty(c, indent, indent_script, indent_style, _depth) for c in t.children)
+    if not t.children: return f'{pad}<{t.tag}{attrs}></{t.tag}>'
+    if len(t.children) == 1 and isinstance(t.children[0], str):
+        inner = escape(t.children[0].replace('\x00', ''))
+        return f'{pad}<{t.tag}{attrs}>{inner}</{t.tag}>'
+    prefix = f'<!DOCTYPE html>\n' if is_root(t) else ''
+    children = '\n'.join(pretty(c, indent, indent_script, indent_style, _depth + 1) for c in t.children)
+    return f'{prefix}{pad}<{t.tag}{attrs}>\n{children}\n{pad}</{t.tag}>'
+
+
+@app.cell
+def _():
+    #| internal 
+    #| raw
+
+    def __getattr__(
+        name: str     # Custom html tag user generated
+    ):
+        """ Import html custom tags directly from module """
+        if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+    return
 
 
 @app.cell(hide_code=True)
@@ -142,11 +260,7 @@ def _(mo):
 
 @app.cell
 def _():
-    H = TagNS()
-    t = TagNS()
-    Div,P,Span,A,Img,Button,Form,Input,Label = [getattr(H, n) for n in 
-        ['Div','P','Span','A','Img','Button','Form','Input','Label']]
-    return Div, Img, P, t
+    return
 
 
 @app.cell(hide_code=True)
@@ -158,27 +272,17 @@ def _(mo):
 
 
 @app.cell
-def _(Div, Img, P, t):
-    card = lambda title,text,img: Div(
+def _(Div, H3, Img, P):
+    setup_tags()
+    _card = lambda title,text,img: Div(
         Img(src=img, alt=title, style='width:100%;border-radius:8px'),
-        t.H3(title), P(text),
+        H3(title), P(text),
         style='border:1px solid #ddd;padding:16px;border-radius:12px;width:200px;display:inline-block;margin:8px')
 
     Div(
-        card('Mountains', 'Beautiful peaks', 'https://picsum.photos/200/120?1'),
-        card('Ocean', 'Calm waters', 'https://picsum.photos/200/120?2'),
-        card('Forest', 'Tall trees', 'https://picsum.photos/200/120?3'))
-    return
-
-
-@app.cell
-def _(Div, t):
-    Div(
-        t.Table(
-            t.Thead(t.Tr(t.Th('Name'), t.Th('Role'), t.Th('Status'))),
-            t.Tbody(*[t.Tr(t.Td(n), t.Td(r), t.Td(s)) for n,r,s in [
-                ('Alice', 'Engineer', '✅'), ('Bob', 'Designer', '🔄'), ('Carol', 'Manager', '✅')]])),
-        t.Style('table{border-collapse:collapse}th,td{border:1px solid #ccc;padding:8px}th{background:#f0f0f0}'))
+        _card('Mountains', 'Beautiful peaks', 'https://picsum.photos/200/120?1'),
+        _card('Ocean', 'Calm waters', 'https://picsum.photos/200/120?2'),
+        _card('Forest', 'Tall trees', 'https://picsum.photos/200/120?3'))
     return
 
 
@@ -188,8 +292,8 @@ def _(mo):
     # Future
 
     - pull in scoped css auto
-    - same for css
-    -
+    - Datastar Demo
+    - Type & Space & Color Extra
     """)
     return
 
@@ -216,86 +320,11 @@ def _(mo):
     return
 
 
-@app.cell(hide_code=True)
-def _():
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    return
-
-
-@app.function
-def ui_head(color=None, scheme=None, density=None, size=None):
-    "Emit <script> + <style> for the UI framework"
-    attrs = {}
-    if color: attrs['style'] = f'--_color:{color}'
-    if scheme: attrs['data_ui_scheme'] = scheme
-    if density: attrs['data_ui_density'] = density
-    if size: attrs['data_ui_size'] = size
-    return Fragment(
-        tag('script', src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"),
-        
-        tag('html', **attrs) if attrs else None)
-
-
-@app.cell
-def _(mo):
-    # UI controls for oklch color values
-    lightness = mo.ui.slider(start=0, stop=100, value=65, step=1, label="Lightness (%)")
-    chroma = mo.ui.slider(start=0, stop=0.5, value=0.25, step=0.01, label="Chroma")
-    hue = mo.ui.slider(start=0, stop=360, value=320, step=1, label="Hue (°)")
-    return chroma, hue, lightness
-
-
-@app.cell
-def _(chroma, hue, lightness, mo):
-    # Display controls
-    mo.md("### Color Controls")
-    mo.hstack([lightness, chroma, hue])
-    return
-
-
-@app.cell
-def _(Div, H1, Hr, P, chroma, hue, lightness):
-    # Create the page with dynamic color values
-    page = Fragment(
-        ui_head(color=f'oklch({lightness.value}% {chroma.value} {hue.value})', scheme='light'),
-        Div(style="me > * {margin: 1rem;}")(
-            H1('Scoped!'),
-            P('This style only applies to this div.'),
-            Div(cls="surface", style="border-radius: 1rem; padding: .25rem 1rem")("Im auto nested"),
-            P("|"),
-            Div(cls="surface", style="border-radius: 1rem; padding:2rem;")
-            (
-                Div(cls="surface", style="border-radius: 1rem; padding: .25rem 1rem")("Im auto nested")
-            ),
-            Div(style="margin:1rem")(Hr()),
-            Div(cls="surface", style="border-radius: 1rem; padding: .25rem 1rem")("Im auto nested"),
-            Div(style="margin:1rem")(Hr()),
-            Div(cls="surface", style="border-radius: 1rem; padding: .25rem 1rem")("Im auto nested")
-        )
-    )
-    return (page,)
-
-
-@app.cell
-def _(page):
-    page
-    return
-
-
 @app.cell
 def _():
     import marimo as mo
 
     return (mo,)
-
-
-@app.cell
-def _():
-    return
 
 
 if __name__ == "__main__":

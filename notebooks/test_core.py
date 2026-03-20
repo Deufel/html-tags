@@ -1,28 +1,29 @@
 import marimo
 
-__generated_with = "0.21.0"
+__generated_with = "0.21.1"
 app = marimo.App()
 
 
 @app.cell
 def _():
-    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, pretty
     from b_sse import patch_elements, patch_signals
-    import a_core as t
     import pytest
     setup_tags()
-
     return (
         Fragment,
+        mktag,
         patch_elements,
         patch_signals,
+        pretty,
         pytest,
         render_attrs,
+        tag,
         to_html,
     )
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(
     A,
     Article,
@@ -54,7 +55,7 @@ def _(
     def test_attrs_boolean_false(): assert 'disabled' not in to_html(Input(type='text', disabled=False))
     def test_attrs_none_skipped(): assert 'title' not in to_html(Div('hi', title=None))
     def test_attrs_underscore_to_hyphen(): assert to_html(Div('hi', data_value='5')) == '<div data_value="5">hi</div>'  
-    
+
     def test_render_attrs_dict(): assert render_attrs({"data-on:click__debounce.500ms": "@get('/endpoint', {contentType: 'form'})"}) == ' data-on:click__debounce.500ms="@get(\'/endpoint\', {contentType: \'form\'})"'
 
     def test_render_attrs_bool(): assert render_attrs(dict(disabled=True)) == ' disabled'
@@ -113,7 +114,7 @@ def _(
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(Div, P, Span, patch_elements, patch_signals, to_html):
     def test_xss_attr(): assert to_html(Div(href='"><script>alert(1)</script>')) == '<div href="&quot;>&lt;script>alert(1)&lt;/script>"></div>'
     def test_class_alias(): assert to_html(Div('hi', _class='box')) == '<div class="box">hi</div>'
@@ -131,9 +132,100 @@ def _(Div, P, Span, patch_elements, patch_signals, to_html):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Testing pretty printing & attribute escaping & html tag handeling
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(Body, Br, Div, Fragment, Html, P, Script, Style, pretty, pytest):
+
+    def test_root_html_has_doctype(): assert str(Html(Body("hi"))).startswith("<!DOCTYPE html>")
+
+    def test_nested_html_raises():
+        with pytest.raises(ValueError): Div(Html())
+
+    def test_partial_no_doctype(): assert not str(Div("hi")).startswith("<!DOCTYPE")
+
+    def test_fragment_wrapping_html_has_doctype(): assert str(Fragment(Html(Body("hi")))).startswith("<!DOCTYPE html>")
+
+    def test_pretty_basic_indentation(): assert "  <p>a</p>" in pretty(Div(P("a"), P("b")))
+
+    def test_pretty_single_text_inline(): assert pretty(P("hello")) == "<p>hello</p>"
+
+    def test_pretty_void_tag(): assert pretty(Br()) == "<br>"
+
+    def test_pretty_style_indented(): assert "  body" in pretty(Style("body { color: red; }"))
+
+    def test_pretty_script_not_indented(): assert "  let" not in pretty(Script("let x = 1;"))
+
+    def test_pretty_script_indented_opt_in(): assert "  let" in pretty(Script("let x = 1;"), indent_script=True)
+
+    def test_pretty_nested_html_raises():
+        with pytest.raises(ValueError): pretty(Div(Html()))
+
+    def test_pretty_has_doctype(): assert pretty(Html(Body("hi"))).startswith("<!DOCTYPE html>")
+
+    def test_pretty_xss_escaped():
+        out = pretty(Div("<script>alert(1)</script>"))
+        assert "<script>" not in out
+        assert "&lt;script&gt;" in out
+
+
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Custom import testing
+    """)
+    return
+
+
+@app.cell
+def _(Div, P, mktag, pytest, tag):
+    from a_core import __getattr__ as core_getattr
+
+    def test_custom_tag_via_tag():
+        assert str(tag('my-widget', "hello")) == '<my-widget>hello</my-widget>'
+
+    def test_custom_tag_via_mktag():
+        MyWidget = mktag('my-widget')
+        assert str(MyWidget("hello", {"class": "x"})) == '<my-widget class="x">hello</my-widget>'
+
+    def test_custom_tag_with_children():
+        assert str(tag('app-header', Div("inside"))) == '<app-header><div>inside</div></app-header>'
+
+    def test_custom_tag_module_getattr():
+        from html_tags.core import My_Widget
+        assert str(My_Widget("hi")) == '<my-widget>hi</my-widget>'
+
+    def test_custom_tag_module_getattr_nested():
+        from html_tags.core import App_Header
+        assert str(App_Header(P("nav"), {"id": "top"})) == '<app-header id="top"><p>nav</p></app-header>'
+
+    def test_custom_tag_lowercase_raises():
+        with pytest.raises(AttributeError): from html_tags.core import nonexistent
+
+    def test_custom_tag_escapes_content():
+        assert "&lt;script&gt;" in str(tag('x-card', "<script>alert(1)</script>"))
+
+    def test_custom_tag_void_not_assumed():
+        assert str(tag('x-icon')) == '<x-icon></x-icon>'
+
+
+    return
+
+
 @app.cell
 def _():
-    return
+    import marimo as mo
+
+    return (mo,)
 
 
 if __name__ == "__main__":
