@@ -1,5 +1,7 @@
 # html-tags
 
+![PyPI version](https://img.shields.io/pypi/v/html-tags)
+
 > [!WARNING]
 > This project is under active development - Mar 2026
 
