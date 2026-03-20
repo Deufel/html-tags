@@ -215,11 +215,11 @@ wheels = [
 
 [[package]]
 name = "fastcore"
-version = "1.12.26"
+version = "1.12.27"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/32/28/95f6ba3d70351eef8856f0561b78275475ed20dd408489d677752a4f3596/fastcore-1.12.26.tar.gz", hash = "sha256:794501f75bca9d45b512319c5d79e82118ed94ddb1acc335ffff7eb438550bff", size = 93661, upload-time = "2026-03-17T00:27:45.624Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/65/ff/954ed8cabfeae78ede270e97283b13002e1a2c84eb4f2c067e2e598fd9d5/fastcore-1.12.27.tar.gz", hash = "sha256:e15316ae0bbb0bdefe1be43461c23821f71b89e1097b512f2a71d435068fc476", size = 94067, upload-time = "2026-03-20T01:43:07.754Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/04/254dbe1ecda21d35256fa40da2559b4ae1505d20809efb8b2d3942e3c9e0/fastcore-1.12.26-py3-none-any.whl", hash = "sha256:b97b8529de9ab575e31b5d69ad48d2a3c11b82002d4ce25f254f8d6b478a99cc", size = 97905, upload-time = "2026-03-17T00:27:44.181Z" },
+    { url = "https://files.pythonhosted.org/packages/73/8c/74a80a020f26900e823aaeea59ebb1046323281a6e8921f096b9bcbd4a31/fastcore-1.12.27-py3-none-any.whl", hash = "sha256:ecc3acba7d2a58407af0ff8f73ad11a3c1ef2c2a6882f49bc4edd3c7142aad66", size = 98248, upload-time = "2026-03-20T01:43:06.038Z" },
 ]
 
 [[package]]
@@ -271,6 +271,7 @@ version = "0.0.7"
 source = { editable = "." }
 dependencies = [
     { name = "marimo" },
+    { name = "marimo-dev" },
 ]
 
 [package.dev-dependencies]
@@ -280,7 +281,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "marimo", specifier = ">=0.21.1" }]
+requires-dist = [
+    { name = "marimo", specifier = ">=0.21.1" },
+    { name = "marimo-dev", specifier = ">=0.3.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
@@ -602,7 +606,7 @@ wheels = [
 
 [[package]]
 name = "marimo-dev"
-version = "0.3.1"
+version = "0.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
@@ -614,9 +618,9 @@ dependencies = [
     { name = "pytest" },
     { name = "python-fasthtml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/dd/30/7c40aaa6206536e3db33130039487bdc464008b6da338966f4ffe894e1bf/marimo_dev-0.3.1.tar.gz", hash = "sha256:beed237f67e4772aeac9c3259c7358736cd4befa8db6fbdb31500beb3289f5c2", size = 17984, upload-time = "2026-03-16T18:00:00.502Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/4d/47e9624f3c11386ad12c16a153d75d8ded69962bcf62d5aeefc549132ca9/marimo_dev-0.3.3.tar.gz", hash = "sha256:0ae660e81676af3d1b1cd49e3af6bd901da3e7c47a70602ba88ba0df5391f959", size = 18329, upload-time = "2026-03-20T01:34:03.147Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/89/92/96715fd29f3f01338ba1c0158e1a72d84179281eeb81290bdb2117acbad6/marimo_dev-0.3.1-py3-none-any.whl", hash = "sha256:fa87c16db857420b185ed1f8264dcbc96b2807a5c5cf73ac9691ce933a0528e0", size = 21200, upload-time = "2026-03-16T17:59:59.556Z" },
+    { url = "https://files.pythonhosted.org/packages/74/a7/549fc83b752f8340810b9ca3a608ec9a53dede078a95483af7ac277c9c13/marimo_dev-0.3.3-py3-none-any.whl", hash = "sha256:b66c98475b0f884df4f2fe837bd071136927e5903540590e8f1ed461381e5a53", size = 21690, upload-time = "2026-03-20T01:34:04.214Z" },
 ]
 
 [[package]]

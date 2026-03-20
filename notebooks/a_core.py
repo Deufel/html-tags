@@ -20,10 +20,6 @@ with app.setup:
     DANGEROUS_URL_RE = re.compile(r'^\s*(javascript|vbscript|data)\s*:', re.IGNORECASE)
 
 
-
-
-
-
 @app.function
 def setup_tags(
     ns=None  # Optional namespace
@@ -215,6 +211,17 @@ def pretty(
     prefix = f'<!DOCTYPE html>\n' if is_root(t) else ''
     children = '\n'.join(pretty(c, indent, indent_script, indent_style, _depth + 1) for c in t.children)
     return f'{prefix}{pad}<{t.tag}{attrs}>\n{children}\n{pad}</{t.tag}>'
+
+
+@app.function
+#| internal 
+
+def dunder_getattr(
+    name: str     # Custom html tag user generated
+):
+    """ Import html custom tags directly from module """
+    if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 @app.cell

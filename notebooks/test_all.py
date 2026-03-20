@@ -6,7 +6,7 @@ app = marimo.App()
 
 @app.cell
 def _():
-    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, pretty
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, pretty, dunder_getattr
     from b_sse import patch_elements, patch_signals
     import pytest
     setup_tags()
@@ -188,8 +188,6 @@ def _(mo):
 
 @app.cell
 def _(Div, P, mktag, pytest, tag):
-    from a_core import __getattr__ as core_getattr
-
     def test_custom_tag_via_tag():
         assert str(tag('my-widget', "hello")) == '<my-widget>hello</my-widget>'
 
@@ -209,7 +207,7 @@ def _(Div, P, mktag, pytest, tag):
         assert str(App_Header(P("nav"), {"id": "top"})) == '<app-header id="top"><p>nav</p></app-header>'
 
     def test_custom_tag_lowercase_raises():
-        with pytest.raises(AttributeError): from html_tags.core import nonexistent
+        with pytest.raises(ImportError): from html_tags.core import nonexistent
 
     def test_custom_tag_escapes_content():
         assert "&lt;script&gt;" in str(tag('x-card', "<script>alert(1)</script>"))

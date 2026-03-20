@@ -10,6 +10,15 @@ SAFE_ATTR_RE = re.compile('^[a-zA-Z_][\\w\\-:.]*$')
 URL_ATTRS = frozenset({'href', 'src', 'action', 'formaction', 'data', 'poster', 'codebase', 'cite', 'background', 'dynsrc', 'lowsrc'})
 DANGEROUS_URL_RE = re.compile('^\\s*(javascript|vbscript|data)\\s*:', re.IGNORECASE)
 
+def setup_tags(
+    ns=None  # Optional namespace
+):
+    """Create tag constructors in the given namespace (or caller's globals)"""
+    import inspect
+    if ns is None: ns = inspect.currentframe().f_back.f_globals
+    H = TagNS()
+    for name in ALL_TAGS: ns[name] = getattr(H, name)
+
 
 class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
     "An HTML element with a tag name, children, and attributes"
@@ -103,6 +112,7 @@ def tag(
     **kw   # Additional attributes as keyword arguments
 ) -> Tag:  # Named tuple of (tag, children, attrs)
     "Create a Tag from a name, positional children/attr dicts, and keyword attrs. Dicts in *c are merged as attributes; all other values become children."
+
     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
     if name:
         for child in children:
@@ -117,15 +127,6 @@ def validate_raw(
 ) -> None:      # Raises ValueError if closing tag pattern found
     """Ensure raw text content does not contain a closing tag injection (e.g. </script>)."""
     if RAW_CLOSE_RE.search(text): raise ValueError(f'Raw text in <{tag}> must not contain closing tag pattern: {text!r}')
-
-def setup_tags(
-    ns=None  # Optional namespace
-):
-    """Create tag constructors in the given namespace (or caller's globals)"""
-    import inspect
-    if ns is None: ns = inspect.currentframe().f_back.f_globals
-    H = TagNS()
-    for name in ALL_TAGS: ns[name] = getattr(H, name)
 
 def pretty(
     t,                          # Tag tree, string, or any object
@@ -159,3 +160,10 @@ def pretty(
     prefix = f'<!DOCTYPE html>\n' if is_root(t) else ''
     children = '\n'.join(pretty(c, indent, indent_script, indent_style, _depth + 1) for c in t.children)
     return f'{prefix}{pad}<{t.tag}{attrs}>\n{children}\n{pad}</{t.tag}>'
+
+def __getattr__(
+        name: str     # Custom html tag user generated
+    ):
+        """ Import html custom tags directly from module """
+        if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
