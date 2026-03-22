@@ -56,25 +56,30 @@ def _(
     def test_attrs_boolean_true(): assert to_html(Input(type='text', disabled=True)) == '<input type="text" disabled>'
     def test_attrs_boolean_false(): assert 'disabled' not in to_html(Input(type='text', disabled=False))
     def test_attrs_none_skipped(): assert 'title' not in to_html(Div('hi', title=None))
-    def test_attrs_underscore_to_hyphen(): assert to_html(Div('hi', data_value='5')) == '<div data_value="5">hi</div>'  
 
     def test_render_attrs_dict(): assert render_attrs({"data-on:click__debounce.500ms": "@get('/endpoint', {contentType: 'form'})"}) == ' data-on:click__debounce.500ms="@get(\'/endpoint\', {contentType: \'form\'})"'
 
     def test_render_attrs_bool(): assert render_attrs(dict(disabled=True)) == ' disabled'
     def test_render_attrs_false(): assert render_attrs(dict(disabled=False)) == ''
     def test_render_attrs_none(): assert render_attrs(dict(disabled=None)) == ''
-    def test_render_attrs_cls(): assert render_attrs(dict(cls='foo')) == ' class="foo"'
-    def test_render_attrs_for(): assert render_attrs(dict(_for='myid')) == ' for="myid"'
+    def test_render_attrs_cls(): assert render_attrs(dict(cls='foo')) == ' cls="foo"'
+    def test_render_attrs_for(): assert render_attrs(dict(_for='myid')) == ' _for="myid"'
+
     def test_render_attrs_amp(): assert render_attrs(dict(title='a&b')) == ' title="a&amp;b"'
     def test_render_attrs_lt(): assert render_attrs(dict(title='a<b')) == ' title="a&lt;b"'
+    
     def test_attrs_for(): assert to_html(Label('Name', _for='name')) == '<label for="name">Name</label>'
+    
     def test_void_br(): assert to_html(Br()) == '<br>'
     def test_void_img(): assert to_html(Img(src='cat.jpg', alt='cat')) == '<img src="cat.jpg" alt="cat">'
     def test_void_no_children(): assert to_html(Br()) == '<br>'
+    
     def test_escape_text(): assert to_html(Div('<script>alert("xss")</script>')) == '<div>&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;</div>'
     def test_escape_ampersand(): assert to_html(P('a & b')) == '<p>a &amp; b</p>'
+    
     def test_raw_script(): assert to_html(Script('let x = 1 < 2;')) == '<script>let x = 1 < 2;</script>'
     def test_raw_style(): assert to_html(Style('body { color: red; }')) == '<style>body { color: red; }</style>'
+    
     def test_none_filtered(): assert to_html(Div('a', None, 'b')) == '<div>ab</div>'
     def test_false_filtered(): assert to_html(Div('a', False, 'b')) == '<div>ab</div>'
     def test_conditional_rendering():
@@ -291,6 +296,12 @@ def _(Div):
         assert str(Div(SafeStr())) == '<div><b>safe</b></div>'
 
 
+    return
+
+
+@app.cell
+def _(Button):
+    print(Button({"data-on:click":"@get('/endpoint')"}, cls="btn")("Click here"))
     return
 
 

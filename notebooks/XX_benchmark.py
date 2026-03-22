@@ -1,33 +1,50 @@
 import marimo
 
-__generated_with = "0.21.0"
+__generated_with = "0.21.1"
 app = marimo.App()
 
 with app.setup:
     import timeit
-    from html import escape
-    from fastcore.xml import ft, to_xml
-    import rusty_tags as rt
 
-    from a_core import Fragment, TagNS, attrmap, flatten, is_raw, is_void, mktag, render_attrs, tag, to_html, validate_raw
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, validate_raw, setup_tags, pretty, dunder_getattr
+    from b_sse import patch_elements, patch_signals
+    from c_svg import setup_svg
+
+    setup_tags()
+    setup_svg()
 
 
 @app.cell
-def _():
+def _(
+    A,
+    Body,
+    Div,
+    Footer,
+    H1,
+    Head,
+    Header,
+    Li,
+    Main,
+    Meta,
+    P,
+    Span,
+    Title,
+    Ul,
+):
+
 
 
     def bench(fn, n=10000): return timeit.timeit(fn, number=n) / n * 1e6
 
     cases = dict(
-        simple=lambda: to_html(tag('div', 'hello world', cls='test')),
-        medium=lambda: to_html(tag('div', tag('h1', 'Title'), tag('ul', *[tag('li', f'Item {i}') for i in range(20)]), cls='container')),
-        deep=  lambda: to_html(tag('div', tag('div', tag('div', tag('div', tag('div', tag('span', 'deep'))))))),
-        wide=  lambda: to_html(tag('div', *[tag('p', f'Paragraph {i}', cls=f'p-{i}') for i in range(100)])),
-        page=  lambda: to_html(tag('div', tag('head', tag('title','Test'), tag('meta', charset='utf-8')),
-                    tag('body', tag('header', tag('h1','Hello')), tag('main', tag('ul', *[tag('li', tag('a', f'Link {i}', href=f'/{i}')) for i in range(50)])),
-                        tag('footer', tag('p','bye'))), cls='page')),
+        simple=lambda: to_html(Div('hello world', cls='test')),
+        medium=lambda: to_html(Div(H1('Title'), Ul(*[Li(f'Item {i}') for i in range(20)]), cls='container')),
+        deep=  lambda: to_html(Div(Div(Div(Div(Div(Span('deep'))))))),
+        wide=  lambda: to_html(Div(*[P(f'Paragraph {i}', cls=f'p-{i}') for i in range(100)])),
+        page=  lambda: to_html(Div(Head(Title('Test'), Meta(charset='utf-8')),
+                   Body(Header(H1('Hello')), Main(Ul(*[Li(A(f'Link {i}', href=f'/{i}')) for i in range(50)])),
+                       Footer(P('bye'))), cls='page')),
     )
-
 
     for name,fn in cases.items():
         t = bench(fn)
@@ -44,20 +61,21 @@ def _(mo):
     > M3 Max
 
     ```
+    v0.0.15
+    simple         2.6 µs       386,277 renders/sec
+    medium        35.4 µs        28,212 renders/sec
+    deep           6.9 µs       144,295 renders/sec
+    wide         199.1 µs         5,022 renders/sec
+    page         175.5 µs         5,699 renders/sec
+    ```
+
+    ```
+    (~ v0.0.7)
     simple         1.2 µs       850,569 renders/sec
     medium        24.8 µs        40,367 renders/sec
     deep           4.5 µs       223,771 renders/sec
     wide         138.7 µs         7,212 renders/sec
     page         114.3 µs         8,746 renders/sec
-    ```
-
-    ```
-    case          html-tags       fastcore     rusty-tags
-    simple           1.6 µs         4.7 µs         0.6 µs
-    medium          18.9 µs        53.0 µs         7.2 µs
-    deep             3.8 µs        13.1 µs         1.3 µs
-    wide           110.4 µs       338.7 µs        64.3 µs
-    page           102.5 µs       305.8 µs        41.3 µs
     ```
     """)
     return

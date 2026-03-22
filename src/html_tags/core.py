@@ -46,16 +46,14 @@ def attrmap(
 def render_attrs(
     d: dict  # Attribute key-value pairs (e.g. {"class": "main", "id": "app"})
 ) -> str:    # Rendered HTML attribute string (e.g. ' class="main" id="app"')
-    """Render a dict of attributes to an HTML attribute string. Escapes values, validates keys and URL schemes."""
+    '''Render a dict of attributes to an HTML attribute string. Escapes values, validates keys and URL schemes.'''
     out = ''
     for k,v in d.items():
-        k = attrmap(k)
         if not SAFE_ATTR_RE.match(k): raise ValueError(f'Unsafe attribute name: {k!r}')
         v2 = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
         if k in URL_ATTRS and DANGEROUS_URL_RE.match(str(v)): raise ValueError(f'Dangerous URL scheme in {k}: {str(v)[:60]!r}')
         if v is True: out += f' {k}'
         elif v is not False and v is not None: out += f' {k}="{v2}"'
-
     return out
 
 def is_void(t): return t.mode == 'void'
@@ -116,6 +114,7 @@ def tag(
     **kw                     # Additional attributes as keyword arguments
 ) -> Tag:
     "Create a Tag from a name, positional children/attr dicts, and keyword attrs."
+    kw = {attrmap(k):v for k,v in kw.items()}
     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
     if name:
         for child in children:
