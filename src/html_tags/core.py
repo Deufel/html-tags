@@ -16,8 +16,12 @@ def setup_tags(
     """Create tag constructors in the given namespace (or caller's globals)"""
     import inspect
     if ns is None: ns = inspect.currentframe().f_back.f_globals
-    H = TagNS()
-    for name in ALL_TAGS: ns[name] = getattr(H, name)
+    for name in ALL_TAGS:
+        n = name.lower()
+        if n in VOID_TAGS: mode = 'void'
+        elif n in RAW_TAGS: mode = 'raw'
+        else: mode = 'normal'
+        ns[name] = mktag(n, mode)
 
 def mktag(
     name,                    # HTML tag name (e.g. 'div', 'p')
@@ -59,16 +63,6 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
     ) -> 'Tag':
         "Create a new Tag with appended children and merged attributes"
         return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **{attrmap(k):v for k,v in kw.items()}}, self.mode, self.self_closing)
-
-
-# def attrmap(
-#     k: str  # Python attribute name to map
-# ) -> str:   # HTML-safe attribute name
-#     """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
-#     match k:
-#         case 'cls'|'_class': return 'class'
-#         case '_for': return 'for'
-#         case _: return k.lstrip('_').replace('_', '-') if '_' in k else k
 
 
 def attrmap(
@@ -120,15 +114,6 @@ def to_html(
     if not inner and t.self_closing: return f'<{t.tag}{attrs} />'
     if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
-
-
-class TagNS:
-    def __getattr__(self, name):
-        n = name.lower()
-        if n in VOID_TAGS: mode = 'void'
-        elif n in RAW_TAGS: mode = 'raw'
-        else: mode = 'normal'
-        return mktag(n, mode)
 
 
 def Fragment(

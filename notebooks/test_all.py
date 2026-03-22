@@ -7,22 +7,11 @@ app = marimo.App(width="full")
 @app.cell
 def _():
     from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, Fragment, flatten, validate_raw, setup_tags, pretty, dunder_getattr
-    from b_sse import patch_elements, patch_signals
-    from c_svg import setup_svg
+    from b_svg import setup_svg
     import pytest
     setup_tags()
     setup_svg()
-    return (
-        Fragment,
-        attrmap,
-        mktag,
-        patch_elements,
-        patch_signals,
-        pretty,
-        pytest,
-        render_attrs,
-        to_html,
-    )
+    return Fragment, attrmap, mktag, pretty, pytest, render_attrs, to_html
 
 
 @app.cell(hide_code=True)
@@ -122,7 +111,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(Div, P, Span, patch_elements, patch_signals, to_html):
+def _(Div, P, Span, to_html):
     def test_xss_attr(): assert to_html(Div(href='"><script>alert(1)</script>')) == '<div href="&quot;>&lt;script>alert(1)&lt;/script>"></div>'
     def test_class_alias(): assert to_html(Div('hi', _class='box')) == '<div class="box">hi</div>'
     def test_curry_call(): assert str(Div(cls='box')('hello')) == '<div class="box">hello</div>'
@@ -130,11 +119,7 @@ def _(Div, P, Span, patch_elements, patch_signals, to_html):
     def test_curry_attrs_first(): assert str(Div(cls='container')(P('hello'))) == '<div class="container"><p>hello</p></div>'
     def test_curry_chained(): assert str(Div(id='a')(Span(cls='b')('hi'))) == '<div id="a"><span class="b">hi</span></div>'
     def test_curry_multiple_children(): assert str(Div(cls='box')('a', 'b', 'c')) == '<div class="box">abc</div>'
-    def test_patch_elements_basic(): assert 'event: datastar-patch-elements' in patch_elements('<div>hi</div>')
-    def test_patch_elements_selector(): assert 'data: selector #foo' in patch_elements('<div>hi</div>', selector='#foo')
-    def test_patch_elements_tag(): assert '<div>hi</div>' in patch_elements(Div('hi'))
-    def test_patch_signals_basic(): assert 'event: datastar-patch-signals' in patch_signals('{"foo": 1}')
-    def test_patch_signals_only_if_missing(): assert 'data: onlyIfMissing true' in patch_signals('{"foo": 1}', only_if_missing=True)
+
 
     return
 

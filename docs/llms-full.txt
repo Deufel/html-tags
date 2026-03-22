@@ -12,8 +12,12 @@ def setup_tags(
     """Create tag constructors in the given namespace (or caller's globals)"""
     import inspect
     if ns is None: ns = inspect.currentframe().f_back.f_globals
-    H = TagNS()
-    for name in ALL_TAGS: ns[name] = getattr(H, name)
+    for name in ALL_TAGS:
+        n = name.lower()
+        if n in VOID_TAGS: mode = 'void'
+        elif n in RAW_TAGS: mode = 'raw'
+        else: mode = 'normal'
+        ns[name] = mktag(n, mode)
 
 def mktag(
     name,                    # HTML tag name (e.g. 'div', 'p')
@@ -55,16 +59,6 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
     ) -> 'Tag':
         "Create a new Tag with appended children and merged attributes"
         return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **{attrmap(k):v for k,v in kw.items()}}, self.mode, self.self_closing)
-
-
-# def attrmap(
-#     k: str  # Python attribute name to map
-# ) -> str:   # HTML-safe attribute name
-#     """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
-#     match k:
-#         case 'cls'|'_class': return 'class'
-#         case '_for': return 'for'
-#         case _: return k.lstrip('_').replace('_', '-') if '_' in k else k
 
 
 def attrmap(
@@ -116,15 +110,6 @@ def to_html(
     if not inner and t.self_closing: return f'<{t.tag}{attrs} />'
     if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
-
-
-class TagNS:
-    def __getattr__(self, name):
-        n = name.lower()
-        if n in VOID_TAGS: mode = 'void'
-        elif n in RAW_TAGS: mode = 'raw'
-        else: mode = 'normal'
-        return mktag(n, mode)
 
 
 def Fragment(
@@ -191,31 +176,6 @@ def dunder_getattr(
     """ Import html custom tags directly from module """
     if name[0].isupper(): return mktag(name.lower().replace('_', '-'))
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
-
-## sse
-
-
-def patch_elements(elements, selector=None, mode=None, namespace=None, use_view_transition=None):
-    "Format a datastar-patch-elements SSE event"
-    if hasattr(elements, 'tag'): elements = to_html(elements)
-    lines = []
-    if selector: lines.append(f'data: selector {selector}')
-    if mode: lines.append(f'data: mode {mode}')
-    if namespace: lines.append(f'data: namespace {namespace}')
-    if use_view_transition is not None: lines.append(f'data: useViewTransition {str(use_view_transition).lower()}')
-    for line in elements.split('\n'): lines.append(f'data: elements {line}')
-    return 'event: datastar-patch-elements\n' + '\n'.join(lines) + '\n\n'
-
-def patch_signals(signals, only_if_missing=None):
-    "Format a datastar-patch-signals SSE event"
-    lines = []
-    if only_if_missing is not None: lines.append(f'data: onlyIfMissing {str(only_if_missing).lower()}')
-    lines.append(f'data: signals {signals}')
-    return 'event: datastar-patch-signals\n' + '\n'.join(lines) + '\n\n'
-
-def datastar_stream(events):
-    "Return (headers, generator) for a datastar SSE response"
-    return dict(Content_Type='text/event-stream', Cache_Control='no-cache', X_Accel_Buffering='no'), (e for e in events)
 
 ## svg
 
