@@ -3,29 +3,30 @@
 ![PyPI version](https://img.shields.io/pypi/v/html-tags)
 
 > [!WARNING]
-> This project is under active development - Mar 2026
+> Under active development — Mar 2026
 
-
-Concise HTML generation for Python.
+Concise, immutable HTML/SVG generation for Python.
 
 ```python
-from html_tags import setup_tags
-setup_tags()
+from html_tags import setup_tags, setup_svg
+setup_tags(); setup_svg()
 
 page = Html(
     Head(Title("hello")),
     Body(
         H1("hello world", cls="title"),
-        Button({"data-on:click": "@delete('/1')"})("delete"),
+        Svg(Circle(cx="50", cy="50", r="40")),
     )
 )
 ```
 
-Tags are immutable and composable — call a tag to add children or attributes:
+Tags are immutable — call to add children or attributes:
 
 ```python
-Div(cls="card")("some content", id="main")
+Div(cls="card")("content", id="main")
 ```
+
+SVG elements self-close correctly (`<line />`) and shapes like `Circle` accept children for animations.
 
 Datastar SSE helpers included:
 
@@ -37,7 +38,6 @@ from html_tags import patch_elements, patch_signals, datastar_stream
 
 ```
 pip install html-tags
-uv add html-tags
 ```
 
 ## License

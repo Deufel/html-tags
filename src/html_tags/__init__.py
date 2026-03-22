@@ -1,7 +1,7 @@
-"""concise html tag generation"""
-__version__ = '0.0.11'
+"""concise html/svg tag generation"""
+__version__ = '0.0.14'
 __author__ = 'Deufel'
-from .core import setup_tags, Tag, to_html, mktag, pretty
+from .core import setup_tags, mktag, Tag, to_html, pretty
 from .sse import patch_elements, patch_signals, datastar_stream
 from .svg import setup_svg
 __all__ = [

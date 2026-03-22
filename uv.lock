@@ -267,7 +267,7 @@ wheels = [
 
 [[package]]
 name = "html-tags"
-version = "0.0.9"
+version = "0.0.13"
 source = { editable = "." }
 
 [package.dev-dependencies]

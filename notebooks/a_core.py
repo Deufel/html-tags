@@ -20,8 +20,6 @@ with app.setup:
     DANGEROUS_URL_RE = re.compile(r'^\s*(javascript|vbscript|data)\s*:', re.IGNORECASE)
 
 
-
-
 @app.function
 def setup_tags(
     ns=None  # Optional namespace
@@ -33,17 +31,21 @@ def setup_tags(
     for name in ALL_TAGS: ns[name] = getattr(H, name)
 
 
+@app.function
+def mktag(name, mode='normal', self_closing=False):
+    def f(*c, **kw): return tag(name, *c, mode=mode, self_closing=self_closing, **kw)
+    f.__name__ = name.capitalize()
+    return f
+
+
 @app.class_definition
-class Tag(namedtuple('Tag', 'tag children attrs mode', defaults=((), {}, 'normal'))):
+class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=((), {}, 'normal', False))):
     "An HTML element with a tag name, children, and attributes"
-    def __str__(self) -> str: return globals()['to_html'](self) # [see if we can fix this hack late lookup]
+    def __str__(self) -> str: return globals()['to_html'](self)
     __html__ = _repr_html_ = __str__
-    def __call__(self,
-        *c,    # Additional children to append
-        **kw   # Additional attributes to merge
-    ) -> 'Tag': # New Tag with combined children and attributes
+    def __call__(self, *c, **kw) -> 'Tag':
         "Create a new Tag with appended children and merged attributes"
-        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw}, self.mode)
+        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw}, self.mode, self.self_closing)
 
 
 @app.function
@@ -73,7 +75,8 @@ def render_attrs(
         v2 = str(v).replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;')
         if k in URL_ATTRS and DANGEROUS_URL_RE.match(str(v)): raise ValueError(f'Dangerous URL scheme in {k}: {str(v)[:60]!r}')
         if v is True: out += f' {k}'
-        elif v not in (False, None): out += f' {k}="{v2}"'
+        elif v is not False and v is not None: out += f' {k}="{v2}"'
+
     return out
 
 
@@ -106,16 +109,10 @@ def to_html(
         validate_raw(t.tag, inner)
     else: inner = ''.join(to_html(c) for c in t.children)
     if not t.tag: return inner
-    if is_void(t): return f'<{t.tag}{attrs}>'
+    if is_void(t): return f'<{t.tag}{attrs} />' if t.self_closing else f'<{t.tag}{attrs}>'
+    if not inner and t.self_closing: return f'<{t.tag}{attrs} />'
     if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
-
-
-@app.function
-def mktag(name, mode='normal'):
-    def f(*c, **kw): return tag(name, *c, mode=mode, **kw)
-    f.__name__ = name.capitalize()
-    return f
 
 
 @app.class_definition
@@ -156,10 +153,11 @@ def flatten(c):
 #| internal
 
 def tag(
-    name,           # HTML tag name (e.g. 'div', 'p', '')
-    *c,             # Children and/or attribute dicts, intermixed
-    mode='normal',  # 'normal', 'void', or 'raw'
-    **kw            # Additional attributes as keyword arguments
+    name,                    # HTML tag name (e.g. 'div', 'p', '')
+    *c,                      # Children and/or attribute dicts, intermixed
+    mode='normal',           # 'normal', 'void', or 'raw'
+    self_closing=False,      # Render as self-closing (<tag />) when empty?
+    **kw                     # Additional attributes as keyword arguments
 ) -> Tag:
     "Create a Tag from a name, positional children/attr dicts, and keyword attrs."
     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
@@ -174,7 +172,7 @@ def tag(
             if hasattr(child, 'tag'):
                 raise ValueError(f'Raw element <{name}> cannot contain nested tags')
     attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
-    return Tag(name, children, {**attrs, **kw}, mode)
+    return Tag(name, children, {**attrs, **kw}, mode, self_closing)
 
 
 @app.function
@@ -196,14 +194,14 @@ def pretty(
     indent_style: bool=True,    # Indent <style> content?
     _depth: int=0               # Internal: current nesting depth (for indentation only)
 ) -> str:                       # Indented HTML string for debugging
-    "Pretty-print an HTML tag tree with indentation. Not for production use — may alter whitespace-sensitive rendering."
+    '''Pretty-print an HTML tag tree with indentation. Not for production use — may alter whitespace-sensitive rendering.'''
     if hasattr(t, '__html__') and not isinstance(t, Tag): return t.__html__()
     pad = ' ' * (indent * _depth)
     pad1 = ' ' * (indent * (_depth + 1))
     if isinstance(t, str): return pad + escape(t.replace('\x00', ''))
     if not hasattr(t, 'tag'): return pad + escape(str(t).replace('\x00', ''))
     attrs = render_attrs(t.attrs) if t.attrs else ''
-    if is_void(t): return f'{pad}<{t.tag}{attrs}>'
+    if is_void(t): return f'{pad}<{t.tag}{attrs} />' if t.self_closing else f'{pad}<{t.tag}{attrs}>'
     if is_raw(t):
         inner = ''.join(str(c).replace('\x00', '') for c in t.children)
         validate_raw(t.tag, inner)
@@ -215,7 +213,7 @@ def pretty(
         if not inner: return f'{pad}<{t.tag}{attrs}></{t.tag}>'
         return f'{pad}<{t.tag}{attrs}>{inner}</{t.tag}>'
     if not t.tag: return '\n'.join(pretty(c, indent, indent_script, indent_style, _depth) for c in t.children)
-    if not t.children: return f'{pad}<{t.tag}{attrs}></{t.tag}>'
+    if not t.children: return f'{pad}<{t.tag}{attrs} />' if t.self_closing else f'{pad}<{t.tag}{attrs}></{t.tag}>'
     if len(t.children) == 1 and isinstance(t.children[0], str):
         inner = escape(t.children[0].replace('\x00', ''))
         return f'{pad}<{t.tag}{attrs}>{inner}</{t.tag}>'
@@ -253,27 +251,6 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Testing
-    """)
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Playground
-    """)
-    return
-
-
 @app.cell
 def _(Div, H3, Img, P):
     setup_tags()
@@ -286,6 +263,14 @@ def _(Div, H3, Img, P):
         _card('Mountains', 'Beautiful peaks', 'https://picsum.photos/200/120?1'),
         _card('Ocean', 'Calm waters', 'https://picsum.photos/200/120?2'),
         _card('Forest', 'Tall trees', 'https://picsum.photos/200/120?3'))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Playground
+    """)
     return
 
 

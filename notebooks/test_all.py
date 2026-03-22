@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.21.1"
-app = marimo.App()
+app = marimo.App(width="full")
 
 
 @app.cell
@@ -253,27 +253,30 @@ def _(
     pytest,
 ):
     # Basic SVG
-    def test_svg_circle(): assert str(Circle(cx="10", cy="10", r="5")) == '<circle cx="10" cy="10" r="5">'
-    def test_svg_rect(): assert str(Rect(x="0", y="0", width="100", height="50")) == '<rect x="0" y="0" width="100" height="50">'
+    def test_svg_circle(): assert str(Circle(cx="10", cy="10", r="5")) == '<circle cx="10" cy="10" r="5" />'
+    def test_svg_rect(): assert str(Rect(x="0", y="0", width="100", height="50")) == '<rect x="0" y="0" width="100" height="50" />'
     def test_svg_wrapper(): assert str(Svg(G())) == '<svg><g></g></svg>'
-    def test_svg_path(): assert str(Path(d="M0 0 L10 10")) == '<path d="M0 0 L10 10">'
-    def test_svg_line(): assert str(Line(x1="0", y1="0", x2="10", y2="10")) == '<line x1="0" y1="0" x2="10" y2="10">'
+    def test_svg_path(): assert str(Path(d="M0 0 L10 10")) == '<path d="M0 0 L10 10" />'
+    def test_svg_line(): assert str(Line(x1="0", y1="0", x2="10", y2="10")) == '<line x1="0" y1="0" x2="10" y2="10" />'
 
 
     # Case Sensitive SVG
-    def test_svg_clippath(): assert str(ClipPath(Rect(x="0", y="0", width="10", height="10"))) == '<clipPath><rect x="0" y="0" width="10" height="10"></clipPath>'
-    def test_svg_linear_gradient(): assert str(LinearGradient(Stop(offset="0%"))) == '<linearGradient><stop offset="0%"></linearGradient>'
-    def test_svg_fe_gaussian_blur(): assert str(FeGaussianBlur(stdDeviation="5")) == '<feGaussianBlur stdDeviation="5">'
+    def test_svg_clippath(): assert str(ClipPath(Rect(x="0", y="0", width="10", height="10"))) == '<clipPath><rect x="0" y="0" width="10" height="10" /></clipPath>'
+    def test_svg_linear_gradient(): assert str(LinearGradient(Stop(offset="0%"))) == '<linearGradient><stop offset="0%" /></linearGradient>'
+    def test_svg_fe_gaussian_blur(): assert str(FeGaussianBlur(stdDeviation="5")) == '<feGaussianBlur stdDeviation="5" />'
 
     # Void validation and nesting
     def test_svg_void_rejects_children():
-        with pytest.raises(ValueError): Circle("child")
+        with pytest.raises(ValueError): Stop("child")
 
-    def test_svg_nested(): assert str(Svg(Defs(ClipPath(Rect(width="10", height="10"))))) == '<svg><defs><clipPath><rect width="10" height="10"></clipPath></defs></svg>'
+    def test_svg_nested(): assert str(Svg(Defs(ClipPath(Rect(width="10", height="10"))))) == '<svg><defs><clipPath><rect width="10" height="10" /></clipPath></defs></svg>'
 
     # Attributes
     def test_svg_viewbox(): assert 'viewBox="0 0 24 24"' in str(Svg({"viewBox": "0 0 24 24"}))
     def test_svg_xmlns(): assert 'xmlns="http://www.w3.org/2000/svg"' in str(Svg({"xmlns": "http://www.w3.org/2000/svg"}))
+
+
+
 
 
     return
