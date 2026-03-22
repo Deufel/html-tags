@@ -19,18 +19,46 @@ def setup_tags(
     H = TagNS()
     for name in ALL_TAGS: ns[name] = getattr(H, name)
 
-def mktag(name, mode='normal', self_closing=False):
-    def f(*c, **kw): return tag(name, *c, mode=mode, self_closing=self_closing, **kw)
+def mktag(
+    name,                    # HTML tag name (e.g. 'div', 'p')
+    mode='normal',           # 'normal', 'void', or 'raw'
+    self_closing=False       # Render as self-closing (<tag />) when empty?
+):
+    "Create a tag constructor function for the given element name"
+    def f(*c, **kw):
+        attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
+        children = tuple(o for o in c if not isinstance(o, dict))
+        return Tag(name, children, {**attrs, **{attrmap(k):v for k,v in kw.items()}}, mode, self_closing)
     f.__name__ = name.capitalize()
     return f
 
 class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=((), {}, 'normal', False))):
     "An HTML element with a tag name, children, and attributes"
+    def __new__(cls,
+        tag,                  # HTML tag name (e.g. 'div', 'p', '')
+        children=(),          # Child elements and/or text nodes
+        attrs={},             # Attribute key-value pairs
+        mode='normal',        # 'normal', 'void', or 'raw'
+        self_closing=False    # Render as self-closing (<tag />) when empty?
+    ):
+        children = tuple(flatten(children))
+        if tag:
+            for child in children:
+                if hasattr(child, 'tag') and child.tag == 'html':
+                    raise ValueError('<html> cannot be nested inside another element')
+        if mode == 'void' and children: raise ValueError(f'Void element <{tag}> cannot have children')
+        if mode == 'raw':
+            for child in children:
+                if hasattr(child, 'tag'): raise ValueError(f'Raw element <{tag}> cannot contain nested tags')
+        return super().__new__(cls, tag, children, attrs, mode, self_closing)
     def __str__(self) -> str: return globals()['to_html'](self)
     __html__ = _repr_html_ = __str__
-    def __call__(self, *c, **kw) -> 'Tag':
+    def __call__(self,
+        *c,    # Additional children to append
+        **kw   # Additional attributes to merge
+    ) -> 'Tag':
         "Create a new Tag with appended children and merged attributes"
-        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **kw}, self.mode, self.self_closing)
+        return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **{attrmap(k):v for k,v in kw.items()}}, self.mode, self.self_closing)
 
 
 def attrmap(
@@ -93,9 +121,9 @@ class TagNS:
 def Fragment(
     *c,    # Children to render without a wrapping element
     **kw   # Attributes (passed through but rarely used)
-) -> Tag:  # Tag with empty name — renders children only, no outer element
-    """Create a virtual grouping node. Renders its children without any wrapping HTML element."""
-    return tag('', *c, **kw)
+) -> Tag:
+    "Create a virtual grouping node. Renders its children without any wrapping HTML element."
+    return Tag('', c, {attrmap(k):v for k,v in kw.items()})
 
 
 def flatten(c):
@@ -104,30 +132,6 @@ def flatten(c):
         if hasattr(o, 'tag'): yield o
         elif isinstance(o, (list, tuple, map, filter, types.GeneratorType)): yield from flatten(o)
         else: yield o
-
-
-def tag(
-    name,                    # HTML tag name (e.g. 'div', 'p', '')
-    *c,                      # Children and/or attribute dicts, intermixed
-    mode='normal',           # 'normal', 'void', or 'raw'
-    self_closing=False,      # Render as self-closing (<tag />) when empty?
-    **kw                     # Additional attributes as keyword arguments
-) -> Tag:
-    "Create a Tag from a name, positional children/attr dicts, and keyword attrs."
-    kw = {attrmap(k):v for k,v in kw.items()}
-    children = tuple(flatten(o for o in c if not isinstance(o, dict)))
-    if name:
-        for child in children:
-            if hasattr(child, 'tag') and child.tag == 'html':
-                raise ValueError('<html> cannot be nested inside another element')
-    if mode == 'void' and children:
-        raise ValueError(f'Void element <{name}> cannot have children')
-    if mode == 'raw':
-        for child in children:
-            if hasattr(child, 'tag'):
-                raise ValueError(f'Raw element <{name}> cannot contain nested tags')
-    attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
-    return Tag(name, children, {**attrs, **kw}, mode, self_closing)
 
 
 def validate_raw(

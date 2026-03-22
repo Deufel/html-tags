@@ -2,7 +2,7 @@
 
 > 
 
-- [core](/core): setup_tags, mktag, Tag, attrmap, render_attrs, is_void, is_raw, is_root, to_html, TagNS, Fragment, flatten, tag, validate_raw, pretty, dunder_getattr
+- [core](/core): setup_tags, mktag, Tag, attrmap, render_attrs, is_void, is_raw, is_root, to_html, TagNS, Fragment, flatten, validate_raw, pretty, dunder_getattr
 - [sse](/sse): patch_elements, patch_signals, datastar_stream
 - [svg](/svg): setup_svg
 
