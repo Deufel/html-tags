@@ -61,14 +61,27 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
         return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **{attrmap(k):v for k,v in kw.items()}}, self.mode, self.self_closing)
 
 
+# def attrmap(
+#     k: str  # Python attribute name to map
+# ) -> str:   # HTML-safe attribute name
+#     """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
+#     match k:
+#         case 'cls'|'_class': return 'class'
+#         case '_for': return 'for'
+#         case _: return k.lstrip('_').replace('_', '-') if '_' in k else k
+
+
 def attrmap(
     k: str  # Python attribute name to map
 ) -> str:   # HTML-safe attribute name
-    """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class')."""
+    """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
     match k:
         case 'cls'|'_class': return 'class'
         case '_for': return 'for'
-        case _: return k
+        case '_from': return 'from'
+        case '_in': return 'in'
+        case '_is': return 'is'
+        case _: return k.replace('_', '-')
 
 
 def render_attrs(

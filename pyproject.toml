@@ -1,6 +1,6 @@
 [project]
 name = "html-tags"
-version = "0.0.15"
+version = "0.0.17"
 description = "Concise, immutable HTML/SVG generation for Python. Zero dependencies."
 readme = "README.md"
 authors = [

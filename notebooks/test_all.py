@@ -6,7 +6,7 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
-    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, tag, validate_raw, setup_tags, pretty, dunder_getattr
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, validate_raw, setup_tags, pretty, dunder_getattr
     from b_sse import patch_elements, patch_signals
     from c_svg import setup_svg
     import pytest
@@ -14,13 +14,13 @@ def _():
     setup_svg()
     return (
         Fragment,
+        attrmap,
         mktag,
         patch_elements,
         patch_signals,
         pretty,
         pytest,
         render_attrs,
-        tag,
         to_html,
     )
 
@@ -67,19 +67,19 @@ def _(
 
     def test_render_attrs_amp(): assert render_attrs(dict(title='a&b')) == ' title="a&amp;b"'
     def test_render_attrs_lt(): assert render_attrs(dict(title='a<b')) == ' title="a&lt;b"'
-    
+
     def test_attrs_for(): assert to_html(Label('Name', _for='name')) == '<label for="name">Name</label>'
-    
+
     def test_void_br(): assert to_html(Br()) == '<br>'
     def test_void_img(): assert to_html(Img(src='cat.jpg', alt='cat')) == '<img src="cat.jpg" alt="cat">'
     def test_void_no_children(): assert to_html(Br()) == '<br>'
-    
+
     def test_escape_text(): assert to_html(Div('<script>alert("xss")</script>')) == '<div>&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;</div>'
     def test_escape_ampersand(): assert to_html(P('a & b')) == '<p>a &amp; b</p>'
-    
+
     def test_raw_script(): assert to_html(Script('let x = 1 < 2;')) == '<script>let x = 1 < 2;</script>'
     def test_raw_style(): assert to_html(Style('body { color: red; }')) == '<style>body { color: red; }</style>'
-    
+
     def test_none_filtered(): assert to_html(Div('a', None, 'b')) == '<div>ab</div>'
     def test_false_filtered(): assert to_html(Div('a', False, 'b')) == '<div>ab</div>'
     def test_conditional_rendering():
@@ -194,16 +194,16 @@ def _(mo):
 
 
 @app.cell
-def _(Div, P, mktag, pytest, tag):
-    def test_custom_tag_via_tag():
-        assert str(tag('my-widget', "hello")) == '<my-widget>hello</my-widget>'
-
+def _(Div, P, mktag, pytest):
     def test_custom_tag_via_mktag():
         MyWidget = mktag('my-widget')
         assert str(MyWidget("hello", {"class": "x"})) == '<my-widget class="x">hello</my-widget>'
 
+    def test_custom_tag_via_mktag_simple():
+        assert str(mktag('my-widget')("hello")) == '<my-widget>hello</my-widget>'
+
     def test_custom_tag_with_children():
-        assert str(tag('app-header', Div("inside"))) == '<app-header><div>inside</div></app-header>'
+        assert str(mktag('app-header')(Div("inside"))) == '<app-header><div>inside</div></app-header>'
 
     def test_custom_tag_module_getattr():
         from html_tags.core import My_Widget
@@ -217,10 +217,10 @@ def _(Div, P, mktag, pytest, tag):
         with pytest.raises(ImportError): from html_tags.core import nonexistent
 
     def test_custom_tag_escapes_content():
-        assert "&lt;script&gt;" in str(tag('x-card', "<script>alert(1)</script>"))
+        assert "&lt;script&gt;" in str(mktag('x-card')("<script>alert(1)</script>"))
 
     def test_custom_tag_void_not_assumed():
-        assert str(tag('x-icon')) == '<x-icon></x-icon>'
+        assert str(mktag('x-icon')()) == '<x-icon></x-icon>'
 
 
     return
@@ -295,6 +295,27 @@ def _(Div):
             def __html__(self): return '<b>safe</b>'
         assert str(Div(SafeStr())) == '<div><b>safe</b></div>'
 
+
+    return
+
+
+@app.cell
+def _(AnimateTransform, Div, FeBlend, attrmap):
+    def test_attrmap_cls(): assert attrmap('cls') == 'class'
+    def test_attrmap_class(): assert attrmap('_class') == 'class'
+    def test_attrmap_for(): assert attrmap('_for') == 'for'
+    def test_attrmap_from(): assert attrmap('_from') == 'from'
+    def test_attrmap_in(): assert attrmap('_in') == 'in'
+    def test_attrmap_is(): assert attrmap('_is') == 'is'
+    def test_attrmap_underscore_to_hyphen(): assert attrmap('data_value') == 'data-value'
+    def test_attrmap_stroke_width(): assert attrmap('stroke_width') == 'stroke-width'
+    def test_attrmap_no_underscore(): assert attrmap('id') == 'id'
+    def test_attrmap_double_underscore(): assert attrmap('__weird') == '--weird'
+    def test_attrmap_passthrough(): assert attrmap('viewBox') == 'viewBox'
+
+    def test_e2e_from(): assert str(AnimateTransform(_from="0 200 200", to="360 200 200")) == '<animateTransform from="0 200 200" to="360 200 200" />'
+    def test_e2e_in(): assert str(FeBlend(_in="SourceGraphic")) == '<feBlend in="SourceGraphic" />'
+    def test_e2e_dict_verbatim(): assert str(Div({"data-on:click__once": "@post('/api')"})) == '<div data-on:click__once="@post(\'/api\')"></div>'
 
     return
 

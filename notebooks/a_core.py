@@ -79,14 +79,27 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
 @app.function
 #| internal
 
+# def attrmap(
+#     k: str  # Python attribute name to map
+# ) -> str:   # HTML-safe attribute name
+#     """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
+#     match k:
+#         case 'cls'|'_class': return 'class'
+#         case '_for': return 'for'
+#         case _: return k.lstrip('_').replace('_', '-') if '_' in k else k
+
+
 def attrmap(
     k: str  # Python attribute name to map
 ) -> str:   # HTML-safe attribute name
-    """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class')."""
+    """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
     match k:
         case 'cls'|'_class': return 'class'
         case '_for': return 'for'
-        case _: return k
+        case '_from': return 'from'
+        case '_in': return 'in'
+        case '_is': return 'is'
+        case _: return k.replace('_', '-')
 
 
 @app.function
@@ -201,7 +214,6 @@ def _():
     #                 raise ValueError(f'Raw element <{name}> cannot contain nested tags')
     #     attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
     #     return Tag(name, children, {**attrs, **kw}, mode, self_closing)
-
     return
 
 
