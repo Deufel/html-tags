@@ -6,7 +6,7 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
-    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, TagNS, Fragment, flatten, validate_raw, setup_tags, pretty, dunder_getattr
+    from a_core import Tag, attrmap, render_attrs, is_void, is_raw, to_html, mktag, Fragment, flatten, validate_raw, setup_tags, pretty, dunder_getattr
     from b_sse import patch_elements, patch_signals
     from c_svg import setup_svg
     import pytest

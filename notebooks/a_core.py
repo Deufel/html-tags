@@ -27,8 +27,12 @@ def setup_tags(
     """Create tag constructors in the given namespace (or caller's globals)"""
     import inspect
     if ns is None: ns = inspect.currentframe().f_back.f_globals
-    H = TagNS()
-    for name in ALL_TAGS: ns[name] = getattr(H, name)
+    for name in ALL_TAGS:
+        n = name.lower()
+        if n in VOID_TAGS: mode = 'void'
+        elif n in RAW_TAGS: mode = 'raw'
+        else: mode = 'normal'
+        ns[name] = mktag(n, mode)
 
 
 @app.function
@@ -78,16 +82,6 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
 
 @app.function
 #| internal
-
-# def attrmap(
-#     k: str  # Python attribute name to map
-# ) -> str:   # HTML-safe attribute name
-#     """Map Python-friendly attribute names to their HTML equivalents (e.g. 'cls' → 'class', '_' → '-')."""
-#     match k:
-#         case 'cls'|'_class': return 'class'
-#         case '_for': return 'for'
-#         case _: return k.lstrip('_').replace('_', '-') if '_' in k else k
-
 
 def attrmap(
     k: str  # Python attribute name to map
@@ -154,18 +148,6 @@ def to_html(
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
 
 
-@app.class_definition
-#| internal
-
-class TagNS:
-    def __getattr__(self, name):
-        n = name.lower()
-        if n in VOID_TAGS: mode = 'void'
-        elif n in RAW_TAGS: mode = 'raw'
-        else: mode = 'normal'
-        return mktag(n, mode)
-
-
 @app.function
 #| internal
 
@@ -186,35 +168,6 @@ def flatten(c):
         if hasattr(o, 'tag'): yield o
         elif isinstance(o, (list, tuple, map, filter, types.GeneratorType)): yield from flatten(o)
         else: yield o
-
-
-@app.cell
-def _():
-
-
-    # def tag(
-    #     name,                    # HTML tag name (e.g. 'div', 'p', '')
-    #     *c,                      # Children and/or attribute dicts, intermixed
-    #     mode='normal',           # 'normal', 'void', or 'raw'
-    #     self_closing=False,      # Render as self-closing (<tag />) when empty?
-    #     **kw                     # Additional attributes as keyword arguments
-    # ) -> Tag:
-    #     "Create a Tag from a name, positional children/attr dicts, and keyword attrs."
-    #     kw = {attrmap(k):v for k,v in kw.items()}
-    #     children = tuple(flatten(o for o in c if not isinstance(o, dict)))
-    #     if name:
-    #         for child in children:
-    #             if hasattr(child, 'tag') and child.tag == 'html':
-    #                 raise ValueError('<html> cannot be nested inside another element')
-    #     if mode == 'void' and children:
-    #         raise ValueError(f'Void element <{name}> cannot have children')
-    #     if mode == 'raw':
-    #         for child in children:
-    #             if hasattr(child, 'tag'):
-    #                 raise ValueError(f'Raw element <{name}> cannot contain nested tags')
-    #     attrs = {k:v for o in c if isinstance(o, dict) for k,v in o.items()}
-    #     return Tag(name, children, {**attrs, **kw}, mode, self_closing)
-    return
 
 
 @app.function
@@ -284,12 +237,17 @@ def _(mo):
 
 
 @app.cell
-def _(tag):
-    a = tag('div', 'hello', cls='foo')
+def _():
+    # a = Tag('div', 'hello', cls='foo')
+    # b = mktag('div')('hello', cls='foo')
+    # c = TagNS().div('hello', cls='foo')
+    # print(f"{a = }\n{b = }\n{c = }")
+    # print(a==b==c)
+    a = Tag('div', ('hello',), {'class':'foo'})
     b = mktag('div')('hello', cls='foo')
-    c = TagNS().div('hello', cls='foo')
-    print(f"{a = }\n{b = }\n{c = }")
-    print(a==b==c)
+    print(f"{a = }\n{b = }")
+    print(a == b)
+
     return
 
 
