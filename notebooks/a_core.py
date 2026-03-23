@@ -4,20 +4,25 @@ __generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup:
-
-
     import types, re
     from collections import namedtuple
     from html import escape
 
-    ALL_TAGS = [ 'A','Abbr','Address','Area','Article','Aside','Audio', 'B','Base','Bdi','Bdo','Blockquote','Body','Br','Button', 'Canvas','Caption','Cite','Code','Col','Colgroup', 'Data','Datalist','Dd','Del','Details','Dfn','Dialog','Div','Dl','Dt', 'Em','Embed', 'Fieldset','Figcaption','Figure','Footer','Form', 'H1','H2','H3','H4','H5','H6','Head','Header','Hgroup','Hr','Html', 'I','Iframe','Img','Input','Ins', 'Kbd', 'Label','Legend','Li','Link', 'Main','Map','Mark','Menu','Meta','Meter', 'Nav','Noscript', 'Object','Ol','Optgroup','Option','Output', 'P','Picture','Pre','Progress', 'Q', 'Rp','Rt','Ruby', 'S','Samp','Script','Search','Section','Select','Slot','Small','Source','Span','Strong','Style','Sub','Summary','Sup', 'Table','Tbody','Td','Template','Textarea','Tfoot','Th','Thead','Time','Title','Tr','Track', 'U','Ul', 'Var','Video', 'Wbr']
 
-    VOID_TAGS = frozenset({"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"})
-    RAW_TAGS = frozenset({"script", "style"})
-    RAW_CLOSE_RE = re.compile(r'</(script|style)[\s/>]', re.IGNORECASE)
-    SAFE_ATTR_RE = re.compile(r'^[a-zA-Z_][\w\-:.]*$')
+    ALL_TAGS = ['A', 'Abbr', 'Address', 'Area', 'Article', 'Aside', 'Audio', 'B', 'Base', 'Bdi', 'Bdo', 'Blockquote', 'Body', 'Br', 'Button', 'Canvas', 'Caption', 'Cite', 'Code', 'Col', 'Colgroup', 'Data', 'Datalist', 'Dd', 'Del', 'Details', 'Dfn', 'Dialog', 'Div', 'Dl', 'Dt', 'Em', 'Embed', 'Fieldset', 'Figcaption', 'Figure', 'Footer', 'Form', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Head', 'Header', 'Hgroup', 'Hr', 'Html', 'I', 'Iframe', 'Img', 'Input', 'Ins', 'Kbd', 'Label', 'Legend', 'Li', 'Link', 'Main', 'Map', 'Mark', 'Menu', 'Meta', 'Meter', 'Nav', 'Noscript', 'Object', 'Ol', 'Optgroup', 'Option', 'Output', 'P', 'Picture', 'Pre', 'Progress', 'Q', 'Rp', 'Rt', 'Ruby', 'S', 'Samp', 'Script', 'Search', 'Section', 'Select', 'Slot', 'Small', 'Source', 'Span', 'Strong', 'Style', 'Sub', 'Summary', 'Sup', 'Table', 'Tbody', 'Td', 'Template', 'Textarea', 'Tfoot', 'Th', 'Thead', 'Time', 'Title', 'Tr', 'Track', 'U', 'Ul', 'Var', 'Video', 'Wbr']
+    VOID_TAGS = frozenset({'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'})
+    RAW_TAGS = frozenset({'script', 'style'})
+    RAW_CLOSE_RE = re.compile('</(script|style)[\\s/>]', re.IGNORECASE)
+    SAFE_ATTR_RE = re.compile('^[a-zA-Z_][\\w\\-:.]*$')
     URL_ATTRS = frozenset({'href', 'src', 'action', 'formaction', 'data', 'poster', 'codebase', 'cite', 'background', 'dynsrc', 'lowsrc'})
-    DANGEROUS_URL_RE = re.compile(r'^\s*(javascript|vbscript|data)\s*:', re.IGNORECASE)
+    DANGEROUS_URL_RE = re.compile('^(?:javascript:|vbscript:|data:(?!(?:text/html|text/plain|image/|application/json)))', re.IGNORECASE)
+
+
+@app.cell
+def _():
+    import marimo as mo
+
+    return
 
 
 @app.function
@@ -63,13 +68,15 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
         children = tuple(flatten(children))
         if tag:
             for child in children:
-                if hasattr(child, 'tag') and child.tag == 'html':
-                    raise ValueError('<html> cannot be nested inside another element')
+                # Allow HTML tags inside iframes (common use case for embedding documents)
+                if hasattr(child, 'tag') and child.tag == 'html' and tag.lower() != 'iframe':
+                    raise ValueError('<html> cannot be nested inside another element (except <iframe>)')
         if mode == 'void' and children: raise ValueError(f'Void element <{tag}> cannot have children')
         if mode == 'raw':
             for child in children:
                 if hasattr(child, 'tag'): raise ValueError(f'Raw element <{tag}> cannot contain nested tags')
         return super().__new__(cls, tag, children, attrs, mode, self_closing)
+    
     def __str__(self) -> str: return globals()['to_html'](self)
     __html__ = _repr_html_ = __str__
     def __call__(self,
@@ -81,8 +88,6 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
 
 
 @app.function
-#| internal
-
 def attrmap(
     k: str  # Python attribute name to map
 ) -> str:   # HTML-safe attribute name
@@ -97,8 +102,6 @@ def attrmap(
 
 
 @app.function
-#| internal
-
 def render_attrs(
     d: dict  # Attribute key-value pairs (e.g. {"class": "main", "id": "app"})
 ) -> str:    # Rendered HTML attribute string (e.g. ' class="main" id="app"')
@@ -114,17 +117,14 @@ def render_attrs(
 
 
 @app.function
-#| internal
 def is_void(t): return t.mode == 'void'
 
 
 @app.function
-#| internal
 def is_raw(t): return t.mode == 'raw'
 
 
 @app.function
-#| internal
 def is_root(t): return t.tag == 'html'
 
 
@@ -149,8 +149,6 @@ def to_html(
 
 
 @app.function
-#| internal
-
 def Fragment(
     *c,    # Children to render without a wrapping element
     **kw   # Attributes (passed through but rarely used)
@@ -160,8 +158,6 @@ def Fragment(
 
 
 @app.function
-#| internal
-
 def flatten(c):
     for o in c:
         if o is None or o is False: continue
@@ -171,8 +167,6 @@ def flatten(c):
 
 
 @app.function
-#| internal
-
 def validate_raw(
     tag: str,   # Tag name (e.g. 'script', 'style')
     text: str   # Raw text content to validate
@@ -218,8 +212,6 @@ def pretty(
 
 
 @app.function
-#| internal 
-
 def dunder_getattr(
     name: str     # Custom html tag user generated
 ):
@@ -228,91 +220,9 @@ def dunder_getattr(
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Exploratory
-    """)
-    return
-
-
 @app.cell
 def _():
-    # a = Tag('div', 'hello', cls='foo')
-    # b = mktag('div')('hello', cls='foo')
-    # c = TagNS().div('hello', cls='foo')
-    # print(f"{a = }\n{b = }\n{c = }")
-    # print(a==b==c)
-    a = Tag('div', ('hello',), {'class':'foo'})
-    b = mktag('div')('hello', cls='foo')
-    print(f"{a = }\n{b = }")
-    print(a == b)
-
     return
-
-
-@app.cell
-def _(Div, H3, Img, P):
-    setup_tags()
-    _card = lambda title,text,img: Div(
-        Img(src=img, alt=title, style='width:100%;border-radius:8px'),
-        H3(title), P(text),
-        style='border:1px solid #ddd;padding:16px;border-radius:12px;width:200px;display:inline-block;margin:8px')
-
-    Div(
-        _card('Mountains', 'Beautiful peaks', 'https://picsum.photos/200/120?1'),
-        _card('Ocean', 'Calm waters', 'https://picsum.photos/200/120?2'),
-        _card('Forest', 'Tall trees', 'https://picsum.photos/200/120?3'))
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Playground
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    # Future
-
-    - pull in scoped css auto
-    - Datastar Demo
-    - Type & Space & Color Extra
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Scoped CSS
-    ```js
-    // 🌘 CSS Scope Inline (https://github.com/gnat/css-scope-inline)
-    window.cssScopeCount ??= 1
-    window.cssScope ??= new MutationObserver(mutations => {
-    	document?.body?.querySelectorAll('style:not([ready])').forEach(node => {
-    		var scope = 'me__'+(window.cssScopeCount++)
-    		node.parentNode.classList.add(scope)
-    		node.textContent = node.textContent
-    		.replace(/(?:^|\.|(\s|[^a-zA-Z0-9\-\_]))(me|this|self)(?![a-zA-Z])/g, '$1.'+scope)
-    		.replace(/((@keyframes|animation:|animation-name:)[^{};]*)\.me__/g, '$1me__')
-    		node.setAttribute('ready', '')
-    	})
-    }).observe(document.documentElement, {childList: true, subtree: true})
-    ```
-    """)
-    return
-
-
-@app.cell
-def _():
-    import marimo as mo
-
-    return (mo,)
 
 
 if __name__ == "__main__":

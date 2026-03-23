@@ -44,13 +44,15 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
         children = tuple(flatten(children))
         if tag:
             for child in children:
-                if hasattr(child, 'tag') and child.tag == 'html':
-                    raise ValueError('<html> cannot be nested inside another element')
+                # Allow HTML tags inside iframes (common use case for embedding documents)
+                if hasattr(child, 'tag') and child.tag == 'html' and tag.lower() != 'iframe':
+                    raise ValueError('<html> cannot be nested inside another element (except <iframe>)')
         if mode == 'void' and children: raise ValueError(f'Void element <{tag}> cannot have children')
         if mode == 'raw':
             for child in children:
                 if hasattr(child, 'tag'): raise ValueError(f'Raw element <{tag}> cannot contain nested tags')
         return super().__new__(cls, tag, children, attrs, mode, self_closing)
+    
     def __str__(self) -> str: return globals()['to_html'](self)
     __html__ = _repr_html_ = __str__
     def __call__(self,
@@ -59,7 +61,6 @@ class Tag(namedtuple('Tag', 'tag children attrs mode self_closing', defaults=(()
     ) -> 'Tag':
         "Create a new Tag with appended children and merged attributes"
         return Tag(self.tag, self.children + tuple(flatten(c)), {**self.attrs, **{attrmap(k):v for k,v in kw.items()}}, self.mode, self.self_closing)
-
 
 def attrmap(
     k: str  # Python attribute name to map
@@ -72,7 +73,6 @@ def attrmap(
         case '_in': return 'in'
         case '_is': return 'is'
         case _: return k.replace('_', '-')
-
 
 def render_attrs(
     d: dict  # Attribute key-value pairs (e.g. {"class": "main", "id": "app"})
@@ -111,7 +111,6 @@ def to_html(
     if is_root(t): return f'<!DOCTYPE html>\n<{t.tag}{attrs}>{inner}</{t.tag}>'
     return f'<{t.tag}{attrs}>{inner}</{t.tag}>'
 
-
 def Fragment(
     *c,    # Children to render without a wrapping element
     **kw   # Attributes (passed through but rarely used)
@@ -119,14 +118,12 @@ def Fragment(
     "Create a virtual grouping node. Renders its children without any wrapping HTML element."
     return Tag('', c, {attrmap(k):v for k,v in kw.items()})
 
-
 def flatten(c):
     for o in c:
         if o is None or o is False: continue
         if hasattr(o, 'tag'): yield o
         elif isinstance(o, (list, tuple, map, filter, types.GeneratorType)): yield from flatten(o)
         else: yield o
-
 
 def validate_raw(
     tag: str,   # Tag name (e.g. 'script', 'style')
@@ -168,7 +165,6 @@ def pretty(
     prefix = f'<!DOCTYPE html>\n' if is_root(t) else ''
     children = '\n'.join(pretty(c, indent, indent_script, indent_style, _depth + 1) for c in t.children)
     return f'{prefix}{pad}<{t.tag}{attrs}>\n{children}\n{pad}</{t.tag}>'
-
 
 def dunder_getattr(
     name: str     # Custom html tag user generated
