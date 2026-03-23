@@ -1,19 +1,10 @@
-import types, re
-from collections import namedtuple
-from html import escape
-from html.parser import HTMLParser
+# html-tags
 
-VOID_TAGS = frozenset({'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'})
-RAW_TAGS = frozenset({'script', 'style'})
-RAW_CLOSE_RE = re.compile('</(script|style)[\\s/>]', re.IGNORECASE)
-SAFE_ATTR_RE = re.compile('^[a-zA-Z_][\\w\\-:.]*$')
-URL_ATTRS = frozenset({'href', 'src', 'action', 'formaction', 'data', 'poster', 'codebase', 'cite', 'background', 'dynsrc', 'lowsrc'})
-DANGEROUS_URL_RE = re.compile('^(?:javascript:|vbscript:|data:(?!(?:text/html|text/plain|image/|application/json)))', re.IGNORECASE)
-ALL_TAGS = ['A', 'Abbr', 'Address', 'Area', 'Article', 'Aside', 'Audio', 'B', 'Base', 'Bdi', 'Bdo', 'Blockquote', 'Body', 'Br', 'Button', 'Canvas', 'Caption', 'Cite', 'Code', 'Col', 'Colgroup', 'Data', 'Datalist', 'Dd', 'Del', 'Details', 'Dfn', 'Dialog', 'Div', 'Dl', 'Dt', 'Em', 'Embed', 'Fieldset', 'Figcaption', 'Figure', 'Footer', 'Form', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Head', 'Header', 'Hgroup', 'Hr', 'Html', 'I', 'Iframe', 'Img', 'Input', 'Ins', 'Kbd', 'Label', 'Legend', 'Li', 'Link', 'Main', 'Map', 'Mark', 'Menu', 'Meta', 'Meter', 'Nav', 'Noscript', 'Object', 'Ol', 'Optgroup', 'Option', 'Output', 'P', 'Picture', 'Pre', 'Progress', 'Q', 'Rp', 'Rt', 'Ruby', 'S', 'Samp', 'Script', 'Search', 'Section', 'Select', 'Slot', 'Small', 'Source', 'Span', 'Strong', 'Style', 'Sub', 'Summary', 'Sup', 'Table', 'Tbody', 'Td', 'Template', 'Textarea', 'Tfoot', 'Th', 'Thead', 'Time', 'Title', 'Tr', 'Track', 'U', 'Ul', 'Var', 'Video', 'Wbr']
-SVG_NAMES = {'ClipPath': 'clipPath', 'ForeignObject': 'foreignObject', 'LinearGradient': 'linearGradient', 'RadialGradient': 'radialGradient', 'TextPath': 'textPath', 'AnimateMotion': 'animateMotion', 'AnimateTransform': 'animateTransform', 'FeBlend': 'feBlend', 'FeColorMatrix': 'feColorMatrix', 'FeComponentTransfer': 'feComponentTransfer', 'FeComposite': 'feComposite', 'FeConvolveMatrix': 'feConvolveMatrix', 'FeDiffuseLighting': 'feDiffuseLighting', 'FeDisplacementMap': 'feDisplacementMap', 'FeDistantLight': 'feDistantLight', 'FeDropShadow': 'feDropShadow', 'FeFlood': 'feFlood', 'FeFuncA': 'feFuncA', 'FeFuncB': 'feFuncB', 'FeFuncG': 'feFuncG', 'FeFuncR': 'feFuncR', 'FeGaussianBlur': 'feGaussianBlur', 'FeImage': 'feImage', 'FeMerge': 'feMerge', 'FeMergeNode': 'feMergeNode', 'FeMorphology': 'feMorphology', 'FeOffset': 'feOffset', 'FePointLight': 'fePointLight', 'FeSpecularLighting': 'feSpecularLighting', 'FeSpotLight': 'feSpotLight', 'FeTile': 'feTile', 'FeTurbulence': 'feTurbulence'}
-SVG_VOID = frozenset({'stop', 'set', 'image', 'use', 'feBlend', 'feColorMatrix', 'feComposite', 'feConvolveMatrix', 'feDisplacementMap', 'feDistantLight', 'feDropShadow', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpotLight', 'feTile', 'feTurbulence'})
-SVG_SELF_CLOSING = frozenset({'circle', 'ellipse', 'line', 'path', 'polygon', 'polyline', 'rect', 'animate', 'animateMotion', 'animateTransform'})
-ALL_SVG = ['Svg', 'G', 'Defs', 'Symbol', 'Use', 'Image', 'Circle', 'Ellipse', 'Line', 'Path', 'Polygon', 'Polyline', 'Rect', 'Text', 'Tspan', 'TextPath', 'ClipPath', 'Mask', 'Marker', 'Pattern', 'Filter', 'LinearGradient', 'RadialGradient', 'Stop', 'ForeignObject', 'Set', 'Animate', 'AnimateMotion', 'AnimateTransform', 'FeBlend', 'FeColorMatrix', 'FeComponentTransfer', 'FeComposite', 'FeConvolveMatrix', 'FeDiffuseLighting', 'FeDisplacementMap', 'FeDistantLight', 'FeDropShadow', 'FeFlood', 'FeFuncA', 'FeFuncB', 'FeFuncG', 'FeFuncR', 'FeGaussianBlur', 'FeImage', 'FeMerge', 'FeMergeNode', 'FeMorphology', 'FeOffset', 'FePointLight', 'FeSpecularLighting', 'FeSpotLight', 'FeTile', 'FeTurbulence']
+> 
+
+
+## core
+
 
 def attrmap(k):
     match k:
@@ -120,17 +111,24 @@ def setup_tags(ns=None):
         elif n in RAW_TAGS: mode = 'raw'
         else: mode = 'normal'
         ns[name] = mktag(n, mode)
+    return ns
 
 def setup_svg(ns=None):
-    "Create SVG tag constructors in the given namespace (or caller's globals)"
+    "Create SVG tag constructors; sub-tags are attrs of Svg"
     import inspect
     if ns is None: ns = inspect.currentframe().f_back.f_globals
+    is_dict = isinstance(ns, dict)
+    svg_tag = mktag('svg', 'normal', False)
     for name in ALL_SVG:
+        if name == 'Svg': continue
         tag_name = SVG_NAMES.get(name, name.lower())
         if tag_name in SVG_VOID: mode, sc = 'void', True
         elif tag_name in SVG_SELF_CLOSING: mode, sc = 'normal', True
         else: mode, sc = 'normal', False
-        ns[name] = mktag(tag_name, mode, sc)
+        setattr(svg_tag, name, mktag(tag_name, mode, sc))
+    if is_dict: ns['Svg'] = svg_tag
+    else: setattr(ns, 'Svg', svg_tag)
+    return ns
 
 def pretty(t, indent=2, indent_script=False, indent_style=True, _depth=0):
     "Pretty-print an HTML tag tree with indentation"

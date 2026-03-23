@@ -1,0 +1,7 @@
+# html-tags
+
+> 
+
+- [core](/core): attrmap, flatten, Tag, mktag, Fragment, validate, render_attrs, to_html, HTML, setup_tags, setup_svg, pretty, Safe, html_to_tag
+
+- [llms-full.txt](/llms-full.txt): Complete source code

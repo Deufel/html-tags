@@ -26,7 +26,6 @@ with app.setup:
     ALL_SVG = ['Svg', 'G', 'Defs', 'Symbol', 'Use', 'Image', 'Circle', 'Ellipse', 'Line', 'Path', 'Polygon', 'Polyline', 'Rect', 'Text', 'Tspan', 'TextPath', 'ClipPath', 'Mask', 'Marker', 'Pattern', 'Filter', 'LinearGradient', 'RadialGradient', 'Stop', 'ForeignObject', 'Set', 'Animate', 'AnimateMotion', 'AnimateTransform', 'FeBlend', 'FeColorMatrix', 'FeComponentTransfer', 'FeComposite', 'FeConvolveMatrix', 'FeDiffuseLighting', 'FeDisplacementMap', 'FeDistantLight', 'FeDropShadow', 'FeFlood', 'FeFuncA', 'FeFuncB', 'FeFuncG', 'FeFuncR', 'FeGaussianBlur', 'FeImage', 'FeMerge', 'FeMergeNode', 'FeMorphology', 'FeOffset', 'FePointLight', 'FeSpecularLighting', 'FeSpotLight', 'FeTile', 'FeTurbulence']
 
 
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -209,19 +208,38 @@ def setup_tags(ns=None):
         elif n in RAW_TAGS: mode = 'raw'
         else: mode = 'normal'
         ns[name] = mktag(n, mode)
+    return ns
 
 
 @app.function
 def setup_svg(ns=None):
-    "Create SVG tag constructors in the given namespace (or caller's globals)"
+    "Create SVG tag constructors; sub-tags are attrs of Svg"
     import inspect
     if ns is None: ns = inspect.currentframe().f_back.f_globals
+    is_dict = isinstance(ns, dict)
+    svg_tag = mktag('svg', 'normal', False)
     for name in ALL_SVG:
+        if name == 'Svg': continue
         tag_name = SVG_NAMES.get(name, name.lower())
         if tag_name in SVG_VOID: mode, sc = 'void', True
         elif tag_name in SVG_SELF_CLOSING: mode, sc = 'normal', True
         else: mode, sc = 'normal', False
-        ns[name] = mktag(tag_name, mode, sc)
+        setattr(svg_tag, name, mktag(tag_name, mode, sc))
+    if is_dict: ns['Svg'] = svg_tag
+    else: setattr(ns, 'Svg', svg_tag)
+    return ns
+
+
+@app.cell
+def _(Div, Svg):
+    # Confirm path does not colide (nice!)
+    setup_tags()
+    setup_svg()
+    print(to_html(Div(Svg(Svg.Circle(cx=50, cy=50, r=40), Svg.Path(d="M10 10")))))
+    from pathlib import Path
+    print(type(Path('.')))
+
+    return
 
 
 @app.cell
