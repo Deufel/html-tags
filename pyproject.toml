@@ -12,7 +12,7 @@ dependencies = []
 license = {text = "MIT"}  # or whatever license you use
 
 classifiers = [
-    "Development Status :: 2 - Beta",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Topic :: Text Processing :: Markup :: HTML",
