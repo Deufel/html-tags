@@ -2,7 +2,6 @@
 
 > 
 
-- [core](/core): setup_tags, mktag, Tag, attrmap, render_attrs, is_void, is_raw, is_root, to_html, Fragment, flatten, validate_raw, pretty, dunder_getattr
-- [svg](/svg): setup_svg
+- [core](/core): attrmap, flatten, Tag, mktag, Fragment, validate, render_attrs, to_html, HTML, setup_tags, setup_svg, pretty, Safe, html_to_tag
 
 - [llms-full.txt](/llms-full.txt): Complete source code

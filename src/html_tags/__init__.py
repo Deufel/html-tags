@@ -1,22 +1,20 @@
 """HTML/SVG generation for Python. Zero dependencies."""
-__version__ = '0.0.20'
+__version__ = '0.1.0'
 __author__ = 'Deufel'
-from .core import setup_tags, mktag, Tag, attrmap, render_attrs, is_void, is_raw, is_root, to_html, Fragment, flatten, validate_raw, pretty, __getattr__
-from .svg import setup_svg
+from .core import attrmap, flatten, Tag, mktag, Fragment, validate, render_attrs, to_html, HTML, setup_tags, setup_svg, pretty, Safe, html_to_tag
 __all__ = [
     "Fragment",
+    "HTML",
+    "Safe",
     "Tag",
-    "__getattr__",
     "attrmap",
     "flatten",
-    "is_raw",
-    "is_root",
-    "is_void",
+    "html_to_tag",
     "mktag",
     "pretty",
     "render_attrs",
     "setup_svg",
     "setup_tags",
     "to_html",
-    "validate_raw",
+    "validate",
 ]
