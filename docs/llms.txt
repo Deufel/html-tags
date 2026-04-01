@@ -1,7 +1,9 @@
 # html-tags
 
-> 
+> HTML/SVG generation for Python. Zero dependencies.
 
-- [core](/core): attrmap, flatten, Tag, mktag, Fragment, validate, render_attrs, to_html, HTML, setup_tags, setup_svg, pretty, Safe, html_to_tag
+- [tag](/tag): attrmap, flatten, Tag, Safe
+- [render](/render): render_attrs, to_html
+- [dev](/dev): pretty, html_to_tag, repr_html
 
 - [llms-full.txt](/llms-full.txt): Complete source code

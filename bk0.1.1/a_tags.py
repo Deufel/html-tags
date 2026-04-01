@@ -236,17 +236,6 @@ def _(Div, Svg):
     setup_tags()
     setup_svg()
     print(to_html(Div(Svg(Svg.Circle(cx=50, cy=50, r=40), Svg.Path(d="M10 10")))))
-    from pathlib import Path
-    print(type(Path('.')))
-
-    return
-
-
-@app.cell
-def _(Circle, Svg):
-    setup_svg()
-    print(HTML(Svg(Circle(cx=50, cy=50, r=40), width=100, height=100)))
-    HTML(Svg(Circle(cx=50, cy=50, r=40), width=100, height=100))
     return
 
 
