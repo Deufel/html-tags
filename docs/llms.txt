@@ -2,7 +2,7 @@
 
 > HTML/SVG generation for Python. Zero dependencies.
 
-- [tag](/tag): attrmap, flatten, Tag, Safe
+- [tag](/tag): normalize, attrmap, flatten, Tag, Safe, Fragment, mktag
 - [render](/render): render_attrs, to_html
 - [dev](/dev): pretty, html_to_tag, repr_html
 

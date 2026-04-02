@@ -13,7 +13,6 @@ with app.setup:
     from b_render import render_attrs, to_html
 
 
-
 @app.function
 def pretty(t, indent=2, _depth=0):
     """Render a Tag tree as indented HTML for debugging."""

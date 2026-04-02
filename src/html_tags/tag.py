@@ -11,9 +11,10 @@ _ATTR_MAP = {'cls': 'class', '_class': 'class', '_for': 'for', '_from': 'from', 
 
 """Tag tree: pure data, construction, and element constants."""
 
-def _normalize(name):
+def normalize(name):
     """Single source of truth for tag name casing."""
-    return SVG_NAMES_LOWER.get(name.lower(), name)
+    low = name.lower()
+    return SVG_NAMES_LOWER.get(low, low)
 
 def attrmap(k):
     """cls→class, _for→for, trailing_ strip, underscores→hyphens."""
@@ -51,3 +52,17 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
 class Safe(str):
     """Pre-escaped HTML string."""
     def __html__(self): return self
+
+def Fragment(*c, **kw):
+    """Tag with empty name — renders as bare children."""
+    children, attrs = _parse_args(c, kw)
+    return Tag('', children, attrs)
+
+def mktag(name):
+    """Create a Tag constructor for any element name."""
+    name = normalize(name)
+    def tag(*c, **kw):
+        children, attrs = _parse_args(c, kw)
+        return Tag(name, children, attrs)
+    tag.__name__ = name
+    return tag

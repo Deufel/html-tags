@@ -40,7 +40,6 @@ with app.setup:
                  '_from': 'from', '_in': 'in', '_is': 'is'}
 
 
-
 @app.cell
 def _():
     # ── pure functions ───────────────────────────────────────────────────
@@ -48,9 +47,10 @@ def _():
 
 
 @app.function
-def internal_normalize(name):
+def normalize(name):
     """Single source of truth for tag name casing."""
-    return SVG_NAMES_LOWER.get(name.lower(), name)
+    low = name.lower()
+    return SVG_NAMES_LOWER.get(low, low)
 
 
 @app.function
@@ -112,27 +112,26 @@ def _():
     return
 
 
+@app.function
+def Fragment(*c, **kw):
+    """Tag with empty name — renders as bare children."""
+    children, attrs = internal_parse_args(c, kw)
+    return Tag('', children, attrs)
+
+
+@app.function
+def mktag(name):
+    """Create a Tag constructor for any element name."""
+    name = normalize(name)
+    def tag(*c, **kw):
+        children, attrs = internal_parse_args(c, kw)
+        return Tag(name, children, attrs)
+    tag.__name__ = name
+    return tag
+
+
 @app.cell
-def _(parse_args):
-    def Fragment(*c, **kw):
-        """Tag with empty name — renders as bare children."""
-        children, attrs = parse_args(c, kw)
-        return Tag('', children, attrs)
-
-    return
-
-
-@app.cell
-def _(parse_args):
-    def mktag(name):
-        """Create a Tag constructor for any element name."""
-        name = internal_normalize(name)
-        def tag(*c, **kw):
-            children, attrs = parse_args(c, kw)
-            return Tag(name, children, attrs)
-        tag.__name__ = name
-        return tag
-
+def _():
     return
 
 
