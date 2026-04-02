@@ -1,7 +1,7 @@
 [project]
 name = "html-tags"
-version = "0.1.15"
-description = "HTML/SVG generation for Python. Zero dependencies."
+version = "0.1.16"
+description = "HTML/SVG generation for Python."
 readme = "README.md"
 authors = [
     { name = "Deufel", email = "MDeufel13@gmail.com" }
