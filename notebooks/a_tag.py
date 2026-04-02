@@ -99,6 +99,13 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
             children=self.children + children,
             attrs={**self.attrs, **attrs})
 
+    def __html__(self):
+        from .render import to_html # Marimo cycle hackery ugly but effective
+        return to_html(self)
+
+    def __str__(self):
+        return self.__html__()
+
 
 @app.class_definition
 class Safe(str):
@@ -132,6 +139,7 @@ def mktag(name):
 
 @app.cell
 def _():
+    # Rendering (now in same module Testing)
     return
 
 

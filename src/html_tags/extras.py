@@ -1,7 +1,7 @@
 from urllib.parse import quote
 from .tag import Tag, Safe, Fragment, mktag
 
-"""Convenience constructors for common dependencies and page head."""
+"""Convenience constructors for common dependencies"""
 
 # ── dependency scripts ───────────────────────────────────────────────
 
@@ -70,33 +70,4 @@ def Social(title, description='', url='', image='', site_name='',
     if description: tags.append(Tag('meta', (), {'name': 'twitter:description', 'content': description}))
     if image:       tags.append(Tag('meta', (), {'name': 'twitter:image', 'content': image}))
     if twitter_site: tags.append(Tag('meta', (), {'name': 'twitter:site', 'content': twitter_site}))
-    return Fragment(*tags)
-
-# ── page head ────────────────────────────────────────────────────────
-
-def Head(title='', description='', url='', image='',
-         favicon='', site_name='', twitter_card='summary_large_image',
-         twitter_site='', theme_color='', csp=None, datastar=False,
-         scoped_css=False, extra_head=None):
-    """Complete <head> contents as a Fragment.
-
-    Returns the inner contents — wrap in html(head(Head(...)), body(...))
-    """
-    tags = [
-        Tag('meta', (), {'charset': 'utf-8'}),
-        Tag('meta', (), {'name': 'viewport', 'content': 'width=device-width, initial-scale=1'}),
-    ]
-    if title:       tags.append(Tag('title', (title,), {}))
-    if favicon:     tags.append(Favicon(favicon))
-    if theme_color: tags.append(Tag('meta', (), {'name': 'theme-color', 'content': theme_color}))
-    if title or description or url or image:
-        tags.append(Social(
-            title=title, description=description, url=url, image=image,
-            site_name=site_name, twitter_card=twitter_card,
-            twitter_site=twitter_site))
-    if csp is True:  tags.append(CSP(datastar=datastar))
-    elif csp:        tags.append(csp)
-    if datastar:     tags.append(Datastar())
-    if scoped_css:   tags.append(ScopedCSS())
-    if extra_head:   tags.append(extra_head)
     return Fragment(*tags)

@@ -49,6 +49,13 @@ class Tag(namedtuple('Tag', 'tag children attrs', defaults=((), {}))):
             children=self.children + children,
             attrs={**self.attrs, **attrs})
 
+    def __html__(self):
+        from .render import to_html # Marimo cycle hackery ugly but effective
+        return to_html(self)
+
+    def __str__(self):
+        return self.__html__()
+
 class Safe(str):
     """Pre-escaped HTML string."""
     def __html__(self): return self

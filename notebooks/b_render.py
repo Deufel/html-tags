@@ -15,7 +15,6 @@ with app.setup:
     URL_ATTRS = frozenset('href src action formaction data poster codebase cite background'.split())
 
 
-
 @app.function
 def internal_is_void(tag): return tag in VOID or tag in SVG_VOID
 

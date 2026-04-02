@@ -1,16 +1,15 @@
-"""HTML/SVG generation for Python. Zero dependencies."""
-__version__ = '0.1.16'
+"""HTML/SVG generation for Python."""
+__version__ = '0.1.21'
 __author__ = 'Deufel'
 from .tag import normalize, attrmap, flatten, Tag, Safe, Fragment, mktag
 from .render import render_attrs, to_html
 from .dev import pretty, html_to_tag, repr_html
-from .extras import Datastar, ScopedCSS, Favicon, CSP, Social, Head
+from .extras import Datastar, ScopedCSS, Favicon, CSP, Social
 __all__ = [
     "CSP",
     "Datastar",
     "Favicon",
     "Fragment",
-    "Head",
     "Safe",
     "ScopedCSS",
     "Social",
