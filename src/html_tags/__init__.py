@@ -1,5 +1,5 @@
 """HTML/SVG generation for Python."""
-__version__ = '0.1.24'
+__version__ = '0.1.25'
 __author__ = 'Deufel'
 from .tag import normalize, attrmap, flatten, Tag, Safe, Fragment, mktag
 from .render import render_attrs, to_html

@@ -11,14 +11,14 @@ def Datastar(v='1.0.0-RC.8'):
         'type': 'module',
         'src': f'https://cdn.jsdelivr.net/gh/starfederation/datastar@{v}/bundles/datastar.js'})
 
-def MeCSS(v='v1.0.0'):
+def MeCSS(v='v1.0.1'):
     return Tag('script', (), {
         'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/me_css.js'
     })
 
-def Pointer(v='v1.0.0'):
+def Pointer(v='v1.0.1'):
     return Tag('script', (), {
-        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/btn_states.js'
+        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/pointer_events.js'
     })
 
 def ScopedCSS():
