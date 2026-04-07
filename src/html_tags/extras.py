@@ -11,10 +11,24 @@ def Datastar(v='1.0.0-RC.8'):
         'type': 'module',
         'src': f'https://cdn.jsdelivr.net/gh/starfederation/datastar@{v}/bundles/datastar.js'})
 
+def MeCSS(v='v1.0.0'):
+    return Tag('script', (), {
+        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/me_css.js'
+    })
+
+def Pointer(v='v1.0.0'):
+    return Tag('script', (), {
+        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/btn_states.js'
+    })
+
 def ScopedCSS():
-    """css-scope-inline script tag."""
+    """the original css-scope-inline script tag."""
     return Tag('script', (), {
         'src': 'https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js'})
+
+def FontImport(url="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"):
+    """helper for font link imports MUST be used in head (defaults to jet brains mono)"""
+    return Tag('link')(rel="stylesheet", href=url)
 
 # ── emoji favicon ────────────────────────────────────────────────────
 

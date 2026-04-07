@@ -23,7 +23,7 @@ def attrmap(k):
 def flatten(items):
     for o in items:
         if o is None or o is False: continue
-        if hasattr(o, 'tag'): yield o          # Tag-like, don't recurse into it
+        if hasattr(o, '__html__'): yield o       # This is HTML - like, don't recurse into it
         elif isinstance(o, (list, tuple, map, filter, types.GeneratorType)):
             yield from flatten(o)
         else: yield o
