@@ -1,8 +1,0 @@
-# html-tags
-
-> HTML/SVG generation for Python.
-
-- [html](/html): pretty, Fragment, mktag, html_to_tag, sse_patch, sse_signal, NS_Accessor
-- [html_tags](/html_tags): flat, parse, pretty, Fragment, html_to_tag, sse_patch, sse_signal
-
-- [llms-full.txt](/llms-full.txt): Complete source code
