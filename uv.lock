@@ -252,32 +252,28 @@ wheels = [
 
 [[package]]
 name = "html-tags"
-version = "0.1.25"
+version = "0.2.0"
 source = { editable = "." }
-dependencies = [
-    { name = "anthropic" },
-    { name = "pydantic-ai-slim" },
-]
 
 [package.dev-dependencies]
 dev = [
+    { name = "anthropic" },
     { name = "marimo" },
     { name = "marimo-dev" },
     { name = "mcp" },
+    { name = "pydantic-ai-slim" },
     { name = "pytest" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "anthropic", specifier = ">=0.94.0" },
-    { name = "pydantic-ai-slim", specifier = ">=1.80.0" },
-]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "anthropic", specifier = ">=0.94.0" },
     { name = "marimo", specifier = ">=0.21.1" },
     { name = "marimo-dev", specifier = ">=0.3.2" },
     { name = "mcp", specifier = ">=1.26.0" },
+    { name = "pydantic-ai-slim", specifier = ">=1.80.0" },
     { name = "pytest", specifier = ">=9.0.3" },
 ]
 

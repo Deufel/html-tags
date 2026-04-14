@@ -1,0 +1,7 @@
+# html-tags
+
+> HTML/SVG generation for Python.
+
+- [core](/core): Safe, unpack, render_attrs, render, tag, Tag, mk_tag, Fragment, sse_signal, sse_patch, html_to_tag, Datastar, MeCSS, Pointer, Favicon
+
+- [llms-full.txt](/llms-full.txt): Complete source code

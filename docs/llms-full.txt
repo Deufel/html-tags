@@ -1,18 +1,10 @@
-import types, json
-from html import escape
-from html.parser import HTMLParser
-from functools import partial
-from urllib.parse import quote
+# html-tags
 
-VOID = frozenset('area base br col embed hr img input link meta source track wbr'.split())
-RAW = frozenset('script style'.split())
-SVG_VOID = frozenset('circle ellipse line path polygon polyline rect stop set image use feBlend feColorMatrix feComposite feConvolveMatrix feDisplacementMap feDistantLight feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMergeNode feMorphology feOffset fePointLight feSpotLight feTile feTurbulence'.split())
-MATH_VOID = frozenset('mprescripts none'.split())
-NS_RULES = {'html': (VOID, False), 'svg': (SVG_VOID, True), 'math': (MATH_VOID, False)}
-NS_ATTRS = {'svg': 'xmlns="http://www.w3.org/2000/svg"', 'math': 'xmlns="http://www.w3.org/1998/Math/MathML"'}
-ATTR_MAP = {'cls': 'class', '_class': 'class', '_for': 'for', '_from': 'from', '_in': 'in', '_is': 'is'}
-DS_EVENT = 'datastar-patch-elements'
-DS_SIGNAL = 'datastar-merge-signals'
+> HTML/SVG generation for Python.
+
+
+## core
+
 
 class Safe(str):
     def __html__(self): return self
@@ -24,14 +16,6 @@ def unpack(items):
         elif isinstance(o, (list, tuple, types.GeneratorType)): out.extend(unpack(o))
         else: out.append(o)
     return tuple(out)
-
-def _preproc(c, kw):
-    ch, d = [], {}
-    for o in c:
-        if isinstance(o, dict): d.update(o)
-        else: ch.append(o)
-    d.update(kw)
-    return unpack(ch), d
 
 def render_attrs(d):
     out = []
@@ -61,23 +45,32 @@ def render(node, ns='html', depth=0, indent=2):
     inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
     return f'{pad}<{tag}{attr_str}>\n{inner}\n{pad}</{tag}>'
 
+def tag(tag, *c, **kw):
+    c, kw = internal_preproc(c, kw)
+    return Tag(tag, c, kw)
+
 class Tag:
     def __init__(self, tag, cs=(), attrs=None):
         self.tag, self.children, self.attrs = tag, cs, attrs or {}
     def __call__(self, *c, **kw):
-        c, kw = _preproc(c, kw)
+        c, kw = internal_preproc(c, kw)
         if c: self.children = self.children + c
         if kw: self.attrs = {**self.attrs, **kw}
         return self
     def __repr__(self): return f'{self.tag}({self.children}, {self.attrs})'
 
 def mk_tag(name):
+    """Create a Tag constructor for any element name."""
     tag_name = name.rstrip('_').replace('_', '-')
-    def _tag(*c, **kw):
-        c, kw = _preproc(c, kw)
+    def tag(*c, **kw):
+        c, kw = internal_preproc(c, kw)
         return Tag(tag_name, c, kw)
-    _tag.__name__ = tag_name
-    return _tag
+    tag.__name__ = tag_name
+    return tag
+
+def Fragment(*c, **kw):
+    c, kw = internal_preproc(c, kw)
+    return Tag('', c, kw)
 
 def sse_signal(data):
     return f"event: {DS_SIGNAL}\ndata: signals {json.dumps(data)}\n\n"
@@ -102,7 +95,7 @@ def html_to_tag(s):
             if data.strip(): stack[-1].append(data.strip())
     P().feed(s)
     res = stack[0]
-    return res[0] if len(res) == 1 else tuple(res)
+    return res[0] if len(res) == 1 else Fragment(*res)
 
 def Datastar(v='1.0.0-RC.8'):
     """Datastar client library script tag."""
@@ -120,26 +113,3 @@ def Pointer(v='v1.0.1'):
 def Favicon(emoji):
     s = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">{emoji}</text></svg>'
     return Tag('link', (), {'rel': 'icon', 'href': f'data:image/svg+xml,{quote(s, safe=":/@!,")}'})
-
-def heatmap(rows):
-    from datetime import date, timedelta
-    from html_tags import mk_tag, render
-    svg, rect = mk_tag('svg'), mk_tag('rect')
-    
-    today, start = date.today(), date.today() - timedelta(weeks=52)
-    by_date = {r['date']: r['cases'] for r in rows}
-    mx = max(by_date.values(), default=1) or 1
-    CELL, GAP, STEP = 11, 2, 13
-    cells = []
-    for week in range(52):
-        for dow in range(7):
-            d = start + timedelta(weeks=week, days=dow)
-            if d > today: continue
-            i = by_date.get(d.isoformat(), 0) / mx
-            cells.append(rect(x=str(week*STEP), y=str(dow*STEP), width=str(CELL), height=str(CELL), rx='2',
-                              fill=f'oklch({int(96-i*52)}% {0.04+i*0.16:.3f} 142)'))
-    
-    print(len(cells))  # should be ~364
-    result = svg({"viewBox": f"0 0 {52*STEP} {7*STEP}"}, width='100%', height=str(7*STEP), style='display:block')(*cells)
-    print(render(result)[:200])  # first 200 chars
-    return result
