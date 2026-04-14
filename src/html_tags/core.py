@@ -41,6 +41,16 @@ def render_attrs(d):
         elif v not in (False, None): out.append(f' {k}="{escape(str(v))}"')
     return ''.join(out)
 
+class Tag:
+    def __init__(self, tag, cs=(), attrs=None):
+        self.tag, self.children, self.attrs = tag, cs, attrs or {}
+    def __call__(self, *c, **kw):
+        c, kw = _preproc(c, kw)
+        if c: self.children = self.children + c
+        if kw: self.attrs = {**self.attrs, **kw}
+        return self
+    def __repr__(self): return f'{self.tag}({self.children}, {self.attrs})'
+
 def render(node, ns='html', depth=0, indent=2):
     if isinstance(node, Safe): return str(node)
     if not isinstance(node, Tag): return ' ' * (indent * depth) + escape(str(node))
@@ -61,15 +71,9 @@ def render(node, ns='html', depth=0, indent=2):
     inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
     return f'{pad}<{tag}{attr_str}>\n{inner}\n{pad}</{tag}>'
 
-class Tag:
-    def __init__(self, tag, cs=(), attrs=None):
-        self.tag, self.children, self.attrs = tag, cs, attrs or {}
-    def __call__(self, *c, **kw):
-        c, kw = _preproc(c, kw)
-        if c: self.children = self.children + c
-        if kw: self.attrs = {**self.attrs, **kw}
-        return self
-    def __repr__(self): return f'{self.tag}({self.children}, {self.attrs})'
+def html_doc(head, body, lang='en'):
+    h = Tag('html', (head, body), {'lang': lang})
+    return Safe(f'<!DOCTYPE html>\n{render(h)}')
 
 def mk_tag(name):
     tag_name = name.rstrip('_').replace('_', '-')
@@ -125,7 +129,7 @@ def heatmap(rows):
     from datetime import date, timedelta
     from html_tags import mk_tag, render
     svg, rect = mk_tag('svg'), mk_tag('rect')
-    
+
     today, start = date.today(), date.today() - timedelta(weeks=52)
     by_date = {r['date']: r['cases'] for r in rows}
     mx = max(by_date.values(), default=1) or 1
@@ -138,7 +142,7 @@ def heatmap(rows):
             i = by_date.get(d.isoformat(), 0) / mx
             cells.append(rect(x=str(week*STEP), y=str(dow*STEP), width=str(CELL), height=str(CELL), rx='2',
                               fill=f'oklch({int(96-i*52)}% {0.04+i*0.16:.3f} 142)'))
-    
+
     print(len(cells))  # should be ~364
     result = svg({"viewBox": f"0 0 {52*STEP} {7*STEP}"}, width='100%', height=str(7*STEP), style='display:block')(*cells)
     print(render(result)[:200])  # first 200 chars

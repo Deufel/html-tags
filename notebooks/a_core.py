@@ -26,7 +26,6 @@ with app.setup:
     DS_SIGNAL = 'datastar-merge-signals'
 
 
-
 @app.cell
 def _():
     import marimo as mo
@@ -82,6 +81,18 @@ def render_attrs(d):
     return ''.join(out)
 
 
+@app.class_definition
+class Tag:
+    def __init__(self, tag, cs=(), attrs=None):
+        self.tag, self.children, self.attrs = tag, cs, attrs or {}
+    def __call__(self, *c, **kw):
+        c, kw = internal_preproc(c, kw)
+        if c: self.children = self.children + c
+        if kw: self.attrs = {**self.attrs, **kw}
+        return self
+    def __repr__(self): return f'{self.tag}({self.children}, {self.attrs})'
+
+
 @app.function
 def render(node, ns='html', depth=0, indent=2):
     if isinstance(node, Safe): return str(node)
@@ -104,16 +115,18 @@ def render(node, ns='html', depth=0, indent=2):
     return f'{pad}<{tag}{attr_str}>\n{inner}\n{pad}</{tag}>'
 
 
-@app.class_definition
-class Tag:
-    def __init__(self, tag, cs=(), attrs=None):
-        self.tag, self.children, self.attrs = tag, cs, attrs or {}
-    def __call__(self, *c, **kw):
-        c, kw = internal_preproc(c, kw)
-        if c: self.children = self.children + c
-        if kw: self.attrs = {**self.attrs, **kw}
-        return self
-    def __repr__(self): return f'{self.tag}({self.children}, {self.attrs})'
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Html doc
+    """)
+    return
+
+
+@app.function
+def html_doc(head, body, lang='en'):
+    h = Tag('html', (head, body), {'lang': lang})
+    return Safe(f'<!DOCTYPE html>\n{render(h)}')
 
 
 @app.cell(hide_code=True)
@@ -256,7 +269,6 @@ def _(mo):
     result = svg(*cells, viewBox=f'0 0 {52*STEP} {7*STEP}', width='100%', height=str(7*STEP))
 
     mo.Html(render(result))
-
     return
 
 
@@ -265,7 +277,7 @@ def heatmap(rows):
     from datetime import date, timedelta
     from html_tags import mk_tag, render
     svg, rect = mk_tag('svg'), mk_tag('rect')
-    
+
     today, start = date.today(), date.today() - timedelta(weeks=52)
     by_date = {r['date']: r['cases'] for r in rows}
     mx = max(by_date.values(), default=1) or 1
@@ -278,7 +290,7 @@ def heatmap(rows):
             i = by_date.get(d.isoformat(), 0) / mx
             cells.append(rect(x=str(week*STEP), y=str(dow*STEP), width=str(CELL), height=str(CELL), rx='2',
                               fill=f'oklch({int(96-i*52)}% {0.04+i*0.16:.3f} 142)'))
-    
+
     print(len(cells))  # should be ~364
     result = svg({"viewBox": f"0 0 {52*STEP} {7*STEP}"}, width='100%', height=str(7*STEP), style='display:block')(*cells)
     print(render(result)[:200])  # first 200 chars

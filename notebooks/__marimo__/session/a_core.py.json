@@ -1,0 +1,406 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "0b4d1616d21c96a6445e4dfe3d3f6e5f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "99c4848d7d85aaa12cd2d2971445b411",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"core\">Core</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "04297032406bb50292e74c714add724f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "0de47cf019c55624cca825c3cdf3d760",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "4e3861d9af6692e733866cb2526d223a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "5d6936ff8685ce73eec11b578a03dadf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "a5f47424462dec835cd16c9fea7c043e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "dafd7cc70aa4b4e07acac43ee6ba9184",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "kwmi",
+      "code_hash": "5b117f3b5a1fcf13c9d7d2eb8f21e322",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"html-doc\">Html doc</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "giWW",
+      "code_hash": "7f5022b574c9adf8377843f330773eeb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "734980432013f371770f9bcecdee354a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"factory\">Factory</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "e6f5a2caa7d315338d2990e6dad8db2e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "b32c155187f1aec07038c6d5f0dbc124",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"sse-helpers\">SSE Helpers</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "194b653bbcb64a2ab9118c16d3869c14",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "a36563d6198c16b5d89244d9fdb0c126",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "2af30603687bccd64990393fbfe6c64e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"html-tag\">html -&gt; tag</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "09d1074cf65a700b5cccc7abdf73b50b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "0cc63792d6ff739657623f4748c1573b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"extras\">Extras</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "08c48a32843d9f4e6e98f1f883f057cb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "57046b5bacd908da726b63285d3e2082",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "11fd1e6efb63d6b43b92539081ab5c4c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "f8fa8918b5ea1259f51f46aa3f622d73",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "db4e6837acc9d7236ab74c5e8aa93076",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"exploratory-testing\">Exploratory Testing</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "038d7a16dac5cf2fe7b1e1215739ed2a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 676 91\" width=\"100%\" height=\"91\">\n  <rect x=\"0\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"0\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"0\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"0\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"0\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"0\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"0\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"13\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"13\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"13\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"13\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"13\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"13\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"13\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"26\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"26\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"26\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"26\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"26\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"26\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"26\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"39\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"39\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"39\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"39\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"39\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"39\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"39\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"52\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"52\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"52\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"52\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"52\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"52\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"52\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"65\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"65\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"65\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"65\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"65\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"65\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"65\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"78\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"78\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"78\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"78\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"78\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"78\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"78\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"91\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"91\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"91\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"91\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"91\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"91\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"91\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"104\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"104\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"104\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"104\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"104\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"104\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"104\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"117\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"117\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"117\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"117\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"117\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"117\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"117\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"130\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"130\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"130\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"130\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"130\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"130\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"130\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"143\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"143\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"143\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"143\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"143\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"143\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"143\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"156\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"156\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"156\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"156\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"156\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"156\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"156\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"169\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"169\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"169\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"169\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"169\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"169\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"169\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"182\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"182\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"182\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"182\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"182\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"182\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"182\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"195\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"195\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"195\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"195\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"195\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"195\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"195\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"208\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"208\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"208\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"208\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"208\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"208\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"208\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"221\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"221\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"221\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"221\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"221\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"221\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"221\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"234\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"234\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"234\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"234\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"234\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"234\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"234\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"247\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"247\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"247\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"247\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"247\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"247\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"247\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"260\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"260\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"260\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"260\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"260\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"260\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"260\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"273\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"273\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"273\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"273\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"273\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"273\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"273\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"286\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"286\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"286\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"286\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"286\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"286\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"286\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"299\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"299\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"299\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"299\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"299\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"299\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"299\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"312\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"312\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"312\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"312\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"312\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"312\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"312\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"325\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"325\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"325\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"325\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"325\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"325\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"325\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"338\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"338\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"338\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"338\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"338\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"338\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"338\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"351\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"351\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"351\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"351\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"351\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"351\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"351\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"364\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"364\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"364\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"364\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"364\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"364\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"364\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"377\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"377\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"377\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"377\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"377\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"377\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"377\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"390\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"390\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"390\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"390\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"390\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"390\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"390\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"403\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"403\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"403\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"403\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"403\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"403\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"403\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"416\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"416\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"416\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"416\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"416\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"416\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"416\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"429\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"429\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"429\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"429\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"429\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"429\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"429\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"442\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"442\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"442\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"442\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"442\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"442\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"442\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"455\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"455\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"455\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"455\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"455\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"455\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"455\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"468\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"468\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"468\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"468\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"468\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"468\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"468\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"481\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"481\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"481\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"481\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"481\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"481\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"481\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"494\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(80% 0.088 142)\" />\n  <rect x=\"494\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"494\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"494\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"494\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"494\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"494\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"507\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"507\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"507\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"507\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"507\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"507\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"507\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"520\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"520\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"520\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"520\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"520\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"520\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"520\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"533\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"533\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"533\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"533\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"533\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"533\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"533\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"546\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"546\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"546\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"546\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"546\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"546\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"546\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"559\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"559\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"559\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"559\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"559\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"559\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"559\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"572\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"572\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"572\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"572\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"572\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"572\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"572\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"585\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"585\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"585\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"585\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(64% 0.136 142)\" />\n  <rect x=\"585\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"585\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"585\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(88% 0.064 142)\" />\n  <rect x=\"598\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"598\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"598\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"598\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"598\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(49% 0.184 142)\" />\n  <rect x=\"598\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"598\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(72% 0.112 142)\" />\n  <rect x=\"611\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"611\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"611\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(57% 0.160 142)\" />\n  <rect x=\"611\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"611\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"611\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"611\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"624\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"624\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"624\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"624\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"624\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(90% 0.056 142)\" />\n  <rect x=\"624\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(93% 0.048 142)\" />\n  <rect x=\"624\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(83% 0.080 142)\" />\n  <rect x=\"637\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(70% 0.120 142)\" />\n  <rect x=\"637\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"637\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"637\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"637\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"637\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(46% 0.192 142)\" />\n  <rect x=\"637\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(96% 0.040 142)\" />\n  <rect x=\"650\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"650\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"650\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(59% 0.152 142)\" />\n  <rect x=\"650\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"650\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"650\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n  <rect x=\"650\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(67% 0.128 142)\" />\n  <rect x=\"663\" y=\"0\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(54% 0.168 142)\" />\n  <rect x=\"663\" y=\"13\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(62% 0.144 142)\" />\n  <rect x=\"663\" y=\"26\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(51% 0.176 142)\" />\n  <rect x=\"663\" y=\"39\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(44% 0.200 142)\" />\n  <rect x=\"663\" y=\"52\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(85% 0.072 142)\" />\n  <rect x=\"663\" y=\"65\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(75% 0.104 142)\" />\n  <rect x=\"663\" y=\"78\" width=\"11\" height=\"11\" rx=\"2\" fill=\"oklch(77% 0.096 142)\" />\n</svg>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "cb76b7b8b6d98c995d45c2a003d75cf1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "1bd0c3f230d855bbe8e52f07599d380f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\">\n  <mrow>\n    <mi>x</mi>\n    <mo>=</mo>\n    <msup>\n      <mn>2</mn>\n      <mn>3</mn>\n    </msup>\n  </mrow>\n</math>\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "aLJB",
+      "code_hash": "716b2fd77b4707ce094f2c5410cd5cf8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\">\n  <mrow>\n    <mi>x</mi>\n    <mo>=</mo>\n    <msup>\n      <mn>2</mn>\n      <mn>3</mn>\n    </msup>\n  </mrow>\n</math>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nHfw",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
