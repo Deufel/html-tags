@@ -4,8 +4,10 @@ __generated_with = "0.22.0"
 app = marimo.App()
 
 with app.setup:
+
     def __getattr__(name):
-        return mk_tag(name)
+        return mktag(name.rstrip('_').replace('_', '-'))
+
 
 
 

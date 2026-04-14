@@ -7,7 +7,10 @@ authors = [
     { name = "Deufel", email = "MDeufel13@gmail.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "anthropic>=0.94.0",
+    "pydantic-ai-slim>=1.80.0",
+]
 
 license = {text = "MIT"}  # or whatever license you use
 
@@ -29,6 +32,7 @@ dev = [
     "marimo>=0.21.1",
     "marimo-dev>=0.3.2",
     "mcp>=1.26.0",
+    "pytest>=9.0.3",
 ]
 
 [tool.marimo-dev]

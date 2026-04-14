@@ -1,0 +1,269 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "ad021b39e915695cce08260a1a87bc89",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "AvFS",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hker",
+      "code_hash": "04297032406bb50292e74c714add724f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "UonJ",
+      "code_hash": "0de47cf019c55624cca825c3cdf3d760",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZrWT",
+      "code_hash": "4e3861d9af6692e733866cb2526d223a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "HbEV",
+      "code_hash": "db941dbb9a475dc970794bb875a8d9f1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nmhx",
+      "code_hash": "5d6936ff8685ce73eec11b578a03dadf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "rBtA",
+      "code_hash": "902223e76f98439345fbf5686c85c301",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "KhOM",
+      "code_hash": "ac45203c3253e88db8c654d7c4a77597",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Cyzh",
+      "code_hash": "a5b2df20411d4bf8ea5ab4338c2d4921",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vtSZ",
+      "code_hash": "9d237f6b9f43d4e6b7a597b8a4b786fc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "EzSE",
+      "code_hash": "101f113121b240fd194e66f32d5cfb57",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZJAN",
+      "code_hash": "630f9295ae25ac39aa5d63efd34c6c6d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div class=\"card\" style=\"background:#fff;border-radius:12px;padding:1.25rem 1.5rem\"><span style=\"font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:20px;background:#FCEBEB;color:#A32D2D\">lapsing</span><span style=\"font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:20px;background:#E1F5EE;color:#0F6E56\">ok</span><p>Some content</p></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nYqy",
+      "code_hash": "194b653bbcb64a2ab9118c16d3869c14",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BZRd",
+      "code_hash": "892bfb83ea9296e14fe96aba048c3a3a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "fSgH",
+      "code_hash": "7755a380989b7799f1e0ded01722602d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "event: datastar-patch-elements\ndata: elements <div class=\"card\" style=\"background:#fff;border-radius:12px;padding:1.25rem 1.5rem\" id=\"main\">\ndata: elements   <span style=\"font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:20px;background:#FCEBEB;color:#A32D2D\">lapsing</span>\ndata: elements   <span style=\"font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:20px;background:#E1F5EE;color:#0F6E56\">ok</span>\ndata: elements   <p>Some content</p>\ndata: elements </div>\n\n\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "jWBb",
+      "code_hash": "bcb7e3bb047c831617979281e95a358f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='border-radius: 6px; overflow: hidden; background-color: var(--slate-1); display: inline-block; min-width: 0; max-width: 100%;'><div style='padding: 10px 12px 8px 12px; display: flex; align-items: center;'><span style='background-color: var(--green-3); color: var(--green-11);padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.75rem; font-weight: 600; margin-right: 8px; display: inline-block;'>function</span><span style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12);'>sse_patch</span></div><div style='height: 1px; background-color: var(--slate-3); margin: 0 12px 8px 12px;'></div><div style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12); margin: 0 12px 8px 12px;'><span>def sse_patch(tag, indent=2):</span></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "sOjx",
+      "code_hash": "84d02ea78d732f63e02e64850f12f8d2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lRcW",
+      "code_hash": "b0f1fe78a785bb27ada1a0d578b7aa37",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='border-radius: 6px; overflow: hidden; background-color: var(--slate-1); display: inline-block; min-width: 0; max-width: 100%;'><div style='padding: 10px 12px 8px 12px; display: flex; align-items: center;'><span style='background-color: var(--green-3); color: var(--green-11);padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.75rem; font-weight: 600; margin-right: 8px; display: inline-block;'>function</span><span style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12);'>html_to_tag</span></div><div style='height: 1px; background-color: var(--slate-3); margin: 0 12px 8px 12px;'></div><div style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12); margin: 0 12px 8px 12px;'><span>def html_to_tag(s):</span></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Twlr",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

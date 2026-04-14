@@ -1,31 +1,21 @@
 """HTML/SVG generation for Python."""
 __version__ = '0.1.25'
 __author__ = 'Deufel'
-from .tag import normalize, attrmap, flatten, Tag, Safe, Fragment, mktag
-from .render import render_attrs, to_html
-from .dev import pretty, html_to_tag, repr_html
-from .extras import Datastar, MeCSS, Pointer, ScopedCSS, FontImport, Favicon, CSP, Social
+from .html import pretty, Fragment, mktag, html_to_tag, sse_patch, sse_signal, NS_Accessor
+from .html_tags import flat, parse, pretty, Fragment, html_to_tag, sse_patch, sse_signal
 __all__ = [
-    "CSP",
-    "Datastar",
-    "Favicon",
-    "FontImport",
     "Fragment",
-    "MeCSS",
-    "Pointer",
-    "Safe",
-    "ScopedCSS",
-    "Social",
-    "Tag",
-    "attrmap",
-    "flatten",
+    "Fragment",
+    "NS_Accessor",
+    "flat",
+    "html_to_tag",
     "html_to_tag",
     "mktag",
-    "normalize",
+    "parse",
     "pretty",
-    "render_attrs",
-    "repr_html",
-    "to_html",
+    "pretty",
+    "sse_patch",
+    "sse_patch",
+    "sse_signal",
+    "sse_signal",
 ]
-def __getattr__(name):
-        return mktag(name.rstrip('_').replace('_', '-'))

@@ -1,10 +1,19 @@
-from html import escape
-from html.parser import HTMLParser
-from .tag import Tag, Safe, Fragment, normalize, VOID, RAW, SVG_VOID
-from .render import render_attrs, to_html
+import marimo
 
-"""Development tools: pretty printing, HTML parsing, notebook display."""
+__generated_with = "0.22.0"
+app = marimo.App(width="full")
 
+with app.setup:
+
+    """Development tools: pretty printing, HTML parsing, notebook display."""
+
+    from html import escape
+    from html.parser import HTMLParser
+    from a_tag import Tag, Safe, Fragment, normalize, VOID, RAW, SVG_VOID
+    from b_render import render_attrs, to_html
+
+
+@app.function
 def pretty(t, indent=2, _depth=0):
     """Render a Tag tree as indented HTML for debugging."""
     pad  = ' ' * (indent * _depth)
@@ -28,6 +37,8 @@ def pretty(t, indent=2, _depth=0):
     kids = '\n'.join(pretty(c, indent, _depth + 1) for c in t.children)
     return f'{pre}{pad}<{tag}{a}>\n{kids}\n{pad}</{tag}>'
 
+
+@app.function
 def html_to_tag(s):
     """Parse an HTML string into a Tag tree. Uses normalize() for SVG casing."""
     stack, root = [[]], []
@@ -52,6 +63,12 @@ def html_to_tag(s):
     res = stack[0]
     return res[0] if len(res) == 1 else Fragment(*res)
 
+
+@app.function
 def repr_html(t):
     """Return an HTML string suitable for notebook _repr_html_ display."""
     return to_html(t)
+
+
+if __name__ == "__main__":
+    app.run()

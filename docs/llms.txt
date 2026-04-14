@@ -2,9 +2,7 @@
 
 > HTML/SVG generation for Python.
 
-- [tag](/tag): normalize, attrmap, flatten, Tag, Safe, Fragment, mktag
-- [render](/render): render_attrs, to_html
-- [dev](/dev): pretty, html_to_tag, repr_html
-- [extras](/extras): Datastar, ScopedCSS, Favicon, CSP, Social, Head
+- [html](/html): pretty, Fragment, mktag, html_to_tag, sse_patch, sse_signal, NS_Accessor
+- [html_tags](/html_tags): flat, parse, pretty, Fragment, html_to_tag, sse_patch, sse_signal
 
 - [llms-full.txt](/llms-full.txt): Complete source code

@@ -1,19 +1,33 @@
-import re
-from html import escape
-from .tag import Tag, Safe, VOID, RAW, SVG_VOID, SVG_SC
+import marimo
 
-SAFE_ATTR = re.compile('^[a-zA-Z_][\\w\\-:.]*$')
-BAD_URL = re.compile('^(?:javascript:|vbscript:|data:(?!(?:text/html|text/plain|image/|application/json)))', re.I)
-URL_ATTRS = frozenset('href src action formaction data poster codebase cite background'.split())
+__generated_with = "0.22.0"
+app = marimo.App(width="full")
 
-"""Render Tag trees to HTML strings."""
+with app.setup:
+    """Render Tag trees to HTML strings."""
 
-def _is_void(tag): return tag in VOID or tag in SVG_VOID
+    import re
+    from html import escape
+    from a_tag import Tag, Safe, VOID, RAW, SVG_VOID, SVG_SC
 
-def _is_raw(tag):  return tag in RAW
+    SAFE_ATTR = re.compile(r'^[a-zA-Z_][\w\-:.]*$')
+    BAD_URL   = re.compile(r'^(?:javascript:|vbscript:|data:(?!(?:text/html|text/plain|image/|application/json)))', re.I)
+    URL_ATTRS = frozenset('href src action formaction data poster codebase cite background'.split())
 
-def _is_sc(tag):   return tag in SVG_SC or tag in SVG_VOID
 
+@app.function
+def internal_is_void(tag): return tag in VOID or tag in SVG_VOID
+
+
+@app.function
+def internal_is_raw(tag):  return tag in RAW
+
+
+@app.function
+def internal_is_sc(tag):   return tag in SVG_SC or tag in SVG_VOID
+
+
+@app.function
 def render_attrs(d):
     """Render an attrs dict to an HTML attribute string (with leading spaces)."""
     parts = []
@@ -26,16 +40,18 @@ def render_attrs(d):
             parts.append(f' {k}="{v2}"')
     return ''.join(parts)
 
+
+@app.function
 def to_html(t):
     """Render a Tag tree to an HTML string."""
     if hasattr(t, '__html__') and not isinstance(t, Tag): return t.__html__()
     if not isinstance(t, Tag): return escape(str(t).replace('\x00', ''))
     a = render_attrs(t.attrs) if t.attrs else ''
     tag = t.tag
-    if _is_void(tag):
+    if internal_is_void(tag):
         if t.children: raise ValueError(f'<{tag}> is void, no children')
-        return f'<{tag}{a} />' if _is_sc(tag) else f'<{tag}{a}>'
-    if _is_raw(tag):
+        return f'<{tag}{a} />' if internal_is_sc(tag) else f'<{tag}{a}>'
+    if internal_is_raw(tag):
         inner = ''.join(str(c).replace('\x00', '') for c in t.children)
         return f'<{tag}{a}>{inner}</{tag}>'
     inner = ''.join(to_html(c) for c in t.children)
@@ -43,3 +59,12 @@ def to_html(t):
     if not inner and _is_sc(tag): return f'<{tag}{a} />'
     if tag == 'html': return f'<!DOCTYPE html>\n<{tag}{a}>{inner}</{tag}>'
     return f'<{tag}{a}>{inner}</{tag}>'
+
+
+@app.cell
+def _():
+    return
+
+
+if __name__ == "__main__":
+    app.run()

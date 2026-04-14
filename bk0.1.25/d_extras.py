@@ -1,8 +1,16 @@
-from urllib.parse import quote
-from .tag import Tag, Safe, Fragment, mktag
+import marimo
 
-"""Convenience constructors for common dependencies"""
+__generated_with = "0.22.0"
+app = marimo.App(width="medium")
 
+with app.setup:
+    """Convenience constructors for common dependencies"""
+
+    from urllib.parse import quote
+    from a_tag import Tag, Safe, Fragment, mktag
+
+
+@app.function
 # ── dependency scripts ───────────────────────────────────────────────
 
 def Datastar(v='1.0.0-RC.8'):
@@ -11,25 +19,35 @@ def Datastar(v='1.0.0-RC.8'):
         'type': 'module',
         'src': f'https://cdn.jsdelivr.net/gh/starfederation/datastar@{v}/bundles/datastar.js'})
 
+
+@app.function
 def MeCSS(v='v1.0.1'):
     return Tag('script', (), {
         'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/me_css.js'
     })
 
+
+@app.function
 def Pointer(v='v1.0.1'):
     return Tag('script', (), {
         'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/pointer_events.js'
     })
 
+
+@app.function
 def ScopedCSS():
     """the original css-scope-inline script tag."""
     return Tag('script', (), {
         'src': 'https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js'})
 
+
+@app.function
 def FontImport(url="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"):
     """helper for font link imports MUST be used in head (defaults to jet brains mono)"""
     return Tag('link')(rel="stylesheet", href=url)
 
+
+@app.function
 # ── emoji favicon ────────────────────────────────────────────────────
 
 def Favicon(emoji):
@@ -39,6 +57,8 @@ def Favicon(emoji):
     uri = 'data:image/svg+xml,' + quote(svg, safe=':/@!,')
     return Tag('link', (), {'rel': 'icon', 'href': uri})
 
+
+@app.function
 # ── content security policy ──────────────────────────────────────────
 
 def CSP(default_src="'self'",
@@ -66,6 +86,8 @@ def CSP(default_src="'self'",
     policy = '; '.join(parts)
     return Tag('meta', (), {'http-equiv': 'Content-Security-Policy', 'content': policy})
 
+
+@app.function
 # ── social / open graph meta ─────────────────────────────────────────
 
 def Social(title, description='', url='', image='', site_name='',
@@ -85,3 +107,17 @@ def Social(title, description='', url='', image='', site_name='',
     if image:       tags.append(Tag('meta', (), {'name': 'twitter:image', 'content': image}))
     if twitter_site: tags.append(Tag('meta', (), {'name': 'twitter:site', 'content': twitter_site}))
     return Fragment(*tags)
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+if __name__ == "__main__":
+    app.run()
