@@ -1,0 +1,48 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "f90f361ea58868e9b827b4490e998372",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "zNpJ",
+      "code_hash": "8e6d5f4784a2bf276e6eaea4f41f6d30",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Wrote /home/mike/code/pub/html-tags/demos/mind_map.html\nFile size: 10515 chars\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "DilS",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

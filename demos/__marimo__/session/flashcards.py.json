@@ -1,0 +1,61 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "7f0f0bee64a0a7de4a6d405965a003d5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "UIRZ",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "hIbY",
+      "code_hash": "f2388dcc140733abeaa0fa3fc8966b77",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Wrote /home/mike/code/pub/html-tags/demos/flashcards.html\nFile size: 17616 chars\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "NfhA",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

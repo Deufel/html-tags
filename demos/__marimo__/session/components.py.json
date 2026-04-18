@@ -1,0 +1,158 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "45ff43b69719345c60d919d64fab14a4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "b7edee3259e9343376b27c808af93b6b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RFii",
+      "code_hash": "dbdbe78b3c5c011b6c3f0dc950e0aa47",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 60 60\" width=\"60\" height=\"60\">\n  <circle cx=\"30.0\" cy=\"30.0\" r=\"26.0\" fill=\"none\" stroke=\"#eee\" stroke-width=\"4\" />\n  <circle cx=\"30.0\" cy=\"30.0\" r=\"26.0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4\" stroke-dasharray=\"163.36267999999998\" stroke-dashoffset=\"98.01760799999998\" transform=\"rotate(-90 30.0 30.0)\" />\n</svg>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "WsUq",
+      "code_hash": "b03ae3d1a8c7e35b57a5d71425064bb8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "IQZz",
+      "code_hash": "35e6d4899ea498e2d4a2d45c6cc72237",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 60 60&quot; width=&quot;60&quot; height=&quot;60&quot;&gt;\\n  &lt;circle cx=&quot;30.0&quot; cy=&quot;30.0&quot; r=&quot;26.0&quot; fill=&quot;none&quot; stroke=&quot;#eee&quot; stroke-width=&quot;4&quot; /&gt;\\n  &lt;circle cx=&quot;30.0&quot; cy=&quot;30.0&quot; r=&quot;26.0&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;4&quot; stroke-dasharray=&quot;163.36267999999998&quot; stroke-dashoffset=&quot;98.01760799999998&quot; transform=&quot;rotate(-90 30.0 30.0)&quot; /&gt;\\n&lt;/svg&gt;&#x27;</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "gdYJ",
+      "code_hash": "e1c463b37b100076662653cdb33097db",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "VDDE",
+      "code_hash": "ae39d95aeda910c804d8d499dd53f03a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div class=\"card surface\">\n  <div class=\"card-header\">Title</div>\n  <div class=\"card-body\">this is a card</div>\n  <div class=\"card-footer\">footer</div>\n</div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aGce",
+      "code_hash": "5e4182df583fce50f0efcc9664ac714d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZrrY",
+      "code_hash": "b17f4343fabf42549d34ee1f25a6a5c4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style=\"width:40px; height:40px; border-radius:50%; display:grid; place-items:center; background:#ddd;\">M</div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xeVu",
+      "code_hash": "ad2e61e8f38a49164195a1a582617dff",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "XIWo",
+      "code_hash": "8843dd0dfe881a0e266c90cbbc9bff02",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div class=\"disclosure\">\n  <button data-on:click=\"$demo = !$demo\">\n    more information...\n     \n    <span data-text=\"$demo ? &#x27;\u25be&#x27; : &#x27;\u25b8&#x27;\">\n\n    </span>\n  </button>\n  <div data-show=\"$demo\">this is a lot more information then you thought </div>\n</div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "LOHt",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

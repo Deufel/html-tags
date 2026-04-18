@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "e31c0d105b18e3d3046d1dadcb6f020e",
+      "code_hash": "8128f95dacb750f537d25802bd76af2d",
       "outputs": [
         {
           "type": "data",
@@ -85,7 +85,7 @@
     },
     {
       "id": "PKri",
-      "code_hash": "43cb39f1966aef73ce99e60bb0d42b74",
+      "code_hash": "5a55de1c3b613761021b73d81872b547",
       "outputs": [
         {
           "type": "data",
@@ -97,8 +97,8 @@
       "console": []
     },
     {
-      "id": "Xref",
-      "code_hash": "3bd8f336f959f9aa434c933e71b7e3ac",
+      "id": "jqLy",
+      "code_hash": "10ef959545919898cbb16eb74874e1e0",
       "outputs": [
         {
           "type": "data",
@@ -111,7 +111,7 @@
     },
     {
       "id": "SFPL",
-      "code_hash": "f3d5b8fb458164e9c24b4d7f4a5846dd",
+      "code_hash": "96eff0c6923b4aab75b92e332cde5d88",
       "outputs": [
         {
           "type": "data",
@@ -137,7 +137,7 @@
     },
     {
       "id": "RGSE",
-      "code_hash": "3f9dedd5db879d648ac473601415afad",
+      "code_hash": "55a2e13adda58a6bf083c04336606b47",
       "outputs": [
         {
           "type": "data",
@@ -163,7 +163,7 @@
     },
     {
       "id": "emfo",
-      "code_hash": "e60e9ef86e3e711a9ce4b308598ce1ec",
+      "code_hash": "5ea07ae2743c1127b3e3290e9908dad0",
       "outputs": [
         {
           "type": "data",
@@ -176,7 +176,7 @@
     },
     {
       "id": "Hstk",
-      "code_hash": "66cfd131c1ebfb5fc6a4619765731fdd",
+      "code_hash": "af309cbff129350d55548ef14abfdfc5",
       "outputs": [
         {
           "type": "data",
@@ -189,7 +189,7 @@
     },
     {
       "id": "nWHF",
-      "code_hash": "84200fed62e61e834b42b16adcb608af",
+      "code_hash": "4b4686b88c443916a74e329ecdee39e4",
       "outputs": [
         {
           "type": "data",
@@ -215,7 +215,20 @@
     },
     {
       "id": "ZHCJ",
-      "code_hash": "961e0f7183e53d0d9f5a429ea66c3113",
+      "code_hash": "da93cb6f3b9f899f311888a95f51d108",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qwGB",
+      "code_hash": "50d5866d84660e5725ee9da4ccbb9e0d",
       "outputs": [
         {
           "type": "data",
@@ -241,7 +254,7 @@
     },
     {
       "id": "qnkX",
-      "code_hash": "98cde0094403622d9f9e36b12ed449ac",
+      "code_hash": "8ec9e947732c845da4d49f3efae4cfb2",
       "outputs": [
         {
           "type": "data",
@@ -267,7 +280,7 @@
     },
     {
       "id": "Vxnm",
-      "code_hash": "bada7250ce8b3d3aea8d7f9574ae94f6",
+      "code_hash": "7b0f3e1b981c337561f98ed5445cefcb",
       "outputs": [
         {
           "type": "data",
@@ -280,7 +293,7 @@
     },
     {
       "id": "DnEU",
-      "code_hash": "a4c8073ad03f634f7fa158664e00c5b2",
+      "code_hash": "e5c7cf6f6d68118d7cff5958dc649d65",
       "outputs": [
         {
           "type": "data",
@@ -293,7 +306,33 @@
     },
     {
       "id": "ulZA",
-      "code_hash": "718584da9831525a6ae55632854daabd",
+      "code_hash": "44a33818b95520323e30334e599fcd77",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xuwL",
+      "code_hash": "6c6bc9772cd2e1f7abf7f4dc589c174b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "kIQw",
+      "code_hash": "17e25d45087e0346465e9ada3ed4daa0",
       "outputs": [
         {
           "type": "data",
@@ -306,7 +345,7 @@
     },
     {
       "id": "ecfG",
-      "code_hash": "11a75fd7dce1b53df2a2ab624060114d",
+      "code_hash": "831c96211c2cd90ea73dc7e2bb6a040c",
       "outputs": [
         {
           "type": "data",
@@ -319,12 +358,12 @@
     },
     {
       "id": "Pvdt",
-      "code_hash": "fc8b837a65394c9c07f1f6f67778f665",
+      "code_hash": "d1bdb71ca11bf473543f12d3f80f342c",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"scratchpad\">Scratchpad</h1></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"components\">Components</h2></span>"
           }
         }
       ],
@@ -332,7 +371,7 @@
     },
     {
       "id": "ZBYS",
-      "code_hash": "f86582781e662e77feaa85748086ab9e",
+      "code_hash": "c2933335afbd3456625fe5ae098a010a",
       "outputs": [
         {
           "type": "data",
@@ -345,6 +384,52 @@
     },
     {
       "id": "aLJB",
+      "code_hash": "14ab0ffa04c25598fdb6dc88520112e7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "<body class=\"surface\">\n  <header id=\"header\">im the header</header>\n  <main id=\"main\" class=\"surface\">main</main>\n  <aside id=\"aside\">\n    <div>\n      im the aside\n      what am i\n    </div>\n  </aside>\n</body>\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "nHfw",
+      "code_hash": "fc8b837a65394c9c07f1f6f67778f665",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"scratchpad\">Scratchpad</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xXTn",
+      "code_hash": "f86582781e662e77feaa85748086ab9e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "AjVT",
       "code_hash": "858c6fdcd5f1db2540be6240507e74ff",
       "outputs": [
         {
@@ -357,7 +442,7 @@
       "console": []
     },
     {
-      "id": "nHfw",
+      "id": "pHFh",
       "code_hash": "8f4b9dfdffe9283d6a292bbce187a6e4",
       "outputs": [
         {
@@ -370,7 +455,60 @@
       "console": []
     },
     {
-      "id": "xXTn",
+      "id": "NCOB",
+      "code_hash": "15a4c4778ceb5844a8f78b26c4a6ccee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "<div>\n  <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" width=\"200\">\n    <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"steelblue\" />\n    <foreignObject x=\"20\" y=\"20\" width=\"60\" height=\"60\">\n      <div>\n        <p>\n          -&gt; \n          <input type=\"text\" placeholder=\"type here\">\n        </p>\n        <br>\n        <strong>bold text</strong>\n      </div>\n    </foreignObject>\n  </svg>\n</div>\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "aqbW",
+      "code_hash": "0a3c255884398da19b078df2845f0810",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div>\n  <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" width=\"200\">\n    <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"steelblue\" />\n    <foreignObject x=\"20\" y=\"20\" width=\"60\" height=\"60\">\n      <div>\n        <p>\n          -&gt; \n          <input type=\"text\" placeholder=\"type here\">\n        </p>\n        <br>\n        <strong>bold text</strong>\n      </div>\n    </foreignObject>\n  </svg>\n</div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TRpd",
+      "code_hash": "5e8051b5145154453067a0f4bfa97593",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mrow>\n    <msup>\n      <mi>a</mi>\n      <mn>2</mn>\n    </msup>\n    <mo>+</mo>\n    <msup>\n      <mi>b</mi>\n      <mn>2</mn>\n    </msup>\n    <mo>=</mo>\n    <msup>\n      <mi>c</mi>\n      <mn>2</mn>\n    </msup>\n  </mrow>\n</math>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n  <mrow>\n    <msup>\n      <mi>a</mi>\n      <mn>2</mn>\n    </msup>\n    <mo>+</mo>\n    <msup>\n      <mi>b</mi>\n      <mn>2</mn>\n    </msup>\n    <mo>=</mo>\n    <msup>\n      <mi>c</mi>\n      <mn>2</mn>\n    </msup>\n  </mrow>\n</math>\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "TXez",
       "code_hash": "e39819e71ec74309e39d405a4ca30deb",
       "outputs": [
         {
@@ -390,7 +528,7 @@
       ]
     },
     {
-      "id": "AjVT",
+      "id": "dNNg",
       "code_hash": "f59ede4a408c5f6cc782429879cf67a2",
       "outputs": [
         {
@@ -403,7 +541,7 @@
       "console": []
     },
     {
-      "id": "pHFh",
+      "id": "yCnT",
       "code_hash": "f0e759918cad0f724b959fe305fc7a10",
       "outputs": [
         {
@@ -416,7 +554,7 @@
       "console": []
     },
     {
-      "id": "NCOB",
+      "id": "wlCL",
       "code_hash": "89836f5cd3ffc8047684bfacfbef08fa",
       "outputs": [
         {
@@ -436,7 +574,7 @@
       ]
     },
     {
-      "id": "aqbW",
+      "id": "kqZH",
       "code_hash": null,
       "outputs": [
         {

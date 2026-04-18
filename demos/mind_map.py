@@ -1,0 +1,391 @@
+import marimo
+
+__generated_with = "0.22.0"
+app = marimo.App()
+
+
+@app.cell
+def _():
+    """Outline-driven mindmap demo.
+
+    User types an indented outline in a textarea. The outline is parsed into a
+    tree on the client, laid out horizontally (depth → x, sibling index → y),
+    and edges are drawn as smooth C1-continuous Catmull-Rom curves converted
+    to cubic Béziers.
+
+    Shows off:
+    - html_tags: single DSL for HTML + SVG + foreignObject
+    - Datastar: signal-driven reactivity without a build step
+    - foreignObject: real <textarea> embedded in SVG coordinate space
+    - Catmull-Rom → Bézier: smooth curves through all points, /6 factor
+    """
+    import sys; sys.path.insert(0, '/home/claude')
+    import json
+    import html_tags as h
+
+    # ── Initial outline (hardcoded demo content) ────────────────────────────
+    INITIAL_OUTLINE = """Closures
+      Definition
+        Function + captured environment
+        Not just the code — the backpack too
+      Where they appear
+        Decorators
+        Event handlers
+        Partial application
+        Your html_tags library
+      Common gotcha
+        Loop variable capture
+        Bind with default arg"""
+
+    # ── Inline JS for tree parsing, layout, and curve drawing ───────────────
+    # Kept in one script block; no external dependencies.
+    MINDMAP_JS = r"""
+    // ── Catmull-Rom → cubic Bézier (the /6 formula, C1-continuous) ─────────
+    // For segment p1→p2 in a polyline [p0,p1,p2,p3]:
+    //   cp1 = p1 + (p2 - p0) / 6
+    //   cp2 = p2 - (p3 - p1) / 6
+    // Phantom endpoints (duplicate first and last) turn a closed formula into
+    // an open-curve one, so the spline terminates cleanly at the endpoints.
+    function catmullRomPath(points) {
+      if (points.length < 2) return '';
+      const pts = [points[0], ...points, points[points.length - 1]];  // phantoms
+      const d = [`M ${points[0].x} ${points[0].y}`];
+      for (let i = 1; i < pts.length - 2; i++) {
+        const p0 = pts[i-1], p1 = pts[i], p2 = pts[i+1], p3 = pts[i+2];
+        const cp1x = p1.x + (p2.x - p0.x) / 6;
+        const cp1y = p1.y + (p2.y - p0.y) / 6;
+        const cp2x = p2.x - (p3.x - p1.x) / 6;
+        const cp2y = p2.y - (p3.y - p1.y) / 6;
+        d.push(`C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`);
+      }
+      return d.join(' ');
+    }
+
+    // ── Parse an indented outline into a tree ──────────────────────────────
+    // Two-space indentation per level. Returns a root node with .children.
+    function parseOutline(text) {
+      const root = { text: '(root)', depth: -1, children: [] };
+      const stack = [root];
+      for (const raw of text.split('\n')) {
+        if (!raw.trim()) continue;
+        const indent = raw.match(/^ */)[0].length;
+        const depth = Math.floor(indent / 2);
+        const node = { text: raw.trim(), depth, children: [] };
+        while (stack.length > 1 && stack[stack.length - 1].depth >= depth) stack.pop();
+        stack[stack.length - 1].children.push(node);
+        stack.push(node);
+      }
+      return root;
+    }
+
+    // ── Layout: depth → x, sibling position → y ────────────────────────────
+    // y for each node is the midpoint of its subtree's y-range, so parents
+    // sit centered between their first and last descendant. Nodes without
+    // children get stacked at fixed spacing.
+    const COL_W = 180;      // horizontal distance between depth levels
+    const ROW_H = 38;       // vertical spacing between leaves
+    const PAD_X = 40;       // left margin
+    const PAD_Y = 30;       // top margin
+
+    function layout(root) {
+      const leaves = [];
+      (function collect(n) {
+        if (n.children.length === 0) leaves.push(n);
+        else n.children.forEach(collect);
+      })(root);
+      leaves.forEach((n, i) => { n.y = PAD_Y + i * ROW_H; });
+
+      (function assignY(n) {
+        if (n.children.length === 0) return n.y;
+        const ys = n.children.map(assignY);
+        n.y = (Math.min(...ys) + Math.max(...ys)) / 2;
+        return n.y;
+      })(root);
+
+      (function assignX(n, depth) {
+        n.x = PAD_X + depth * COL_W;
+        n.children.forEach(c => assignX(c, depth + 1));
+      })(root, 0);
+
+      return { root, leaves };
+    }
+
+    // ── Enumerate nodes + branches (one path per root-to-leaf route) ───────
+    // Each branch is a list of nodes from a top-level child down to a leaf.
+    // We draw ONE continuous Catmull-Rom spline per branch, threading through
+    // every node's horizontal center. Branches that share a prefix (e.g. two
+    // leaves under the same parent) will overlap through that prefix — this
+    // is intentional: the nodes are rendered on top as opaque pills, hiding
+    // the shared segments, and the divergence point naturally coincides
+    // with the parent node where the branches split.
+    function flatten(root) {
+      const nodes = [];
+      const branches = [];
+
+      (function collectNodes(n, isRoot) {
+        if (!isRoot) nodes.push(n);
+        for (const c of n.children) collectNodes(c, false);
+      })(root, true);
+
+      // Walk root-to-leaf, accumulating the chain of nodes for each branch.
+      (function walkBranches(n, chain, isRoot) {
+        const nextChain = isRoot ? chain : [...chain, n];
+        if (!isRoot && n.children.length === 0) {
+          branches.push(nextChain);                 // leaf → emit a branch
+        }
+        for (const c of n.children) walkBranches(c, nextChain, false);
+      })(root, [], true);
+
+      return { nodes, branches };
+    }
+
+    // Build the list of Catmull-Rom control points for a branch.
+    // For each node in the chain we add:
+    //   [entry-guide, left-edge, center, right-edge, exit-guide]
+    // with the entry/exit guides positioned at the MIDPOINT of the horizontal
+    // gap to the adjacent node (not a fixed distance), so the path never
+    // backtracks in x. Guides share y with their node, which forces horizontal
+    // tangents at every pill anchor — the curve emerges from under each pill
+    // flowing horizontally.
+    function branchPoints(chain) {
+      const HALF = 70;            // half of pill width
+      const pts = [];
+      for (let i = 0; i < chain.length; i++) {
+        const n = chain[i];
+        const isFirst = (i === 0);
+        const isLast  = (i === chain.length - 1);
+
+        if (!isFirst) {
+          // Entry guide sits at midpoint of the gap from previous node's
+          // right edge to this node's left edge.
+          const prev = chain[i - 1];
+          const gapMid = (prev.x + 140 + n.x) / 2;
+          pts.push({ x: gapMid, y: n.y });        // entry guide
+          pts.push({ x: n.x,    y: n.y });        // left edge
+        }
+        pts.push({ x: n.x + HALF, y: n.y });      // center
+        if (!isLast) {
+          pts.push({ x: n.x + 140, y: n.y });     // right edge
+          const next = chain[i + 1];
+          const gapMid = (n.x + 140 + next.x) / 2;
+          pts.push({ x: gapMid, y: n.y });        // exit guide
+        }
+      }
+      return pts;
+    }
+
+    // ── Render ─────────────────────────────────────────────────────────────
+    function renderMindmap() {
+      const text = document.getElementById('outline-input').value;
+      const root = parseOutline(text);
+      layout(root);
+      const { nodes, branches } = flatten(root);
+
+      // Compute SVG bounds from the actual laid-out content.
+      // Each node pill is 140px wide, so it extends from n.x to n.x+140.
+      // Add 20px of quiet space past the rightmost pill.
+      const maxX = Math.max(...nodes.map(n => n.x + 140), 400) + 20;
+      const maxY = Math.max(...nodes.map(n => n.y + 28), 200);
+
+      const svg = document.getElementById('mindmap-svg');
+      svg.setAttribute('viewBox', `0 0 ${maxX + 40} ${maxY + 30}`);
+      svg.innerHTML = '';
+
+      // Draw one continuous spline per branch (under the pills).
+      // Shared prefixes between branches overlap — the pills render on top
+      // and hide those segments, so the visual reads as "the line threads
+      // through each chip."
+      for (const chain of branches) {
+        const pts = branchPoints(chain);
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', catmullRomPath(pts));
+        p.setAttribute('fill', 'none');
+        p.setAttribute('stroke', '#b8b5a8');
+        p.setAttribute('stroke-width', '1.5');
+        p.setAttribute('stroke-linecap', 'round');
+        p.setAttribute('stroke-opacity', '0.7');
+        svg.appendChild(p);
+      }
+
+      // Nodes: each is a foreignObject with a real HTML pill inside
+      for (const n of nodes) {
+        const fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        fo.setAttribute('x', n.x);
+        fo.setAttribute('y', n.y - 14);
+        fo.setAttribute('width', 140);
+        fo.setAttribute('height', 32);
+        const div = document.createElement('div');
+        div.className = 'node-pill';
+        div.textContent = n.text;
+        div.title = n.text;
+        fo.appendChild(div);
+        svg.appendChild(fo);
+      }
+    }
+
+    // Debounced update on input
+    let renderTimer = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('outline-input');
+      input.addEventListener('input', () => {
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(renderMindmap, 60);
+      });
+      renderMindmap();
+    });
+    """
+
+    # ── Page styling ────────────────────────────────────────────────────────
+    CSS = """
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      background: #fafaf7;
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      color: #1a1a1a;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    h1 {
+      grid-column: 1 / -1;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0 0 0.25rem;
+    }
+    .sub {
+      grid-column: 1 / -1;
+      color: #666;
+      font-size: 0.875rem;
+      margin: 0 0 1rem;
+    }
+    .panel {
+      background: white;
+      border: 1px solid #e5e2da;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .panel-label {
+      font-size: 0.7rem;
+      color: #888;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    #outline-input {
+      width: 100%;
+      height: 340px;
+      border: none;
+      outline: none;
+      font: 13px/1.5 ui-monospace, 'SF Mono', Menlo, monospace;
+      resize: vertical;
+      background: transparent;
+      color: #1a1a1a;
+      tab-size: 2;
+    }
+    .canvas {
+      background: white;
+      border: 1px solid #e5e2da;
+      border-radius: 10px;
+      padding: 0.5rem;
+      overflow: auto;
+      min-height: 400px;
+    }
+    #mindmap-svg { display: block; width: 100%; height: auto; }
+    /* The HTML pill that lives inside each foreignObject */
+    .node-pill {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 0.3rem 0.6rem;
+      background: #fdfdfb;
+      border: 1px solid #d8d4c8;
+      border-radius: 16px;
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .hint {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+    .hint code {
+      background: #f0ede5;
+      padding: 0 0.25rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    """
+
+    # ── Build the page ──────────────────────────────────────────────────────
+    page = h.html_doc(
+        h.head(
+            h.meta(charset="utf-8"),
+            h.title("Outline → Mindmap"),
+            h.Favicon("🌳"),
+            h.Datastar(),
+            h.style(h.Safe(CSS)),
+        ),
+        h.body(
+            h.div({"class": "container"})(
+                h.h1("Outline → Mindmap"),
+                h.p({"class": "sub"},
+                    "Type an indented outline on the left. The mindmap on the right "
+                    "updates live, with branches drawn as smooth Catmull-Rom curves."),
+                h.div({"class": "panel"})(
+                    h.div({"class": "panel-label"}, "Outline"),
+                    h.textarea(
+                        {"id": "outline-input", "spellcheck": "false"},
+                        INITIAL_OUTLINE,
+                    ),
+                    h.div({"class": "hint"},
+                        "Two spaces = one level deeper. Edit freely."),
+                ),
+                h.div({"class": "canvas"})(
+                    h.svg(
+                        {"id": "mindmap-svg"},
+                    ),
+                ),
+            ),
+            h.script(h.Safe(MINDMAP_JS)),
+        ),
+    )
+
+    return (page,)
+
+
+@app.cell
+def _(page):
+    from pathlib import Path
+
+    # Resolves to the same directory as the notebook file
+    output_path = Path(__file__).parent / "mind_map.html"
+
+    with open(output_path, 'w') as f:
+        f.write(str(page))
+
+    print(f"Wrote {output_path}")
+    print(f"File size: {len(str(page))} chars")
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+if __name__ == "__main__":
+    app.run()
