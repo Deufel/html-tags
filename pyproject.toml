@@ -1,7 +1,7 @@
 [project]
 name = "html-tags"
-version = "0.3.0"
-description = "HTML/SVG generation for Python. functional rewrite with closures"
+version = "0.3.1"
+description = "HTML/SVG generation via python functions."
 readme = "README.md"
 authors = [
     { name = "Deufel", email = "MDeufel13@gmail.com" }
@@ -45,7 +45,7 @@ build-backend = "uv_build"
 nbs = "notebooks"                            # default
 out = "src"                                  # default
 docs = "docs"                                # default
-skip_prefixes = ["XX_", "test_"]             # default
+skip_prefixes = ["XX_", "test_", "test"]   
 
 [tool.marimo-dev.renames]
 internal_ = "_"                              # internal_foo → _foo (private)

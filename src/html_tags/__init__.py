@@ -1,5 +1,5 @@
-"""HTML/SVG generation for Python. functional rewrite with closures"""
-__version__ = '0.3.0'
+"""HTML/SVG generation via python functions."""
+__version__ = '0.3.1'
 __author__ = 'Deufel'
 from .template import Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Favicon
 __all__ = [

@@ -1,6 +1,6 @@
 # html-tags
 
-> HTML/SVG generation for Python. functional rewrite with closures
+> HTML/SVG generation via python functions.
 
 - [template](/template): Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Favicon
 

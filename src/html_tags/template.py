@@ -34,12 +34,21 @@ def unpack(items):
     return tuple(out)
 
 def _preproc(c, kw):
-    """Separate positional children from dict-style attr overrides."""
+    """Separate positional children from attrs.
+    
+    Rule: dict keys are emitted verbatim. Kwarg keys are Pythonified
+    (ATTR_MAP lookup, strip trailing _, _ → -). This is the single
+    predictable transformation rule for the whole library.
+    """
     ch, d = [], {}
     for o in c:
-        if isinstance(o, dict): d.update(o)
-        else:                   ch.append(o)
-    d.update(kw)
+        if isinstance(o, dict):
+            d.update(o)                    # raw, no transform
+        else:
+            ch.append(o)
+    for k, v in kw.items():                # kwargs: pythonify now
+        k = ATTR_MAP.get(k, k.rstrip('_').replace('_', '-'))
+        d[k] = v
     return unpack(ch), d
 
 def is_tag(x):
@@ -68,10 +77,13 @@ def tag(name, children=(), attrs=None):
     return extend
 
 def render_attrs(d):
-    """Render an attribute dict to an HTML attribute string."""
+    """Render an attribute dict to an HTML attribute string.
+    
+    Keys are emitted verbatim. All transformation happens upstream
+    in _preproc when kwargs enter the system.
+    """
     out = []
     for k, v in d.items():
-        k = ATTR_MAP.get(k, k.rstrip('_').replace('_', '-'))
         if v is True:
             out.append(f' {k}')
         elif v not in (False, None):

@@ -1,6 +1,6 @@
 # html-tags
 
-> HTML/SVG generation for Python. functional rewrite with closures
+> HTML/SVG generation via python functions.
 
 
 ## template
@@ -48,10 +48,13 @@ def tag(name, children=(), attrs=None):
     return extend
 
 def render_attrs(d):
-    """Render an attribute dict to an HTML attribute string."""
+    """Render an attribute dict to an HTML attribute string.
+    
+    Keys are emitted verbatim. All transformation happens upstream
+    in _preproc when kwargs enter the system.
+    """
     out = []
     for k, v in d.items():
-        k = ATTR_MAP.get(k, k.rstrip('_').replace('_', '-'))
         if v is True:
             out.append(f' {k}')
         elif v not in (False, None):
