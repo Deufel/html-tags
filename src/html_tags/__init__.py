@@ -1,22 +1,20 @@
-"""HTML/SVG generation for Python."""
-__version__ = '0.2.3'
+"""HTML/SVG generation for Python. functional rewrite with closures"""
+__version__ = '0.3.0'
 __author__ = 'Deufel'
-from .core import Safe, unpack, render_attrs, Tag, render, html_doc, mk_tag, sse_signal, sse_patch, html_to_tag, Datastar, MeCSS, Pointer, Favicon, heatmap
+from .template import Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Favicon
 __all__ = [
     "Datastar",
     "Favicon",
     "MeCSS",
     "Pointer",
     "Safe",
-    "Tag",
-    "heatmap",
     "html_doc",
     "html_to_tag",
+    "is_tag",
     "mk_tag",
     "render",
     "render_attrs",
-    "sse_patch",
-    "sse_signal",
+    "tag",
     "unpack",
 ]
 def __getattr__(name):

@@ -1,7 +1,7 @@
 [project]
 name = "html-tags"
-version = "0.2.3"
-description = "HTML/SVG generation for Python."
+version = "0.3.0"
+description = "HTML/SVG generation for Python. functional rewrite with closures"
 readme = "README.md"
 authors = [
     { name = "Deufel", email = "MDeufel13@gmail.com" }
@@ -36,10 +36,18 @@ dev = [
     "pytest>=9.0.3",
 ]
 
-[tool.marimo-dev]
-  renames = {dunder_ = "__", internal_ = "_"}
-
 
 [build-system]
 requires = ["uv_build>=0.11,<0.12.0"]
 build-backend = "uv_build"
+
+[tool.marimo-dev]
+nbs = "notebooks"                            # default
+out = "src"                                  # default
+docs = "docs"                                # default
+skip_prefixes = ["XX_", "test_"]             # default
+
+[tool.marimo-dev.renames]
+internal_ = "_"                              # internal_foo → _foo (private)
+dunder_   = "__"                             # dunder_init  → __init__
+

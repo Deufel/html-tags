@@ -1,10 +1,21 @@
-# html-tags
+import types
+from html import escape
+from html.parser import HTMLParser
+from urllib.parse import quote
 
-> HTML/SVG generation for Python. functional rewrite with closures
+VOID = frozenset('area base br col embed hr img input link meta source track wbr'.split())
+RAW = frozenset('script style'.split())
+SVG_VOID = frozenset('circle ellipse line path polygon polyline rect stop set image use feBlend feColorMatrix feComposite feConvolveMatrix feDisplacementMap feDistantLight feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMergeNode feMorphology feOffset fePointLight feSpotLight feTile feTurbulence'.split())
+MATH_VOID = frozenset('mprescripts none'.split())
+NS_RULES = {'html': (VOID, False), 'svg': (SVG_VOID, True), 'math': (MATH_VOID, False)}
+NS_ATTRS = {'svg': 'xmlns="http://www.w3.org/2000/svg"', 'math': 'xmlns="http://www.w3.org/1998/Math/MathML"'}
+ATTR_MAP = {'cls': 'class', '_class': 'class', '_for': 'for', '_from': 'from', '_in': 'in', '_is': 'is'}
 
+"""HTML/SVG tag construction and rendering — pure-functional, closure-based.
 
-## template
-
+    A tag is a closure capturing (name, children, attrs) and callable to produce
+    a new closure with additional children/attrs. No mutation anywhere.
+    """
 
 class Safe(str):
     """A string that is already HTML-safe and will not be escaped on render."""
@@ -22,6 +33,15 @@ def unpack(items):
             out.append(o)
     return tuple(out)
 
+def _preproc(c, kw):
+    """Separate positional children from dict-style attr overrides."""
+    ch, d = [], {}
+    for o in c:
+        if isinstance(o, dict): d.update(o)
+        else:                   ch.append(o)
+    d.update(kw)
+    return unpack(ch), d
+
 def is_tag(x):
     """Duck-type check: a tag is any callable with our marker attribute."""
     return getattr(x, '_is_tag', False)
@@ -36,7 +56,7 @@ def tag(name, children=(), attrs=None):
     attrs = attrs or {}
 
     def extend(*c, **kw):
-        nc, nd = internal_preproc(c, kw)
+        nc, nd = _preproc(c, kw)
         return tag(name, children + nc, {**attrs, **nd})
 
     extend.tag      = name
@@ -106,7 +126,7 @@ def mk_tag(name):
     """
     clean = name.rstrip('_').replace('_', '-')
     def ctor(*c, **kw):
-        c, kw = internal_preproc(c, kw)
+        c, kw = _preproc(c, kw)
         return tag(clean, c, kw)
     ctor.__name__ = clean
     return ctor
