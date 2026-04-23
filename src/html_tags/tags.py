@@ -1,103 +1,30 @@
-import marimo
+import types
+from html import escape
+from html.parser import HTMLParser
+from urllib.parse import quote
 
-__generated_with = "0.22.0"
-app = marimo.App()
+VOID = frozenset('area base br col embed hr img input link meta source track wbr'.split())
+RAW = frozenset('script style'.split())
+SVG_VOID = frozenset('circle ellipse line path polygon polyline rect stop set image use feBlend feColorMatrix feComposite feConvolveMatrix feDisplacementMap feDistantLight feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMergeNode feMorphology feOffset fePointLight feSpotLight feTile feTurbulence'.split())
+MATH_VOID = frozenset('mprescripts none'.split())
+NS_RULES = {'html': (VOID, False), 'svg': (SVG_VOID, True), 'math': (MATH_VOID, False)}
+NS_ATTRS = {'svg': 'xmlns="http://www.w3.org/2000/svg"', 'math': 'xmlns="http://www.w3.org/1998/Math/MathML"'}
+ATTR_MAP = {'cls': 'class', '_class': 'class', '_for': 'for', '_from': 'from', '_in': 'in', '_is': 'is'}
 
-with app.setup:
-    """HTML/SVG/MathML tag construction and rendering.
+"""HTML/SVG/MathML tag construction and rendering.
 
     A tag is a closure capturing (name, children, attrs) and callable to produce
     a new closure with extended children/attrs. No mutation. Parameter docs use
     the fastcore docments convention: one-line description above the signature,
-    per-parameter details as inline comments next to each parameter.
+    per-parameter details as inline comments next to each parameter. 
+
+    note: closure group is not really pythonic or idomatic but it is fully functional which is why it was implemented here.
     """
-    import types
-    from html import escape
-    from html.parser import HTMLParser
-    from urllib.parse import quote
 
-    # HTML void elements — no closing tag, not self-closing in HTML syntax.
-    VOID = frozenset('area base br col embed hr img input link meta source track wbr'.split())
-
-    # HTML raw-text elements — content is not escaped on render.
-    RAW  = frozenset('script style'.split())
-
-    # SVG void elements — self-closing per XML rules.
-    SVG_VOID = frozenset(
-        'circle ellipse line path polygon polyline rect stop set image use '
-        'feBlend feColorMatrix feComposite feConvolveMatrix feDisplacementMap '
-        'feDistantLight feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR '
-        'feGaussianBlur feImage feMergeNode feMorphology feOffset fePointLight '
-        'feSpotLight feTile feTurbulence'.split()
-    )
-
-    # MathML void elements.
-    MATH_VOID = frozenset('mprescripts none'.split())
-
-    # Per-namespace rule table: (void set, self-closes in XML style).
-    NS_RULES = {
-        'html': (VOID,      False),
-        'svg':  (SVG_VOID,  True),
-        'math': (MATH_VOID, False),
-    }
-
-    # Automatically-injected xmlns attributes per namespace root.
-    NS_ATTRS = {
-        'svg':  'xmlns="http://www.w3.org/2000/svg"',
-        'math': 'xmlns="http://www.w3.org/1998/Math/MathML"',
-    }
-
-    # Python-safe kwarg names → their real HTML attribute names.
-    # Applied only to kwargs; dict keys pass through verbatim.
-    ATTR_MAP = {
-        'cls':    'class',
-        '_class': 'class',
-        '_for':   'for',
-        '_from':  'from',
-        '_in':    'in',
-        '_is':    'is',
-    }
-
-
-@app.cell
-def _():
-    import marimo as mo
-
-    return (mo,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    # html-tags
-    templating submodule (with svg integration)
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Safe strings
-    """)
-    return
-
-
-@app.class_definition
 class Safe(str):
     """A string that is already HTML-safe and will not be escaped on render."""
     def __html__(self): return self
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Internal helpers
-    """)
-    return
-
-
-@app.function
 def unpack(
     items, # iterable of values to flatten
 ):         # tuple with nested lists/tuples/generators expanded, `None` and `False` dropped
@@ -112,14 +39,12 @@ def unpack(
             out.append(o)
     return tuple(out)
 
-
-@app.function
-def internal_preproc(
+def _preproc(
     c,  # positional args (may include dicts treated as attrs)
     kw, # keyword args to be pythonified into attrs
 ):      # tuple of (flattened_children, final_attrs_dict)
     """Split positional children from attrs and normalize kwarg keys.
- 
+
     Dict keys pass through verbatim. Kwarg keys are Pythonified — looked up in
     `ATTR_MAP`, trailing underscore stripped, internal underscores become
     hyphens. Transformation happens here so attrs dicts are always in their
@@ -134,41 +59,29 @@ def internal_preproc(
         d[k] = v
     return unpack(ch), d
 
-
-@app.function
 def is_tag(
     x, # any value
 ):     # True if `x` is a tag closure (has the `_is_tag` marker)
     "Duck-type check for tag closures."
     return getattr(x, '_is_tag', False)
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Tag: a closure that captures (name, children, attrs)
-    """)
-    return
-
-
-@app.function
 def tag(
     name,         # element name, e.g. 'div', 'svg', 'my-component'
     children=(),  # tuple of child tags/strings/Safe values
     attrs=None,   # attribute dict (keys emitted verbatim)
 ):                # tag closure — callable, carries `.tag`/`.children`/`.attrs`/`_is_tag`
     """Construct a tag closure.
- 
+
     The returned object is callable: calling it with more children/attrs
     returns a *new* tag closure. Nothing mutates. The closure exposes
     `.tag`, `.children`, `.attrs` for introspection and rendering.
     """
     attrs = attrs or {}
- 
+
     def extend(*c, **kw):
-        nc, nd = internal_preproc(c, kw)
+        nc, nd = _preproc(c, kw)
         return tag(name, children + nc, {**attrs, **nd})
- 
+
     extend.tag      = name
     extend.children = children
     extend.attrs    = attrs
@@ -177,21 +90,11 @@ def tag(
     extend.__repr__ = lambda: f'{name}({children!r}, {attrs!r})'
     return extend
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Rendering
-    """)
-    return
-
-
-@app.function
 def render_attrs(
     d, # attribute dict (keys already in final HTML form)
 ):     # serialized attribute string, leading space included per attr
     """Serialize an attribute dict to an HTML attribute string.
- 
+
     Values: `True` renders a bare attr name, `False`/`None` omits, everything
     else is str-escaped and quoted. Keys are emitted verbatim — all transforms
     happen upstream in `_preproc`.
@@ -204,8 +107,6 @@ def render_attrs(
             out.append(f' {k}="{escape(str(v))}"')
     return ''.join(out)
 
-
-@app.function
 def render(
     node,        # tag closure, Safe string, or any value (stringified + escaped)
     ns='html',   # current namespace: 'html', 'svg', or 'math'
@@ -213,7 +114,7 @@ def render(
     indent=2,    # spaces per indent level
 ):               # rendered HTML string
     """Recursively render a tag tree to HTML.
- 
+
     Namespace switches automatically at `<svg>`, `<math>`, and back to HTML
     inside `<foreignObject>`. Void elements follow per-namespace rules (HTML
     voids render without closing, SVG voids self-close XML-style).
@@ -222,33 +123,31 @@ def render(
         return str(node)
     if not is_tag(node):
         return ' ' * (indent * depth) + escape(str(node))
- 
+
     name, children, a = node.tag, node.children, node.attrs
- 
+
     new_ns = ns
     if   name == 'svg':           new_ns = 'svg'
     elif name == 'math':          new_ns = 'math'
     elif name == 'foreignObject': new_ns = 'html'
- 
+
     voids, self_close = NS_RULES[new_ns]
     attr_str = render_attrs(a)
     if name in NS_ATTRS:
         attr_str = f' {NS_ATTRS[name]}' + attr_str
- 
+
     pad = ' ' * (indent * depth)
- 
+
     if name in voids:
         return f'{pad}<{name}{attr_str} />' if self_close else f'{pad}<{name}{attr_str}>'
     if name in RAW:
         return f'{pad}<{name}{attr_str}>{"".join(str(c) for c in children)}</{name}>'
     if len(children) == 1 and not is_tag(children[0]) and not isinstance(children[0], Safe):
         return f'{pad}<{name}{attr_str}>{escape(str(children[0]))}</{name}>'
- 
+
     inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
     return f'{pad}<{name}{attr_str}>\n{inner}\n{pad}</{name}>'
 
-
-@app.function
 def html_doc(
     head,      # a <head> tag (or any tag/string placed in head position)
     body,      # a <body> tag (or any tag/string placed in body position)
@@ -258,39 +157,27 @@ def html_doc(
     h = tag('html', (head, body), {'lang': lang})
     return Safe(f'<!DOCTYPE html>\n{render(h)}')
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Tag factory
-    """)
-    return
-
-
-@app.function
 def mk_tag(
     name, # element name, underscores → hyphens, trailing `_` stripped
 ):        # a constructor `ctor(*children, **attrs)` that returns a tag closure
     """Return a constructor for the given element name.
- 
+
     `mk_tag('data_list')` gives `<data-list>`; `mk_tag('input_')` gives
     `<input>` (useful for Python-reserved names). The module also exposes
     a `__getattr__` so `from html_tags import any_name` auto-calls this.
     """
     clean = name.rstrip('_').replace('_', '-')
     def ctor(*c, **kw):
-        c, kw = internal_preproc(c, kw)
+        c, kw = _preproc(c, kw)
         return tag(clean, c, kw)
     ctor.__name__ = clean
     return ctor
 
-
-@app.function
-def dunder_getattr(
+def __getattr__(
     name, # any attribute name not already defined in the module
 ):        # a tag constructor for that name
     """Module-level fallback: `from html_tags import div, my_thing` works for any name.
- 
+
     Dunder names (`__foo__`) raise `AttributeError` so Python's internals
     (pickle probes, IDE introspection, etc.) don't get hijacked into tags.
     """
@@ -298,27 +185,17 @@ def dunder_getattr(
         raise AttributeError(name)
     return mk_tag(name)
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## HTML → tag parser
-    """)
-    return
-
-
-@app.function
 def html_to_tag(
     s, # HTML source string
 ):     # a single tag (if one top-level element) or tuple of tags
     """Parse an HTML string into a tag tree.
- 
+
     Attributes with no value (`<input required>`) become `True` in the attrs
     dict. Whitespace-only text nodes are dropped. Self-closing / void elements
     in either HTML or SVG sets are handled.
     """
     stack, root = [[]], []
- 
+
     class P(HTMLParser):
         def handle_starttag(self, t, a):
             d = {k: (v if v is not None else True) for k, v in a}
@@ -327,31 +204,21 @@ def html_to_tag(
             else:
                 stack.append([])
                 root.append((t, d))
- 
+
         def handle_endtag(self, t):
             if t in VOID | SVG_VOID:
                 return
             children, (name, d) = tuple(stack.pop()), root.pop()
             stack[-1].append(tag(name, children, d))
- 
+
         def handle_data(self, data):
             if data.strip():
                 stack[-1].append(data.strip())
- 
+
     P().feed(s)
     res = stack[0]
     return res[0] if len(res) == 1 else tuple(res)
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## CDN / utility tags
-    """)
-    return
-
-
-@app.function
 def Datastar(
     v='latest', # version tag, `'latest'` for main branch, or e.g. `'1.0.0-beta.11'`
 ):             # `<script type="module">` tag loading the Datastar bundle
@@ -362,8 +229,6 @@ def Datastar(
         'src':  f'https://cdn.jsdelivr.net/gh/starfederation/datastar@{ref}/bundles/datastar.js',
     })
 
-
-@app.function
 def MeCSS(
     v='latest', # toolbox release tag
 ):              # `<script>` tag loading `me_css.js`
@@ -372,8 +237,6 @@ def MeCSS(
         'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/me_css.js',
     })
 
-
-@app.function
 def Pointer(
     v='latest', # toolbox release tag
 ):              # `<script>` tag loading `pointer_events.js`
@@ -382,8 +245,6 @@ def Pointer(
         'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/pointer_events.js',
     })
 
-
-@app.function
 def Highlight(
     v='latest', # toolbox release tag
 ):              # `<script type="module">` tag loading `highlight.js`
@@ -393,8 +254,6 @@ def Highlight(
         'src':  f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/highlight.js',
     })
 
-
-@app.function
 def Color_type_css(
     v='latest', # toolbox release tag
 ):              # `<link rel="stylesheet">` tag
@@ -404,8 +263,6 @@ def Color_type_css(
         'href': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/css/style.css',
     })
 
-
-@app.function
 def Favicon(
     emoji, # a single-character emoji or short text to embed as the favicon
 ):         # `<link rel="icon">` tag with an inline SVG data URI
@@ -417,16 +274,6 @@ def Favicon(
         'href': f'data:image/svg+xml,{quote(s, safe=":/@!,")}',
     })
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Components
-    """)
-    return
-
-
-@app.function
 def Layout(main,
            *, 
            header=None, 
@@ -448,143 +295,16 @@ def Layout(main,
         footer and _footer(id="footer")(footer),
     )
 
+def value_to_height(value, max_val=100, max_height=200, min_height=4):
+    """
+    Map a data value to a pixel height for an SVG bar.
 
-@app.cell
-def _(div):
-    print(Layout(
-        "main",
-        header="im the header",
-        aside=div(["im the aside","what am i"])
-    ).__html__())
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    # Scratchpad
-    """)
-    return
-
-
-@app.cell
-def _():
-    div, p, span, section, article, h1, ul, li = [
-        mk_tag(n) for n in 'div p span section article h1 ul li'.split()
-    ]
-    return article, div, li, p, ul
-
-
-@app.cell
-def _(div):
-    _ = div("this is a test")
-    render(_)
-    return
-
-
-@app.cell
-def _(mo):
-    svg = mk_tag('svg')
-    circle = mk_tag('circle')
-    s = svg(circle(cx="50", cy="50", r="40"), viewBox="0 0 100 100")
-    s.__html__()
-    mo.Html(s.__html__())
-    return circle, svg
-
-
-@app.cell
-def _(circle, div, p, svg):
-    from html_tags import foreignObject, input_, br, strong
-
-    doc = div(
-        svg(
-            circle(cx="50", cy="50", r="40", fill="steelblue"),
-            foreignObject(
-                div(
-                    p("-> ", input_(type="text", placeholder="type here")),
-                    br(),
-                    strong("bold text"),
-                ),
-                x="20", y="20", width="60", height="60",
-            ),
-            viewBox="0 0 100 100", width="200",
-        ),
-    )
-    print(render(doc))
-    return (doc,)
-
-
-@app.cell
-def _(doc, mo):
-    mo.Html(render(doc))
-    return
-
-
-@app.cell
-def _(mo):
-    from html_tags import math, mrow, msup, mi, mn, mo_ 
-
-    # a² + b² = c²
-    eq = math(mrow(
-        msup(mi("a"), mn("2")), mo_("+"),
-        msup(mi("b"), mn("2")), mo_("="),
-        msup(mi("c"), mn("2")),
-    ))
-    print(render(eq))
-
-    mo.Html(render(eq))
-    return
-
-
-@app.cell
-def _():
-    def render_tree(node_data):
-        if isinstance(node_data, str):
-            return node_data
-        children = tuple(render_tree(c) for c in node_data.get('children', []))
-        return mk_tag(node_data['type'])(*children, **node_data.get('attrs', {}))
-
-    data = {
-        'type': 'article', 'attrs': {'cls': 'post'},
-        'children': [
-            {'type': 'h1', 'children': ['Post Title']},
-            {'type': 'div', 'attrs': {'cls': 'body'}, 'children': [
-                {'type': 'p', 'children': ['First paragraph with ',
-                    {'type': 'span', 'attrs': {'cls': 'em'}, 'children': ['emphasis']},
-                    ' in it.']},
-                {'type': 'ul', 'children': [
-                    {'type': 'li', 'children': [f'Item {i}']} for i in range(3)
-                ]},
-            ]},
-        ],
-    }
-    result = render_tree(data)
-    print(result.__html__())
-    return
-
-
-@app.cell
-def _(article, mo, p):
-    mo.Html(render(article("test", cls="red")(p("this"))))
-    return
-
-
-@app.cell
-def _():
-    colors = ["red", "blue", "yellow", "green"]
-    return (colors,)
-
-
-@app.cell
-def _(colors, li, ul):
-    print(render(ul([li(c) for c in colors])))
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-if __name__ == "__main__":
-    app.run()
+    value:      the raw data value
+    max_val:    the maximum value in the dataset (used for scaling)
+    max_height: the tallest a bar can be, in pixels
+    min_height: floor so zero-ish values still show a sliver
+    """
+    if max_val == 0:
+        return min_height
+    scaled = (value / max_val) * max_height
+    return max(scaled, min_height)
