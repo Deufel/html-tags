@@ -424,28 +424,6 @@ def _(mo):
 def _():
     from html_tags import polyline
 
-    return (polyline,)
-
-
-@app.cell
-def _(polyline, svg):
-    def sparkline(values):
-        "values: [y, ...] or [(x, y), ...]"
-        pts = list(enumerate(values)) if not isinstance(values[0], tuple) else values
-        xs, ys = zip(*pts)
-        x0, x1 = min(xs), max(xs)
-        y0, y1 = min(ys), max(ys)
-        sx = lambda x: (x - x0) / (x1 - x0) * 100 if x1 != x0 else 50
-        sy = lambda y: 100 - (y - y0) / (y1 - y0) * 100 if y1 != y0 else 50
-        coords = " ".join(f"{sx(x):.2f},{sy(y):.2f}" for x, y in pts)
-        return svg(
-            polyline(points=coords, fill="none", stroke="var(--bg)",
-                     style="--color: 0.5", stroke_width="2"),
-            viewBox="0 0 100 100", preserveAspectRatio="none",
-            cls="sparkline",
-        )
-
-
     return
 
 
@@ -472,11 +450,11 @@ def Layout(main,
     _aside  = mk_tag("aside")
     _footer = mk_tag("footer")
     return _body(cls=f"surface")(
-        header and _header(id="header")(header),
+        header and _header(id="header", cls="split")(header),
         nav    and _nav(id="nav")(nav),
         _main(id="main", cls="surface")(main),
         aside  and _aside(id="aside")(aside),
-        footer and _footer(id="footer")(footer),
+        footer and _footer(id="footer", cls="split")(footer),
     )
 
 
@@ -504,7 +482,7 @@ def _():
     div, p, span, section, article, h1, ul, li = [
         mk_tag(n) for n in 'div p span section article h1 ul li'.split()
     ]
-    return article, div, li, p, ul
+    return article, div, p
 
 
 @app.cell
@@ -602,63 +580,8 @@ def _(article, mo, p):
 
 
 @app.cell
-def _(li, ul):
-    colors = ["red", "blue", "yellow", "green"]
-    _ = ul([li(c) for c in colors])
-    print(render(_))
-    return
-
-
-@app.cell
-def _(svg):
-    def bar_chart(data, *, metric_name=None, highlight=None):
-        """
-        data: list of (label, value) tuples
-        metric_name: optional — if set and has directional meaning, use semantic
-        highlight: optional label to emphasize
-        """
-        bar_width = 10
-        gap = 20
-        max_val = max(v for _, v in data)
-        value_to_height(data)
-        return svg(
-            *[rect(
-                x=i * bar_width,
-                width=bar_width - gap,
-                height=value_to_height(v),
-                fill='var(--bg)',
-                style=f'--color: {0.2 + (v / max_val) * 0.35}',
-                cls='dgr' if label == highlight else None,
-            ) for i, (label, v) in enumerate(data)],
-        )
-
-    from html_tags import rect
-    data = [45, 12, 7]
-
-    #bar_chart_demo = bar_chart(data)
-
-    return
-
-
-@app.cell
 def _():
     return
-
-
-@app.function
-def value_to_height(value, max_val=100, max_height=200, min_height=4):
-    """
-    Map a data value to a pixel height for an SVG bar.
-
-    value:      the raw data value
-    max_val:    the maximum value in the dataset (used for scaling)
-    max_height: the tallest a bar can be, in pixels
-    min_height: floor so zero-ish values still show a sliver
-    """
-    if max_val == 0:
-        return min_height
-    scaled = (value / max_val) * max_height
-    return max(scaled, min_height)
 
 
 @app.cell

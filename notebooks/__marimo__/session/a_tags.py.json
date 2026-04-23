@@ -383,19 +383,6 @@
       "console": []
     },
     {
-      "id": "AjVT",
-      "code_hash": "b2dafe98c2795293c9f294d68b1b0917",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
       "id": "pHFh",
       "code_hash": "d1bdb71ca11bf473543f12d3f80f342c",
       "outputs": [
@@ -410,7 +397,7 @@
     },
     {
       "id": "NCOB",
-      "code_hash": "c2933335afbd3456625fe5ae098a010a",
+      "code_hash": "5b9f74ed18c488a99ce7df6bf0346798",
       "outputs": [
         {
           "type": "data",
@@ -436,7 +423,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "<body class=\"surface\">\n  <header id=\"header\">\n    im the header\n  </header>\n  <main id=\"main\" class=\"surface\">\n    main\n  </main>\n  <aside id=\"aside\">\n    <div>\n      im the aside\n      what am i\n    </div>\n  </aside>\n</body>\n",
+          "text": "<body class=\"surface\">\n  <header id=\"header\" class=\"split\">\n    im the header\n  </header>\n  <main id=\"main\" class=\"surface\">\n    main\n  </main>\n  <aside id=\"aside\">\n    <div>\n      im the aside\n      what am i\n    </div>\n  </aside>\n</body>\n",
           "mimetype": "text/plain"
         }
       ]
@@ -580,54 +567,8 @@
       "console": []
     },
     {
-      "id": "SdmI",
-      "code_hash": "8a767a0f5f95a7b9d26e950d8ade986c",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stdout",
-          "text": "<ul>\n  <li>\n    red\n  </li>\n  <li>\n    blue\n  </li>\n  <li>\n    yellow\n  </li>\n  <li>\n    green\n  </li>\n</ul>\n",
-          "mimetype": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": "lgWD",
-      "code_hash": "c28c968da21ff92a15f42e15c2f5075c",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
       "id": "yOPj",
       "code_hash": null,
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "fwwy",
-      "code_hash": "aa4f99614e98ae08ce5fdc374ba3844d",
       "outputs": [
         {
           "type": "data",

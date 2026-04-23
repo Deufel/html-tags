@@ -2,7 +2,7 @@
 
 > HTML/SVG generation via python functions.
 
-- [tags](/tags): Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Highlight, Color_type_css, Favicon, Layout, value_to_height
-- [charts](/charts): sparkline
+- [tags](/tags): Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Highlight, Color_type_css, Favicon, Layout
+- [charts](/charts): Show, sparkline, chart_card, card_size_resize, card_aspect_resize
 
 - [llms-full.txt](/llms-full.txt): Complete source code

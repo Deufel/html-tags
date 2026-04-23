@@ -51,7 +51,6 @@ def tag(
     extend.children = children
     extend.attrs    = attrs
     extend._is_tag  = True
-    extend.__html__ = lambda: render(extend)
     extend.__repr__ = lambda: f'{name}({children!r}, {attrs!r})'
     return extend
 
@@ -78,16 +77,13 @@ def render(
     depth=0,     # indentation depth for pretty-printing
     indent=2,    # spaces per indent level
 ):               # rendered HTML string
-    """Recursively render a tag tree to HTML.
+    """Recursively render a tag tree to HTML."""
+    pad = ' ' * (indent * depth)
 
-    Namespace switches automatically at `<svg>`, `<math>`, and back to HTML
-    inside `<foreignObject>`. Void elements follow per-namespace rules (HTML
-    voids render without closing, SVG voids self-close XML-style).
-    """
     if isinstance(node, Safe):
         return str(node)
     if not is_tag(node):
-        return ' ' * (indent * depth) + escape(str(node))
+        return pad + escape(str(node))
 
     name, children, a = node.tag, node.children, node.attrs
 
@@ -101,14 +97,10 @@ def render(
     if name in NS_ATTRS:
         attr_str = f' {NS_ATTRS[name]}' + attr_str
 
-    pad = ' ' * (indent * depth)
-
     if name in voids:
         return f'{pad}<{name}{attr_str} />' if self_close else f'{pad}<{name}{attr_str}>'
     if name in RAW:
         return f'{pad}<{name}{attr_str}>{"".join(str(c) for c in children)}</{name}>'
-    if len(children) == 1 and not is_tag(children[0]) and not isinstance(children[0], Safe):
-        return f'{pad}<{name}{attr_str}>{escape(str(children[0]))}</{name}>'
 
     inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
     return f'{pad}<{name}{attr_str}>\n{inner}\n{pad}</{name}>'
@@ -241,32 +233,36 @@ def Layout(main,
     _aside  = mk_tag("aside")
     _footer = mk_tag("footer")
     return _body(cls=f"surface")(
-        header and _header(id="header")(header),
+        header and _header(id="header", cls="split")(header),
         nav    and _nav(id="nav")(nav),
         _main(id="main", cls="surface")(main),
         aside  and _aside(id="aside")(aside),
-        footer and _footer(id="footer")(footer),
+        footer and _footer(id="footer", cls="split")(footer),
     )
-
-def value_to_height(value, max_val=100, max_height=200, min_height=4):
-    """
-    Map a data value to a pixel height for an SVG bar.
-
-    value:      the raw data value
-    max_val:    the maximum value in the dataset (used for scaling)
-    max_height: the tallest a bar can be, in pixels
-    min_height: floor so zero-ish values still show a sliver
-    """
-    if max_val == 0:
-        return min_height
-    scaled = (value / max_val) * max_height
-    return max(scaled, min_height)
 
 ## charts
 
 
-def sparkline(values):
-    "values: [y, ...] or [(x, y), ...]"
+class Show:
+    def __init__(self, content): self.content = content
+    def _repr_html_(self):
+        doc = html_doc(
+            head(
+                title("test"),
+                Favicon("🧪"),
+                Color_type_css(), MeCSS(), Pointer(), Highlight(), Datastar(),
+            ),
+            body(self.content),
+        )
+        return render(iframe(
+            srcdoc=str(doc),
+            style="width:stretch;height:100svh;border:0",
+        ))
+
+def sparkline(
+    values,  # list of vales to plot in a svg 
+):
+    "returns a dimensionless lien chart, resizable without line width distortion"
     pts = list(enumerate(values)) if not isinstance(values[0], tuple) else values
     xs, ys = zip(*pts)
     x0, x1 = min(xs), max(xs)
@@ -276,7 +272,51 @@ def sparkline(values):
     coords = " ".join(f"{sx(x):.2f},{sy(y):.2f}" for x, y in pts)
     return svg(
         polyline(points=coords, fill="none", stroke="var(--bg)",
-                 style="--color: 0.5", stroke_width="2"),
-        viewBox="0 0 100 100", preserveAspectRatio="none",
+                 style="--color: 0.5; vector-effect: non-scaling-stroke",
+                 stroke_width="2", stroke_linecap="round", stroke_linejoin="round"),
+        viewBox="0 0 100 100",
+        preserveAspectRatio="none",
         cls="sparkline",
     )
+
+def chart_card(chart, *, height="130px"):
+    css = f"""
+    me {{ padding: var(--s); border-radius: var(--cfg-radius);
+          height: {height}; aspect-ratio:2 ; display: grid; resize: both;}}
+    me > svg {{ width: stretch; height: stretch; }}
+    """
+    return div(cls="card surface", style="--hue-shift: 45; resize: both")(
+        style(css),
+        chart,  # no figure wrapper
+    )
+
+def card_size_resize(content, *, min_h="100px", min_w="200px"):
+    """Resizable container for flexible layouts (dialogs, expandable panels).
+    Content stretches to fill; use preserveAspectRatio="none" in SVGs."""
+    css = f"""
+    me {{ padding: var(--s); border-radius: var(--cfg-radius);
+          min-height: {min_h}; min-width: {min_w};
+          height: stretch; width: stretch;
+          resize: both; overflow: hidden;
+          display: grid; }}
+    me > svg {{ width: stretch; height: stretch; }}
+    """
+    return div(cls="card surface")(
+        style(css),
+        content,
+    )
+
+def card_aspect_resize(content, *, ratio="3/2", base_h="150px"):
+    css = f"""
+    me {{
+        padding: var(--s);
+        border-radius: var(--cfg-radius);
+        height: {base_h};
+        aspect-ratio: {ratio};
+        resize: both;
+        overflow: hidden;
+        display: grid;
+    }}
+    me > svg {{ width: stretch; height: stretch; }}
+    """
+    return div(cls="card surface")(style(css), content)

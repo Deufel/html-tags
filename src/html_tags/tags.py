@@ -86,7 +86,6 @@ def tag(
     extend.children = children
     extend.attrs    = attrs
     extend._is_tag  = True
-    extend.__html__ = lambda: render(extend)
     extend.__repr__ = lambda: f'{name}({children!r}, {attrs!r})'
     return extend
 
@@ -113,16 +112,13 @@ def render(
     depth=0,     # indentation depth for pretty-printing
     indent=2,    # spaces per indent level
 ):               # rendered HTML string
-    """Recursively render a tag tree to HTML.
+    """Recursively render a tag tree to HTML."""
+    pad = ' ' * (indent * depth)
 
-    Namespace switches automatically at `<svg>`, `<math>`, and back to HTML
-    inside `<foreignObject>`. Void elements follow per-namespace rules (HTML
-    voids render without closing, SVG voids self-close XML-style).
-    """
     if isinstance(node, Safe):
         return str(node)
     if not is_tag(node):
-        return ' ' * (indent * depth) + escape(str(node))
+        return pad + escape(str(node))
 
     name, children, a = node.tag, node.children, node.attrs
 
@@ -136,14 +132,10 @@ def render(
     if name in NS_ATTRS:
         attr_str = f' {NS_ATTRS[name]}' + attr_str
 
-    pad = ' ' * (indent * depth)
-
     if name in voids:
         return f'{pad}<{name}{attr_str} />' if self_close else f'{pad}<{name}{attr_str}>'
     if name in RAW:
         return f'{pad}<{name}{attr_str}>{"".join(str(c) for c in children)}</{name}>'
-    if len(children) == 1 and not is_tag(children[0]) and not isinstance(children[0], Safe):
-        return f'{pad}<{name}{attr_str}>{escape(str(children[0]))}</{name}>'
 
     inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
     return f'{pad}<{name}{attr_str}>\n{inner}\n{pad}</{name}>'
@@ -288,23 +280,9 @@ def Layout(main,
     _aside  = mk_tag("aside")
     _footer = mk_tag("footer")
     return _body(cls=f"surface")(
-        header and _header(id="header")(header),
+        header and _header(id="header", cls="split")(header),
         nav    and _nav(id="nav")(nav),
         _main(id="main", cls="surface")(main),
         aside  and _aside(id="aside")(aside),
-        footer and _footer(id="footer")(footer),
+        footer and _footer(id="footer", cls="split")(footer),
     )
-
-def value_to_height(value, max_val=100, max_height=200, min_height=4):
-    """
-    Map a data value to a pixel height for an SVG bar.
-
-    value:      the raw data value
-    max_val:    the maximum value in the dataset (used for scaling)
-    max_height: the tallest a bar can be, in pixels
-    min_height: floor so zero-ish values still show a sliver
-    """
-    if max_val == 0:
-        return min_height
-    scaled = (value / max_val) * max_height
-    return max(scaled, min_height)
