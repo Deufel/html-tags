@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "Hbol",
-      "code_hash": "7f0f0bee64a0a7de4a6d405965a003d5",
+      "code_hash": "bc45f0af3af3cc478416652d06809520",
       "outputs": [
         {
           "type": "data",
@@ -19,20 +19,13 @@
       "console": []
     },
     {
-      "id": "UIRZ",
+      "id": "MJUe",
       "code_hash": null,
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     },
     {
-      "id": "hIbY",
+      "id": "vblA",
       "code_hash": "f2388dcc140733abeaa0fa3fc8966b77",
       "outputs": [
         {
@@ -46,13 +39,26 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "Wrote /home/mike/code/pub/html-tags/demos/flashcards.html\nFile size: 17616 chars\n",
+          "text": "Wrote /home/mike/code/pub/html-tags/demos/flashcards.html\nFile size: 18811 chars\n",
           "mimetype": "text/plain"
         }
       ]
     },
     {
-      "id": "NfhA",
+      "id": "lduT",
+      "code_hash": "90ab5712e5485fb16960f6cf08feec6d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='border-radius: 6px; overflow: hidden; background-color: var(--slate-1); display: inline-block; min-width: 0; max-width: 100%;'><div style='padding: 10px 12px 8px 12px; display: flex; align-items: center;'><span style='background-color: var(--green-3); color: var(--green-11);padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.75rem; font-weight: 600; margin-right: 8px; display: inline-block;'>function</span><span style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12);'>extend</span></div><div style='height: 1px; background-color: var(--slate-3); margin: 0 12px 8px 12px;'></div><div style='font-family: monospace; font-size: 0.875rem; color: var(--slate-12); margin: 0 12px 8px 12px;'><span>def extend(*c, **kw):</span></div><div style='overflow-x: auto; font-size: 0.875rem; padding: 0 0 8px 0;'><table><tbody><tr><td style='padding: 2px 8px 2px 12px; vertical-align: top; text-align: right; font-family: monospace; font-size: 0.75rem; white-space: nowrap; line-height: 1.5; color: var(--slate-10);'>attrs</td><td style='padding: 2px 4px; color: var(--slate-9); vertical-align: top; font-family: monospace; font-size: 0.75rem; line-height: 1.5;'>=</td><td style='color: var(--foreground); vertical-align: top; line-height: 1.5; padding: 2px 12px 2px 4px;'><div style='font-size: 0.75rem; display: inline-block;'><marimo-json-output data-json-data='{&quot;type&quot;:&quot;module&quot;,&quot;src&quot;:&quot;https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js&quot;}' data-value-types='&quot;python&quot;'></marimo-json-output></div></td></tr><tr><td style='padding: 2px 8px 2px 12px; vertical-align: top; text-align: right; font-family: monospace; font-size: 0.75rem; white-space: nowrap; line-height: 1.5; color: var(--slate-10);'>children</td><td style='padding: 2px 4px; color: var(--slate-9); vertical-align: top; font-family: monospace; font-size: 0.75rem; line-height: 1.5;'>=</td><td style='color: var(--foreground); vertical-align: top; line-height: 1.5; padding: 2px 12px 2px 4px;'><div style='font-size: 0.75rem; display: inline-block;'><marimo-json-output data-json-data='[]' data-value-types='&quot;python&quot;'></marimo-json-output></div></td></tr><tr><td style='padding: 2px 8px 2px 12px; vertical-align: top; text-align: right; font-family: monospace; font-size: 0.75rem; white-space: nowrap; line-height: 1.5; color: var(--slate-10);'>tag</td><td style='padding: 2px 4px; color: var(--slate-9); vertical-align: top; font-family: monospace; font-size: 0.75rem; line-height: 1.5;'>=</td><td style='color: var(--foreground); vertical-align: top; line-height: 1.5; padding: 2px 12px 2px 4px;'><span style='color: light-dark(#cb4b16, #dc9656); font-family: monospace; font-size: 0.75rem;'>\"script\"</span></td></tr></tbody></table></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "CdIJ",
       "code_hash": null,
       "outputs": [],
       "console": []

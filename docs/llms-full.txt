@@ -3,320 +3,111 @@
 > HTML/SVG generation via python functions.
 
 
-## tags
+## node
 
+
+class Node:
+    """An immutable HTML/SVG/MathML tree node."""
+    __slots__ = ('tag', 'ns', 'attrs', 'children')
+
+    def __init__(self, tag: str, ns: str, attrs: dict, children: tuple):
+        assert ns in VALID_NS,              f"ns must be one of {VALID_NS}, got {ns!r}"
+        assert isinstance(attrs, dict),      "attrs must be a dict"
+        assert isinstance(children, tuple),  "children must be a tuple"
+        self.tag      = tag
+        self.ns       = ns
+        self.attrs    = attrs
+        self.children = children
+
+    def __repr__(self):
+        return f"Node({self.tag!r}, ns={self.ns!r}, attrs={self.attrs!r}, children={self.children!r})"
 
 class Safe(str):
-    """A string that is already HTML-safe and will not be escaped on render."""
-    def __html__(self): return self
+    """Marks a string as pre-sanitized — renderer will not escape it."""
 
-def unpack(
-    items, # iterable of values to flatten
-):         # tuple with nested lists/tuples/generators expanded, `None` and `False` dropped
-    "Flatten nested iterables, dropping `None` and `False` values."
-    out = []
-    for o in items:
-        if o is None or o is False:
+## attrs
+
+
+def normalize_attrs(*dicts: dict, **kwargs) -> dict:
+    """Merge dicts (verbatim) and kwargs (normalized) into one attrs dict.
+
+    Dict positional args bypass key transformation entirely — use them for
+    attributes with colons, dots, or any character invalid in Python identifiers
+    (e.g. data-on:click, xlink:href).
+
+    Values:
+      True  -> bare boolean attribute (rendered as just the name)
+      False -> attribute omitted
+      None  -> attribute omitted
+    """
+    out = {}
+
+    for d in dicts:
+        assert isinstance(d, dict), f"positional args must be dicts, got {type(d).__name__!r}"
+        for k, v in d.items():
+            if v is False or v is None:
+                continue
+            out[k] = v
+
+    for k, v in kwargs.items():
+        if v is False or v is None:
             continue
-        elif isinstance(o, (list, tuple, types.GeneratorType)):
-            out.extend(unpack(o))
-        else:
-            out.append(o)
-    return tuple(out)
+        out[internal_normalize_key(k)] = v
 
-def is_tag(
-    x, # any value
-):     # True if `x` is a tag closure (has the `_is_tag` marker)
-    "Duck-type check for tag closures."
-    return getattr(x, '_is_tag', False)
+    return out
 
-def tag(
-    name,         # element name, e.g. 'div', 'svg', 'my-component'
-    children=(),  # tuple of child tags/strings/Safe values
-    attrs=None,   # attribute dict (keys emitted verbatim)
-):                # tag closure — callable, carries `.tag`/`.children`/`.attrs`/`_is_tag`
-    """Construct a tag closure.
+## ns
 
-    The returned object is callable: calling it with more children/attrs
-    returns a *new* tag closure. Nothing mutates. The closure exposes
-    `.tag`, `.children`, `.attrs` for introspection and rendering.
+
+def child_ns(parent_ns: str, tag: str) -> str:
+    """Return the namespace a tag's children inherit.
+
+    Most tags inherit their parent's namespace unchanged.
+    A small set of tags (svg, math, foreignObject, etc.) switch it.
+    This table is the single source of truth for that switching logic.
     """
-    attrs = attrs or {}
+    return NS_SWITCH.get((parent_ns, tag), parent_ns)
 
-    def extend(*c, **kw):
-        nc, nd = internal_preproc(c, kw)
-        return tag(name, children + nc, {**attrs, **nd})
+## render
 
-    extend.tag      = name
-    extend.children = children
-    extend.attrs    = attrs
-    extend._is_tag  = True
-    extend.__repr__ = lambda: f'{name}({children!r}, {attrs!r})'
-    return extend
 
-def render_attrs(
-    d, # attribute dict (keys already in final HTML form)
-):     # serialized attribute string, leading space included per attr
-    """Serialize an attribute dict to an HTML attribute string.
-
-    Values: `True` renders a bare attr name, `False`/`None` omits, everything
-    else is str-escaped and quoted. Keys are emitted verbatim — all transforms
-    happen upstream in `_preproc`.
-    """
-    out = []
-    for k, v in d.items():
-        if v is True:
-            out.append(f' {k}')
-        elif v not in (False, None):
-            out.append(f' {k}="{escape(str(v))}"')
-    return ''.join(out)
-
-def render(
-    node,        # tag closure, Safe string, or any value (stringified + escaped)
-    ns='html',   # current namespace: 'html', 'svg', or 'math'
-    depth=0,     # indentation depth for pretty-printing
-    indent=2,    # spaces per indent level
-):               # rendered HTML string
-    """Recursively render a tag tree to HTML."""
-    pad = ' ' * (indent * depth)
-
+def render(node: Node | str) -> str:
+    """Render a Node tree to an HTML/SVG/MathML string."""
     if isinstance(node, Safe):
-        return str(node)
-    if not is_tag(node):
-        return pad + escape(str(node))
+        return node
+    if isinstance(node, str):
+        return _escape_text(node)
+    parts = []
+    internal_render_node(node, parts)
+    return ''.join(parts)
 
-    name, children, a = node.tag, node.children, node.attrs
+## dsl
 
-    new_ns = ns
-    if   name == 'svg':           new_ns = 'svg'
-    elif name == 'math':          new_ns = 'math'
-    elif name == 'foreignObject': new_ns = 'html'
 
-    voids, self_close = NS_RULES[new_ns]
-    attr_str = render_attrs(a)
-    if name in NS_ATTRS:
-        attr_str = f' {NS_ATTRS[name]}' + attr_str
+class TagFactory:
+    """A namespace-aware factory producing Node callables.
 
-    if name in voids:
-        return f'{pad}<{name}{attr_str} />' if self_close else f'{pad}<{name}{attr_str}>'
-    if name in RAW:
-        return f'{pad}<{name}{attr_str}>{"".join(str(c) for c in children)}</{name}>'
+    h  = TagFactory(HTML)   # for HTML documents
+    s  = TagFactory(SVG)    # for standalone SVG fragments
+    mx = TagFactory(MATH)   # for standalone MathML fragments
 
-    inner = '\n'.join(render(c, new_ns, depth + 1, indent) for c in children)
-    return f'{pad}<{name}{attr_str}>\n{inner}\n{pad}</{name}>'
-
-def html_doc(
-    head,      # a <head> tag (or any tag/string placed in head position)
-    body,      # a <body> tag (or any tag/string placed in body position)
-    lang='en', # value for the `<html lang="...">` attribute
-):             # a Safe string containing `<!DOCTYPE html>` followed by the rendered document
-    "Wrap head + body in a full `<!DOCTYPE html>` document."
-    h = tag('html', (head, body), {'lang': lang})
-    return Safe(f'<!DOCTYPE html>\n{render(h)}')
-
-def mk_tag(
-    name, # element name, underscores → hyphens, trailing `_` stripped
-):        # a constructor `ctor(*children, **attrs)` that returns a tag closure
-    """Return a constructor for the given element name.
-
-    `mk_tag('data_list')` gives `<data-list>`; `mk_tag('input_')` gives
-    `<input>` (useful for Python-reserved names). The module also exposes
-    a `__getattr__` so `from html_tags import any_name` auto-calls this.
+    Each factory only knows its own namespace. Namespace switching
+    is handled by creating a new factory and passing it explicitly,
+    or by using the h.svg / h.math convenience which does this for you.
     """
-    clean = name.rstrip('_').replace('_', '-')
-    def ctor(*c, **kw):
-        c, kw = internal_preproc(c, kw)
-        return tag(clean, c, kw)
-    ctor.__name__ = clean
-    return ctor
+    __slots__ = ('_ns',)
 
-def html_to_tag(
-    s, # HTML source string
-):     # a single tag (if one top-level element) or tuple of tags
-    """Parse an HTML string into a tag tree.
+    def __init__(self, ns: str):
+        assert ns in VALID_NS, f"ns must be one of {VALID_NS}, got {ns!r}"
+        self._ns = ns
 
-    Attributes with no value (`<input required>`) become `True` in the attrs
-    dict. Whitespace-only text nodes are dropped. Self-closing / void elements
-    in either HTML or SVG sets are handled.
-    """
-    stack, root = [[]], []
+    def __call__(self, tag: str):
+        """For tag names not valid as Python identifiers: h('xlink:href')."""
+        return internal_make_tag(tag, self._ns)
 
-    class P(HTMLParser):
-        def handle_starttag(self, t, a):
-            d = {k: (v if v is not None else True) for k, v in a}
-            if t in VOID | SVG_VOID:
-                stack[-1].append(tag(t, (), d))
-            else:
-                stack.append([])
-                root.append((t, d))
+    def __getattr__(self, name: str):
+        tag = TAG_ALIASES.get(name, name)
+        return internal_make_tag(tag, self._ns)
 
-        def handle_endtag(self, t):
-            if t in VOID | SVG_VOID:
-                return
-            children, (name, d) = tuple(stack.pop()), root.pop()
-            stack[-1].append(tag(name, children, d))
-
-        def handle_data(self, data):
-            if data.strip():
-                stack[-1].append(data.strip())
-
-    P().feed(s)
-    res = stack[0]
-    return res[0] if len(res) == 1 else tuple(res)
-
-def Datastar(
-    v='latest', # version tag, `'latest'` for main branch, or e.g. `'1.0.0-beta.11'`
-):             # `<script type="module">` tag loading the Datastar bundle
-    "Script tag for the Datastar client library."
-    ref = 'main' if v == 'latest' else v
-    return tag('script', (), {
-        'type': 'module',
-        'src':  f'https://cdn.jsdelivr.net/gh/starfederation/datastar@{ref}/bundles/datastar.js',
-    })
-
-def MeCSS(
-    v='latest', # toolbox release tag
-):              # `<script>` tag loading `me_css.js`
-    "Script tag for the `me_css.js` helper (scoped `<style>` blocks)."
-    return tag('script', (), {
-        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/me_css.js',
-    })
-
-def Pointer(
-    v='latest', # toolbox release tag
-):              # `<script>` tag loading `pointer_events.js`
-    "Script tag for `pointer_events.js` (drives `.hover`/`.active`/`.disabled` on `.btn` elements) to avoid the requirement of using normal hover & js for ios touch just use the pointer api it generalises better (imho)."
-    return tag('script', (), {
-        'src': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/pointer_events.js',
-    })
-
-def Highlight(
-    v='latest', # toolbox release tag
-):              # `<script type="module">` tag loading `highlight.js`
-    "Script tag for `highlight.js` (CSS Custom Highlight API syntax highlighter)."
-    return tag('script', (), {
-        'type': 'module',
-        'src':  f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/js/highlight.js',
-    })
-
-def Color_type_css(
-    v='latest', # toolbox release tag
-):              # `<link rel="stylesheet">` tag
-    "Link tag for the toolbox core stylesheet (Color & Type system). Complex CSS for a simple API"
-    return tag('link', (), {
-        'rel':  'stylesheet',
-        'href': f'https://cdn.jsdelivr.net/gh/Deufel/toolbox@{v}/css/style.css',
-    })
-
-def Favicon(
-    emoji, # a single-character emoji or short text to embed as the favicon
-):         # `<link rel="icon">` tag with an inline SVG data URI
-    "Favicon link tag built from an inline SVG data URI — no image file needed."
-    s = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
-         f'<text y=".9em" font-size="90">{emoji}</text></svg>')
-    return tag('link', (), {
-        'rel':  'icon',
-        'href': f'data:image/svg+xml,{quote(s, safe=":/@!,")}',
-    })
-
-def Layout(main,
-           *, 
-           header=None, 
-           nav=None,
-           aside=None,
-           footer=None, 
-          ):
-    _body   = mk_tag('body')
-    _header = mk_tag("header")
-    _nav    = mk_tag("nav")
-    _main   = mk_tag("main")
-    _aside  = mk_tag("aside")
-    _footer = mk_tag("footer")
-    return _body(cls=f"surface")(
-        header and _header(id="header", cls="split")(header),
-        nav    and _nav(id="nav")(nav),
-        _main(id="main", cls="surface")(main),
-        aside  and _aside(id="aside")(aside),
-        footer and _footer(id="footer", cls="split")(footer),
-    )
-
-## charts
-
-
-class Show:
-    def __init__(self, content): self.content = content
-    def _repr_html_(self):
-        doc = html_doc(
-            head(
-                title("test"),
-                Favicon("🧪"),
-                Color_type_css(), MeCSS(), Pointer(), Highlight(), Datastar(),
-            ),
-            body(self.content),
-        )
-        return render(iframe(
-            srcdoc=str(doc),
-            style="width:stretch;height:100svh;border:0",
-        ))
-
-def sparkline(
-    values,  # list of vales to plot in a svg 
-):
-    "returns a dimensionless lien chart, resizable without line width distortion"
-    pts = list(enumerate(values)) if not isinstance(values[0], tuple) else values
-    xs, ys = zip(*pts)
-    x0, x1 = min(xs), max(xs)
-    y0, y1 = min(ys), max(ys)
-    sx = lambda x: (x - x0) / (x1 - x0) * 100 if x1 != x0 else 50
-    sy = lambda y: 100 - (y - y0) / (y1 - y0) * 100 if y1 != y0 else 50
-    coords = " ".join(f"{sx(x):.2f},{sy(y):.2f}" for x, y in pts)
-    return svg(
-        polyline(points=coords, fill="none", stroke="var(--bg)",
-                 style="--color: 0.5; vector-effect: non-scaling-stroke",
-                 stroke_width="2", stroke_linecap="round", stroke_linejoin="round"),
-        viewBox="0 0 100 100",
-        preserveAspectRatio="none",
-        cls="sparkline",
-    )
-
-def chart_card(chart, *, height="130px"):
-    css = f"""
-    me {{ padding: var(--s); border-radius: var(--cfg-radius);
-          height: {height}; aspect-ratio:2 ; display: grid; resize: both;}}
-    me > svg {{ width: stretch; height: stretch; }}
-    """
-    return div(cls="card surface", style="--hue-shift: 45; resize: both")(
-        style(css),
-        chart,  # no figure wrapper
-    )
-
-def card_size_resize(content, *, min_h="100px", min_w="200px"):
-    """Resizable container for flexible layouts (dialogs, expandable panels).
-    Content stretches to fill; use preserveAspectRatio="none" in SVGs."""
-    css = f"""
-    me {{ padding: var(--s); border-radius: var(--cfg-radius);
-          min-height: {min_h}; min-width: {min_w};
-          height: stretch; width: stretch;
-          resize: both; overflow: hidden;
-          display: grid; }}
-    me > svg {{ width: stretch; height: stretch; }}
-    """
-    return div(cls="card surface")(
-        style(css),
-        content,
-    )
-
-def card_aspect_resize(content, *, ratio="3/2", base_h="150px"):
-    css = f"""
-    me {{
-        padding: var(--s);
-        border-radius: var(--cfg-radius);
-        height: {base_h};
-        aspect-ratio: {ratio};
-        resize: both;
-        overflow: hidden;
-        display: grid;
-    }}
-    me > svg {{ width: stretch; height: stretch; }}
-    """
-    return div(cls="card surface")(style(css), content)
+    def __repr__(self):
+        return f'TagFactory(ns={self._ns!r})'

@@ -4,11 +4,7 @@ __generated_with = "0.22.0"
 app = marimo.App()
 
 with app.setup:
-    from e_dsl    import TagFactory
-
-    HTML  = 'html'
-    SVG   = 'svg'
-    MATH  = 'math'
+    from e_dsl import TagFactory
 
     h = TagFactory(HTML)
     s = TagFactory(SVG)

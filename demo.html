@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>svg demo</title><style>
+                body {
+                    margin: 0;
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #020617;
+                    font-family: monospace;
+                }
+            </style></head><body><svg xmlns="http://www.w3.org/2000/svg" width="400" height="420" viewBox="0 0 400 420" style="background:#0f172a; border-radius:12px;"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop stop-color="#6366f1" offset="0%"/><stop stop-color="#06b6d4" offset="100%"/></linearGradient></defs><line stroke-width="1" stroke-dasharray="4 4" x1="200" y1="200" x2="280" y2="200" stroke="#475569" opacity="0.5"><animateTransform attributeName="transform" type="rotate" values="0 200 200;360 200 200" dur="3s" repeatCount="indefinite"/></line><circle cx="200" cy="200" r="40" fill="url(#grad)"><animate attributeName="r" values="40;55;40" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle><circle cx="280" cy="200" r="10" fill="#f472b6"><animateTransform attributeName="transform" type="rotate" values="0 200 200;360 200 200" dur="3s" repeatCount="indefinite"/></circle><rect x="100" y="300" width="80" height="24" rx="4"><animate attributeName="width" values="80;160;80" dur="2.5s" repeatCount="indefinite"/><animate attributeName="fill" values="#6366f1;#06b6d4;#6366f1" dur="2.5s" repeatCount="indefinite"/></rect><text text-anchor="middle" font-family="monospace" font-size="13" x="200" y="380" fill="#94a3b8">html_tags svg demo</text></svg></body></html>

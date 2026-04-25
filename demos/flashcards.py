@@ -178,8 +178,7 @@ def _():
         h.body(deck),
     )
 
-
-    return (page,)
+    return h, page
 
 
 @app.cell
@@ -199,6 +198,12 @@ def _(page):
 
     print(f"Wrote {output_path}")
     print(f"File size: {len(str(page))} chars")
+    return
+
+
+@app.cell
+def _(h):
+    h.Datastar()
     return
 
 

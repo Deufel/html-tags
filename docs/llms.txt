@@ -2,7 +2,10 @@
 
 > HTML/SVG generation via python functions.
 
-- [tags](/tags): Safe, unpack, is_tag, tag, render_attrs, render, html_doc, mk_tag, html_to_tag, Datastar, MeCSS, Pointer, Highlight, Color_type_css, Favicon, Layout
-- [charts](/charts): Show, sparkline, chart_card, card_size_resize, card_aspect_resize
+- [node](/node): Node, Safe
+- [attrs](/attrs): normalize_attrs
+- [ns](/ns): child_ns
+- [render](/render): render
+- [dsl](/dsl): TagFactory
 
 - [llms-full.txt](/llms-full.txt): Complete source code

@@ -1,0 +1,81 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "08e1045a8bf8158edc24ba29fa453e33",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qyRV",
+      "code_hash": "7a9fcae62b436c4174da23b7376a1330",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u2550\u2550\u2550 FIX 1: integer 0 attrs no longer drop \u2550\u2550\u2550\nPASS tabindex=0\nPASS tabindex=1\nPASS tabindex=-1\nPASS rowspan=0\nPASS value=0\nFAIL value=\"\"\n   got:  '<input>'\n   want: '<input value=\"\">'\nPASS disabled=True\nPASS disabled=False\nPASS disabled=None\nPASS opacity=1.0\n\n\u2550\u2550\u2550 FIX 2: URL_ATTRS now covers ping & srcset \u2550\u2550\u2550\nPASS ping js: blocked\nPASS srcset js: blocked\nPASS ping ok url passes\nPASS href js: blocked\nPASS href ok url\n\n\u2550\u2550\u2550 FIX 3: void element with kids raises clearly \u2550\u2550\u2550\nPASS br with text kid: ValueError(\"<br> is a void element and cannot have children: got 1\")\nPASS img with kid: ValueError(\"<img> is a void element and cannot have children: got 1\")\nFAIL br via tag(): wrong exception ModuleNotFoundError: No module named 'fixed_lib'\nPASS br extended: ValueError(\"<br> is a void element and cannot have children: got 1\")\nPASS br no kids\nPASS img with attrs only\nPASS br with attrs\n\n\u2550\u2550\u2550 FULL REGRESSION: every original case still passes \u2550\u2550\u2550\nPASS empty div\nPASS text\nPASS cls\u2192class\nPASS xss text\nPASS inline mix\nPASS pre preserves\nPASS block of inlines\nPASS zero text child\nPASS none drops\nPASS svg ns\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "ajsX",
+      "code_hash": "b1b69cd6340ef784cfd94b5ba3d26907",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>El(name=&#x27;div&#x27;, attrs={&#x27;class&#x27;: &#x27;a b&#x27;}, kids=())</pre>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xuJC",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
