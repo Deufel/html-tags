@@ -1,0 +1,185 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "4e3f8a839f281017833043bb0efc1b68",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Uyuk",
+      "code_hash": "e84a95cacc09b71204fbd2d5ab2c4e94",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "fc61b59e1591e20fe4f9c235e1f425d9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "3812f9664593c3d63b60cb67c4401e00",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "7f9cc2a6dc0971e70d75174ef3b371eb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "ee4cc2219b2535664fa4b7efa757a5ad",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "bd7654d4281015c1176d0c342e5d1543",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "fc7ac9b3921a96ccc0d3e8c9e6fff945",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "83fc48339a735cf8527c942ea59076a4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "c7272b79bf444d6475e4b518fb14b875",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "592e98c593c55ff6469accdbafd73d5c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "fca67ecf78bfa91498a4d48fdb1a9603",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                     [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_area_d_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_circle_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_group_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_group_no_empty_attrs\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_group_transform\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_line_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_path_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_path_d_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_path_d_close\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_path_empty_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_polyline_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_polyline_requires_two_points\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_rect_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_rect_cls\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_rect_no_rx_by_default\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_rect_rx_present_when_set\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_text_anchor_options\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_text_bad_anchor_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_text_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/g_viz_mark.py::TestMark::test_text_no_font_size_attr\n\nSummary:\nTotal: 20, Passed: 20, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Kclp",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

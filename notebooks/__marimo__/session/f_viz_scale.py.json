@@ -1,0 +1,126 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "001f9259e03aeb969338c4759ebf62fc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "zFZW",
+      "code_hash": "e84a95cacc09b71204fbd2d5ab2c4e94",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "63569de9f2ac8445b18452959d723f6e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "5e2e863c5c5f63056473f08a78e3ea39",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c3cffad96eb8f2990f40075f057f1271",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "ca08faf4e2578c0b9788b22ff783cdc9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "f928978db3b0eb06dd56528ac920b7aa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "1d7c1ac1cab9fda1635458e7c8cce430",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                               [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_band_bandwidth\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_band_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_band_ticks\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_band_unknown_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_hue_scale\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_linear_basic\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_linear_flipped_y\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_linear_ticks\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_ordinal_hue_even_spread\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/f_viz_scale.py::TestScale::test_ordinal_hue_unknown_raises\n\nSummary:\nTotal: 10, Passed: 10, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

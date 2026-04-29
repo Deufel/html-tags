@@ -110,28 +110,35 @@ def internal_render_node(node: Node, parts: list, parent_ns: str = HTML) -> None
 
     parts.append('>')
 
+
+    # render.py — _render_node, in the child loop
+
     for child in node.children:
         if isinstance(child, Safe):
             parts.append(child)
         elif isinstance(child, str):
-            parts.append(internal_escape_text(child))
+            parts.append(_escape_text(child))
         elif isinstance(child, Node):
-            internal_render_node(child, parts, parent_ns=node.ns)  # pass current ns down
+            _render_node(child, parts, parent_ns=node.ns)
+        elif hasattr(child, '__node__'):            # component slipped in directly
+            _render_node(child.__node__(), parts, parent_ns=node.ns)
         else:
-            parts.append(internal_escape_text(str(child)))
+            parts.append(_escape_text(str(child)))
 
     parts.append(f'</{node.tag}>')
 
 
 @app.function
-def render(node: Node | str) -> str:
+def render(node) -> str:
     """Render a Node tree to an HTML/SVG/MathML string."""
+    if hasattr(node, '__node__'):
+        node = node.__node__()
     if isinstance(node, Safe):
         return node
     if isinstance(node, str):
         return _escape_text(node)
     parts = []
-    internal_render_node(node, parts)
+    _render_node(node, parts)
     return ''.join(parts)
 
 

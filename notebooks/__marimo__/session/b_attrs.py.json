@@ -32,7 +32,7 @@
       "console": []
     },
     {
-      "id": "hXzv",
+      "id": "MJUe",
       "code_hash": "4b9b9de47681c4c8d2523db7f91b0f80",
       "outputs": [
         {
@@ -45,16 +45,9 @@
       "console": []
     },
     {
-      "id": "CkjI",
+      "id": "vblA",
       "code_hash": null,
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "outputs": [],
       "console": []
     }
   ]

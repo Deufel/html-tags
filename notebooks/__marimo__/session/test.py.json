@@ -7,7 +7,7 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "ded9b1a792e460d4ec587a0aa5ce83da",
+      "code_hash": "07ba1b3011c47408d00208d92d13f7fa",
       "outputs": [
         {
           "type": "data",
@@ -20,12 +20,12 @@
     },
     {
       "id": "Hbol",
-      "code_hash": "1bd004b8946a762a9dceeec50cbc908c",
+      "code_hash": "958990417ee08bdd023ee86a955393c0",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/html": "<pre class='text-xs'>Node(&#x27;ul&#x27;, ns=&#x27;html&#x27;, attrs={}, children=(Node(&#x27;li&#x27;, ns=&#x27;html&#x27;, attrs={}, children=(&#x27;cat&#x27;,)), Node(&#x27;li&#x27;, ns=&#x27;html&#x27;, attrs={}, children=(&#x27;dog&#x27;,)), Node(&#x27;li&#x27;, ns=&#x27;html&#x27;, attrs={}, children=(&#x27;goat&#x27;,))))</pre>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"html\">Html</h1></span>"
           }
         }
       ],
@@ -33,20 +33,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "18a9e889dc4cab08fd1c66c0f52f5c58",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/html": "<pre class='text-xs'>Node(&#x27;p&#x27;, ns=&#x27;html&#x27;, attrs={&#x27;data-on:click&#x27;: &#x27;@this&#x27;, &#x27;class&#x27;: &#x27;description&#x27;}, children=(&#x27;lorem&#x27;,))</pre>"
-          }
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "vblA",
-      "code_hash": "cfdecfb1934b9f45361d536a2ded2580",
+      "code_hash": "9e00ab8f91832e78c500489689b8580e",
       "outputs": [
         {
           "type": "data",
@@ -59,13 +46,13 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m [ 97%]\n\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                                       [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_to_math\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_to_svg\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_math_annotation_xml_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_math_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_desc_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_title_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_to_html_foreign_object\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_attrs_and_children_together\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_basic_tag\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_child_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_child_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_dict_attr_passthrough\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_dict_before_string_child\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_escape_hatch_hyphenated\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_generator_children\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_leaf_with_attrs_is_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_math_factory_stamps_math_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_no_args_is_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_svg_factory_stamps_svg_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_svg_nested_in_html_preserves_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_tag_alias_input\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_animals_generator\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_datastar_attrs_survive\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_html_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_mathml_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_svg_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_svg_in_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_attrs_must_be_dict\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_basic_construction\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_children_are_tuple\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_children_must_be_tuple\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_invalid_namespace_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_nested_child_accessible\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_safe_is_str_subclass\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_cls_to_class\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_and_kwargs_merge\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_colon_key_unchanged\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_passes_through_verbatim\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_false_dropped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_fr_to_for\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_htmlfor_to_for\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_klass_to_class\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_kwargs_win_on_collision_with_dict\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_leading_underscore_stripped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_multiple_dicts_merge\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_multiple_underscores_to_hyphens\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_non_dict_positional_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_none_dropped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_single_underscore_to_hyphen\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_true_kept\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_attr_value_escaping_quotes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_basic_element\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_boolean_attr_renders_bare\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_html_element\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_math_element_self_closes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_svg_element_self_closes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_explicit_xmlns_not_duplicated\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_br\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_img_with_attrs\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_input\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_math_root_gets_xmlns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_multiple_attrs\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_nested_tree\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_numeric_child_float\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_numeric_child_int\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_render_bare_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_render_safe_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_safe_bypasses_escaping\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_svg_nested_in_svg_no_xmlns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_svg_root_gets_xmlns_when_inside_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_text_escaping_ampersand\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_text_escaping_lt_gt\n\nSummary:\nTotal: 74, Passed: 74, Failed: 0, Errors: 0, Skipped: 0\n",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m [ 87%]\n\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                               [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_to_math\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_html_to_svg\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_math_annotation_xml_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_math_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_desc_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_inherits\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_title_to_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChildNs::test_svg_to_html_foreign_object\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestComponentProtocol::test_component_as_child\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestComponentProtocol::test_component_in_generator\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestComponentProtocol::test_component_in_svg\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestComponentProtocol::test_component_renders\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_attrs_and_children_together\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_basic_tag\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_child_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_child_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_dict_attr_passthrough\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_dict_before_string_child\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_escape_hatch_hyphenated\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_generator_children\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_leaf_with_attrs_is_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_math_factory_stamps_math_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_no_args_is_node\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_svg_factory_stamps_svg_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_svg_nested_in_html_preserves_ns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDSL::test_tag_alias_input\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDoc::test_children_present\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDoc::test_custom_lang\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDoc::test_starts_with_doctype\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestDoc::test_wraps_in_html_tag\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_animals_generator\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_datastar_attrs_survive\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_html_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_mathml_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_svg_fragment\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestEndToEnd::test_svg_in_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_attrs_must_be_dict\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_basic_construction\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_children_are_tuple\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_children_must_be_tuple\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_invalid_namespace_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_nested_child_accessible\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNode::test_safe_is_str_subclass\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_cls_to_class\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_and_kwargs_merge\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_colon_key_unchanged\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_dict_passes_through_verbatim\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_false_dropped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_fr_to_for\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_htmlfor_to_for\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_klass_to_class\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_kwargs_win_on_collision_with_dict\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_leading_underscore_stripped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_multiple_dicts_merge\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_multiple_underscores_to_hyphens\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_non_dict_positional_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_none_dropped\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_single_underscore_to_hyphen\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestNormalizeAttrs::test_true_kept\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_attr_value_escaping_quotes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_basic_element\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_boolean_attr_renders_bare\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_html_element\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_math_element_self_closes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_empty_svg_element_self_closes\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_explicit_xmlns_not_duplicated\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_br\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_img_with_attrs\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_html_void_input\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_math_root_gets_xmlns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_multiple_attrs\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_nested_tree\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_numeric_child_float\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_numeric_child_int\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_render_bare_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_render_safe_string\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_safe_bypasses_escaping\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_svg_nested_in_svg_no_xmlns\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_svg_root_gets_xmlns_when_inside_html\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_text_escaping_ampersand\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestRender::test_text_escaping_lt_gt\n\nSummary:\nTotal: 82, Passed: 82, Failed: 0, Errors: 0, Skipped: 0\n",
           "mimetype": "text/plain"
         }
       ]
     },
     {
-      "id": "lEQa",
+      "id": "vblA",
       "code_hash": null,
       "outputs": [
         {
@@ -78,7 +65,7 @@
       "console": []
     },
     {
-      "id": "PKri",
+      "id": "bkHC",
       "code_hash": "13ccd2db161e2167cbac56fe18bb8b74",
       "outputs": [
         {
@@ -98,7 +85,7 @@
       ]
     },
     {
-      "id": "Xref",
+      "id": "lEQa",
       "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
       "outputs": [
         {
@@ -111,7 +98,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "PKri",
       "code_hash": "fa8df738d37f986198556c7855c1f9a7",
       "outputs": [
         {
@@ -124,9 +111,82 @@
       "console": []
     },
     {
-      "id": "JFLf",
+      "id": "Xref",
+      "code_hash": "6cd8cfdf4c0283a2a2da757c7195e2b1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"viz\">Viz</h1>\n<span class=\"paragraph\">charting library built on html_tags and color.css</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "ade5d9b8684d527903c576e12c2fb756",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                             [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_returns_node_protocol\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_node_is_g_element\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_bad_orientation_raises\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_bottom_axis_has_ticks\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_left_axis_has_ticks\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_band_axis_uses_all_categories\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_custom_tick_format\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_default_format_integer\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_default_format_float\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_default_format_strips_trailing_zeros\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_cls_applied_to_group\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestAxis::test_renders_without_error\n\nSummary:\nTotal: 12, Passed: 12, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "0bd27a1902cf3f897cc5df52c7129c86",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"viz_chartspy\">viz_charts.py</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "e1f9ed1e3ceb8f863a4dd10b0c97a2a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[33m                                                               [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_returns_node_protocol\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_outer_is_svg\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_dimensions\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_viewbox\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_inner_g_translated\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_margin_inner_dimensions\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_layers_inside_inner_g\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_node_protocol_layers_resolved\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_cls_on_svg\n\u001b[1m\u001b[32m\u001b[22m\u2713\u001b[0m\u001b[0m notebooks/test.py::TestChart::test_default_margin\n\nSummary:\nTotal: 10, Passed: 10, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Kclp",
       "code_hash": null,
-      "outputs": [],
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
       "console": []
     }
   ]

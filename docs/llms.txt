@@ -7,5 +7,9 @@
 - [ns](/ns): child_ns
 - [render](/render): render
 - [dsl](/dsl): TagFactory
+- [viz_scale](/viz_scale): Scale, LinearScale, BandScale, HueScale, OrdinalHueScale
+- [viz_mark](/viz_mark): rect, circle, line, polyline, path, path_d, area_d, text, group
+- [viz_axis](/viz_axis): axis
+- [viz_chart](/viz_chart): Margin, BoundMargin, chart
 
 - [llms-full.txt](/llms-full.txt): Complete source code

@@ -90,9 +90,14 @@ def internal_split_args(args: tuple) -> tuple[list, list]:
             dicts.append(arg)
         elif isinstance(arg, (Node, str, int, float)):
             children.append(arg)
+        elif hasattr(arg, '__node__'):          # component protocol
+            children.append(arg.__node__())
         elif hasattr(arg, '__iter__'):
             for item in arg:
-                children.append(item)
+                if hasattr(item, '__node__'):   # comps. inside generators too
+                    children.append(item.__node__())
+                else:
+                    children.append(item)
         else:
             children.append(arg)
     return children, dicts

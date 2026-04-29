@@ -1,0 +1,100 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.22.0",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "09634789555e816aa2303678157762d7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "dd1d9fc36f26cdd7eb26984fb1ef724a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "f15220f6033f4318a4b6bc5ad66461e0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<?xml version=\"1.0\" ?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"500\" height=\"300\" viewBox=\"0 0 500 300\">\n  <g transform=\"translate(50,20)\">\n    <rect x=\"10.75\" y=\"168.0\" width=\"86.0\" height=\"72.0\" class=\"surface\" style=\"--color:0.3\"/>\n    <rect x=\"118.25\" y=\"48.0\" width=\"86.0\" height=\"192.0\" class=\"surface\" style=\"--color:0.3\"/>\n    <rect x=\"225.75\" y=\"120.0\" width=\"86.0\" height=\"120.0\" class=\"surface\" style=\"--color:0.3\"/>\n    <rect x=\"333.25\" y=\"84.0\" width=\"86.0\" height=\"156.0\" class=\"surface\" style=\"--color:0.3\"/>\n    <g>\n      <line x1=\"0\" y1=\"0\" x2=\"430\" y2=\"0\" class=\"axis-rule\"/>\n      <g>\n        <line x1=\"10.75\" y1=\"0\" x2=\"10.75\" y2=\"6\"/>\n        <text x=\"10.75\" y=\"10\" text-anchor=\"middle\">A</text>\n      </g>\n      <g>\n        <line x1=\"118.25\" y1=\"0\" x2=\"118.25\" y2=\"6\"/>\n        <text x=\"118.25\" y=\"10\" text-anchor=\"middle\">B</text>\n      </g>\n      <g>\n        <line x1=\"225.75\" y1=\"0\" x2=\"225.75\" y2=\"6\"/>\n        <text x=\"225.75\" y=\"10\" text-anchor=\"middle\">C</text>\n      </g>\n      <g>\n        <line x1=\"333.25\" y1=\"0\" x2=\"333.25\" y2=\"6\"/>\n        <text x=\"333.25\" y=\"10\" text-anchor=\"middle\">D</text>\n      </g>\n    </g>\n    <g>\n      <line x1=\"0\" y1=\"240\" x2=\"0\" y2=\"0\" class=\"axis-rule\"/>\n      <g>\n        <line x1=\"0\" y1=\"240.0\" x2=\"-6\" y2=\"240.0\"/>\n        <text x=\"-10\" y=\"240.0\" text-anchor=\"end\">0</text>\n      </g>\n      <g>\n        <line x1=\"0\" y1=\"180.0\" x2=\"-6\" y2=\"180.0\"/>\n        <text x=\"-10\" y=\"180.0\" text-anchor=\"end\">25</text>\n      </g>\n      <g>\n        <line x1=\"0\" y1=\"120.0\" x2=\"-6\" y2=\"120.0\"/>\n        <text x=\"-10\" y=\"120.0\" text-anchor=\"end\">50</text>\n      </g>\n      <g>\n        <line x1=\"0\" y1=\"60.0\" x2=\"-6\" y2=\"60.0\"/>\n        <text x=\"-10\" y=\"60.0\" text-anchor=\"end\">75</text>\n      </g>\n      <g>\n        <line x1=\"0\" y1=\"0.0\" x2=\"-6\" y2=\"0.0\"/>\n        <text x=\"-10\" y=\"0.0\" text-anchor=\"end\">100</text>\n      </g>\n    </g>\n  </g>\n</svg>\n"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "NGBl",
+      "code_hash": "adbebd77991a5bbebf8461523e505785",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "open /tmp/chart_demo.html\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "bggg",
+      "code_hash": "9f38ce0131192661df3450d71c731eaf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "\n<iframe\n    srcdoc=\"<!DOCTYPE html>\n<html lang=&quot;en&quot;><head><meta charset=&quot;utf-8&quot;><meta content=&quot;width=device-width, initial-scale=1&quot; name=&quot;viewport&quot;><link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/Deufel/toolbox@latest/css/style.css&quot;><title>chart demo</title></head><body><div class=&quot;surface p&quot; style=&quot;--space: 1; min-height: 100vh; display: flex; align-items: center; justify-content: center;&quot;><svg width=&quot;500&quot; height=&quot;300&quot; viewBox=&quot;0 0 500 300&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><g transform=&quot;translate(50,20)&quot;><rect x=&quot;10.75&quot; y=&quot;168.0&quot; width=&quot;86.0&quot; height=&quot;72.0&quot; class=&quot;surface&quot; style=&quot;--color:0.3&quot;/><rect x=&quot;118.25&quot; y=&quot;48.0&quot; width=&quot;86.0&quot; height=&quot;192.0&quot; class=&quot;surface&quot; style=&quot;--color:0.3&quot;/><rect x=&quot;225.75&quot; y=&quot;120.0&quot; width=&quot;86.0&quot; height=&quot;120.0&quot; class=&quot;surface&quot; style=&quot;--color:0.3&quot;/><rect x=&quot;333.25&quot; y=&quot;84.0&quot; width=&quot;86.0&quot; height=&quot;156.0&quot; class=&quot;surface&quot; style=&quot;--color:0.3&quot;/><g><line x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;430&quot; y2=&quot;0&quot; class=&quot;axis-rule&quot;/><g><line x1=&quot;10.75&quot; y1=&quot;0&quot; x2=&quot;10.75&quot; y2=&quot;6&quot;/><text x=&quot;10.75&quot; y=&quot;10&quot; text-anchor=&quot;middle&quot;>A</text></g><g><line x1=&quot;118.25&quot; y1=&quot;0&quot; x2=&quot;118.25&quot; y2=&quot;6&quot;/><text x=&quot;118.25&quot; y=&quot;10&quot; text-anchor=&quot;middle&quot;>B</text></g><g><line x1=&quot;225.75&quot; y1=&quot;0&quot; x2=&quot;225.75&quot; y2=&quot;6&quot;/><text x=&quot;225.75&quot; y=&quot;10&quot; text-anchor=&quot;middle&quot;>C</text></g><g><line x1=&quot;333.25&quot; y1=&quot;0&quot; x2=&quot;333.25&quot; y2=&quot;6&quot;/><text x=&quot;333.25&quot; y=&quot;10&quot; text-anchor=&quot;middle&quot;>D</text></g></g><g><line x1=&quot;0&quot; y1=&quot;240&quot; x2=&quot;0&quot; y2=&quot;0&quot; class=&quot;axis-rule&quot;/><g><line x1=&quot;0&quot; y1=&quot;240.0&quot; x2=&quot;-6&quot; y2=&quot;240.0&quot;/><text x=&quot;-10&quot; y=&quot;240.0&quot; text-anchor=&quot;end&quot;>0</text></g><g><line x1=&quot;0&quot; y1=&quot;180.0&quot; x2=&quot;-6&quot; y2=&quot;180.0&quot;/><text x=&quot;-10&quot; y=&quot;180.0&quot; text-anchor=&quot;end&quot;>25</text></g><g><line x1=&quot;0&quot; y1=&quot;120.0&quot; x2=&quot;-6&quot; y2=&quot;120.0&quot;/><text x=&quot;-10&quot; y=&quot;120.0&quot; text-anchor=&quot;end&quot;>50</text></g><g><line x1=&quot;0&quot; y1=&quot;60.0&quot; x2=&quot;-6&quot; y2=&quot;60.0&quot;/><text x=&quot;-10&quot; y=&quot;60.0&quot; text-anchor=&quot;end&quot;>75</text></g><g><line x1=&quot;0&quot; y1=&quot;0.0&quot; x2=&quot;-6&quot; y2=&quot;0.0&quot;/><text x=&quot;-10&quot; y=&quot;0.0&quot; text-anchor=&quot;end&quot;>100</text></g></g></g></svg></div></body></html>\"\n    width=\"100%\"\n    height=\"400\"\n    style=\"border:none; border-radius:8px;\"\n></iframe>\n"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "wZiL",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

@@ -7,15 +7,8 @@
   "cells": [
     {
       "id": "setup",
-      "code_hash": "ce77e98b4365e21e7c01ef4f2ba1d27b",
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
+      "code_hash": "04fa41c313069874c07038503b6777ee",
+      "outputs": [],
       "console": []
     },
     {

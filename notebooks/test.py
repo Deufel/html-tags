@@ -12,36 +12,30 @@ with app.setup:
     from html_tags.ns    import child_ns
     from html_tags.render import render
     from html_tags.dsl   import TagFactory
+    from html_tags import doc
+
+    from html_tags.viz_scale import LinearScale, BandScale, HueScale, OrdinalHueScale
+    from html_tags.viz_mark  import rect, circle, line, polyline, path, path_d, area_d, text, group
+    from html_tags.viz_axis  import axis
+    from html_tags.viz_chart import chart, Margin
+
 
     h = TagFactory(HTML)
     s = TagFactory(SVG)
     m = TagFactory(MATH)
 
 
-@app.cell
-def _():
-    animals = ["cat", "dog", "goat"]
-    h.ul(h.li(a) for a in animals)
-    # Node('ul', 'html', {}, (Node('li',...,'cat'), Node('li',...,'dog'), Node('li',...,'goat')))
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Html
+    """)
     return
 
 
 @app.cell
 def _():
-    h.p({"data-on:click": "@this"}, cls="description", c="lorem")
-    # or just
-    h.p({"data-on:click": "@this"}, "lorem", cls="description")
-    return
-
-
-@app.cell
-def _():
-
-
-    # ---------------------------------------------------------------------------
-    # Layer 0 — Node
-    # ---------------------------------------------------------------------------
-
+    # ALL TEST HERE 
     class TestNode:
 
         def test_basic_construction(self):
@@ -391,7 +385,7 @@ def _():
             assert '<svg xmlns="http://www.w3.org/2000/svg">' in out
             assert '<rect '                                   in out
             assert '/>'                                       in out
-    
+
         def test_mathml_fragment(self):
             eq = m.math(
                 m.mrow(
@@ -425,6 +419,67 @@ def _():
             assert '<li>goat</li>' in out
             assert out.startswith('<ul>')
             assert out.endswith('</ul>')
+
+
+    class TestComponentProtocol:
+
+        def test_component_as_child(self):
+            class Badge:
+                def __node__(self):
+                    return h.span('hello', cls='badge')
+
+            node = h.div(Badge())
+            assert node.children[0].tag   == 'span'
+            assert node.children[0].attrs == {'class': 'badge'}
+
+        def test_component_in_generator(self):
+            class Item:
+                def __init__(self, label): self.label = label
+                def __node__(self): return h.li(self.label)
+
+            items = [Item('a'), Item('b'), Item('c')]
+            node  = h.ul(i for i in items)
+            assert len(node.children)     == 3
+            assert node.children[0].tag  == 'li'
+
+        def test_component_renders(self):
+            class Alert:
+                def __node__(self): return h.div('warning', cls='alert')
+
+            out = render(h.div(Alert()))
+            assert '<div class="alert">warning</div>' in out
+
+        def test_component_in_svg(self):
+            class Dot:
+                def __node__(self): return s.circle(cx=10, cy=10, r=5)
+
+            node = s.svg(Dot())
+            assert node.children[0].tag == 'circle'
+            assert node.children[0].ns  == SVG
+
+
+    class TestDoc:
+
+        def test_starts_with_doctype(self):
+            out = doc(h.head(), h.body())
+            assert out.startswith('<!DOCTYPE html>')
+
+        def test_wraps_in_html_tag(self):
+            out = doc(h.head(), h.body())
+            assert '<html lang="en">' in out
+            assert '</html>'          in out
+
+        def test_custom_lang(self):
+            out = doc(h.head(), h.body(), lang='fr')
+            assert '<html lang="fr">' in out
+
+        def test_children_present(self):
+            out = doc(
+                h.head(h.title('Test')),
+                h.body(h.p('hello')),
+            )
+            assert '<title>Test</title>' in out
+            assert '<p>hello</p>'        in out
 
     return
 
@@ -563,6 +618,154 @@ def _():
 def _(demo, mo):
     mo.Html(demo())
     return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Viz
+
+    charting library built on html_tags and color.css
+    """)
+    return
+
+
+@app.class_definition
+class TestAxis:
+
+    def test_returns_node_protocol(self):
+        x  = LinearScale(domain=(0, 100), range_=(0, 400))
+        ax = axis(x, 'bottom')
+        assert hasattr(ax, '__node__')
+
+    def test_node_is_g_element(self):
+        x    = LinearScale(domain=(0, 100), range_=(0, 400))
+        node = axis(x, 'bottom').__node__()
+        assert node.tag == 'g'
+        assert node.ns  == SVG
+
+    def test_bad_orientation_raises(self):
+        x = LinearScale(domain=(0, 100), range_=(0, 400))
+        with pytest.raises(AssertionError):
+            axis(x, 'diagonal')
+
+    def test_bottom_axis_has_ticks(self):
+        x    = LinearScale(domain=(0, 100), range_=(0, 400))
+        node = axis(x, 'bottom', tick_count=5).__node__()
+        assert len(node.children) == 6   # baseline + 5 tick groups
+
+    def test_left_axis_has_ticks(self):
+        y    = LinearScale(domain=(0, 50), range_=(300, 0))
+        node = axis(y, 'left', tick_count=3).__node__()
+        assert len(node.children) == 4   # baseline + 3
+
+    def test_band_axis_uses_all_categories(self):
+        x    = BandScale(domain=['A', 'B', 'C'], range_=(0, 300))
+        node = axis(x, 'bottom').__node__()
+        assert len(node.children) == 4   # baseline + 3
+
+    def test_custom_tick_format(self):
+        x    = LinearScale(domain=(0, 1), range_=(0, 100))
+        node = axis(x, 'bottom', tick_count=2,
+                    tick_format=lambda v: f'{v:.0%}').__node__()
+        out  = render(node)
+        assert '0%'   in out
+        assert '100%' in out
+
+    def test_default_format_integer(self):
+        x    = LinearScale(domain=(0, 5), range_=(0, 100))
+        node = axis(x, 'bottom', tick_count=2).__node__()
+        out  = render(node)
+        assert '>5<'   in out
+        assert '>5.0<' not in out
+
+    def test_default_format_float(self):
+        x    = LinearScale(domain=(0, 1), range_=(0, 100))
+        node = axis(x, 'bottom', tick_count=3).__node__()
+        out  = render(node)
+        assert '>0.5<' in out
+
+    def test_default_format_strips_trailing_zeros(self):
+        x    = LinearScale(domain=(0, 3.14), range_=(0, 100))
+        node = axis(x, 'bottom', tick_count=2).__node__()
+        out  = render(node)
+        assert '>3.14<' in out
+        assert '3.1400' not in out
+
+    def test_cls_applied_to_group(self):
+        x    = LinearScale(domain=(0, 100), range_=(0, 400))
+        node = axis(x, 'bottom', cls='axis').__node__()
+        assert node.attrs.get('class') == 'axis'
+
+    def test_renders_without_error(self):
+        x   = LinearScale(domain=(0, 100), range_=(0, 400))
+        out = render(axis(x, 'bottom').__node__())
+        assert '<g>'   in out
+        assert '<line' in out
+        assert '<text' in out
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## viz_charts.py
+    """)
+    return
+
+
+@app.class_definition
+class TestChart:
+
+    def test_returns_node_protocol(self):
+        c = chart(500, 300)
+        assert hasattr(c, '__node__')
+
+    def test_outer_is_svg(self):
+        node = chart(500, 300).__node__()
+        assert node.tag == 'svg'
+        assert node.ns  == SVG
+
+    def test_dimensions(self):
+        node = chart(500, 300).__node__()
+        assert node.attrs['width']  == 500
+        assert node.attrs['height'] == 300
+
+    def test_viewbox(self):
+        node = chart(500, 300).__node__()
+        assert node.attrs['viewBox'] == '0 0 500 300'
+
+    def test_inner_g_translated(self):
+        m    = Margin(top=20, right=20, bottom=40, left=50)
+        node = chart(500, 300, margin=m).__node__()
+        g    = node.children[0]
+        assert g.tag                   == 'g'
+        assert 'translate(50,20)'      in g.attrs['transform']
+
+    def test_margin_inner_dimensions(self):
+        m = Margin(top=20, right=20, bottom=40, left=50).bind(500, 300)
+        assert m.inner_width  == 430
+        assert m.inner_height == 240
+
+    def test_layers_inside_inner_g(self):
+        r    = rect(x=0, y=0, width=10, height=10)
+        node = chart(500, 300, r).__node__()
+        g    = node.children[0]
+        assert g.children[0].tag == 'rect'
+
+    def test_node_protocol_layers_resolved(self):
+        x    = LinearScale(domain=(0,100), range_=(0,400))
+        node = chart(500, 300, axis(x, 'bottom')).__node__()
+        g    = node.children[0]
+        assert g.children[0].tag == 'g'   # axis renders as <g>
+
+    def test_cls_on_svg(self):
+        node = chart(500, 300, cls='my-chart').__node__()
+        assert node.attrs['class'] == 'my-chart'
+
+    def test_default_margin(self):
+        m = Margin().bind(500, 300)
+        assert m.inner_width  == 500 - 20 - 50
+        assert m.inner_height == 300 - 40 - 40
 
 
 @app.cell
