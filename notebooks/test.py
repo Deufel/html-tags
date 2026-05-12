@@ -6,6 +6,9 @@ app = marimo.App()
 with app.setup:
     # test_html.py
 
+    import httpx
+    from functools import lru_cache
+
     import pytest
     from html_tags.node  import Node, Safe, HTML, SVG, MATH
     from html_tags.attrs import normalize_attrs
@@ -630,6 +633,14 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## viz.axis
+    """)
+    return
+
+
 @app.class_definition
 class TestAxis:
 
@@ -766,6 +777,267 @@ class TestChart:
         m = Margin().bind(500, 300)
         assert m.inner_width  == 500 - 20 - 50
         assert m.inner_height == 300 - 40 - 40
+
+
+@app.class_definition
+class TestScale:
+
+    def test_linear_basic(self):
+        x = LinearScale(domain=(0, 100), range_=(0, 400))
+        assert x(0)   == 0.0
+        assert x(100) == 400.0
+        assert x(50)  == 200.0
+
+    def test_linear_flipped_y(self):
+        y = LinearScale(domain=(0, 100), range_=(300, 0))
+        assert y(0)   == 300.0
+        assert y(100) == 0.0
+        assert y(50)  == 150.0
+
+    def test_linear_ticks(self):
+        x = LinearScale(domain=(0, 100), range_=(0, 400))
+        assert x.ticks(5) == [0, 25, 50, 75, 100]
+
+    def test_band_basic(self):
+        x = BandScale(domain=['A', 'B', 'C'], range_=(0, 300), padding=0.0)
+        assert x('A') == 0.0
+        assert x('B') == pytest.approx(100.0)
+        assert x('C') == pytest.approx(200.0)
+
+    def test_band_bandwidth(self):
+        x = BandScale(domain=['A', 'B', 'C'], range_=(0, 300), padding=0.0)
+        assert x.bandwidth == pytest.approx(100.0)
+
+    def test_band_ticks(self):
+        x = BandScale(domain=['A', 'B', 'C'], range_=(0, 300))
+        assert x.ticks() == ['A', 'B', 'C']
+
+    def test_band_unknown_raises(self):
+        x = BandScale(domain=['A', 'B'], range_=(0, 200))
+        with pytest.raises(AssertionError):
+            x('Z')
+
+    def test_hue_scale(self):
+        h = HueScale(domain=(0, 100), range_=(25, 280))
+        assert h(0)   == 25.0
+        assert h(100) == 280.0
+        assert h(50)  == pytest.approx(152.5)
+
+    def test_ordinal_hue_even_spread(self):
+        h = OrdinalHueScale(['A', 'B', 'C'])
+        assert h('A') == 0.0
+        assert h('B') == pytest.approx(120.0)
+        assert h('C') == pytest.approx(240.0)
+
+    def test_ordinal_hue_unknown_raises(self):
+        h = OrdinalHueScale(['A', 'B'])
+        with pytest.raises(AssertionError):
+            h('Z')
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # CSS integration
+    """)
+    return
+
+
+@app.cell
+def _():
+    preview(h.h1("test"),height=150, width=100)
+    return
+
+
+@app.function
+# css helper function; 
+
+def css_help(
+    terms = ['svg', 'of-type'] # check the styles for these terms 
+):
+    import httpx
+    results = []
+    css = httpx.get("https://cdn.jsdelivr.net/gh/Deufel/toolbox@master/css/style.css").text
+    for line in css.splitlines():
+        if any(t in line.lower() for t in terms): results.append(line)
+
+    return results
+
+
+@app.cell
+def _():
+    css_help()
+    return
+
+
+@app.cell
+def _():
+    hues = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
+    bgs = [-1,  0, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    cs = [0.2, 0.6, 0.8, 1.0]
+
+    def cell(bg, hue):
+        txt = h.div(*[h.span(str(c), style=f"--fg-contrast: {c}") for c in cs],
+                    style="display: grid; grid-template-columns: 1fr 1fr; font-size: 1rem")
+        bars = h.div(
+            h.div(style="height: 3px; border-radius: 2px; background: var(--border)"),
+            h.div(style="height: 3px; border-radius: 2px; background: var(--Border)"),
+            style="display: grid; gap: 2px; margin-top: .2rem")
+        return h.div(txt, bars, style=f"--bg: {bg}; --hue: {hue}; padding: .2rem; border-radius: 6px")
+
+    rows = [h.div(*[cell(bg, hue) for bg in bgs], style=f"display: grid; grid-template-columns: repeat({len(bgs)}, 1fr); gap: 2px", cls="surface")
+            for hue in hues]
+
+    grid = h.div(*rows, cls="surface", style="display: grid; gap: 2px; padding: 1rem; border-radius: 8px")
+    preview(grid, width=1100, height=1000)
+    return bgs, cs, hues
+
+
+@app.cell
+def _():
+    return
+
+
+@app.function
+@lru_cache(maxsize=1)
+def fetch_css() -> str:
+    """Fetch and cache the stylesheet once per session."""
+    return httpx.get(
+        "https://cdn.jsdelivr.net/gh/Deufel/toolbox@master/css/style.css"
+    ).text
+
+
+@app.function
+def preview(*nodes, width=500, height=350, bg=None):
+    """
+    Inline-CSS preview — styles are fetched once and cached.
+    bg: optional --bg value on <body>, e.g. 0.1 for a dark surface.
+    """
+    from marimo import Html
+    from html import escape
+
+    body_style = f"--bg:{bg};" if bg is not None else ""
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>{fetch_css()}</style>
+</head>
+<body class="surface" style="{body_style}">
+  {''.join(render(n) for n in nodes)}
+</body>
+</html>"""
+
+    return Html(
+        f'<iframe srcdoc="{escape(html)}" '
+        f'width="{width}" height="{height}" frameborder="0"></iframe>'
+    )
+
+
+@app.cell
+def color(bgs, cs, hues):
+
+    def svg_cell(bg, hue):
+        # Main cell rectangle
+        cell_rect = s.rect(
+            x=0, y=0, width=80, height=60, rx=4,
+            style=f"--bg: {bg}; --hue: {hue}; fill: var(--bg-color);"
+        )
+    
+        # 4 contrast values in a 2x2 grid
+        text_elements = []
+        positions = [(20, 18), (60, 18), (20, 38), (60, 38)]
+        for c, (x, y) in zip(cs, positions):
+            text_elements.append(s.text(
+                str(c),
+                {"text-anchor": "middle", "font-size": "9", "font-family": "monospace"},
+                x=x, y=y,
+                style=f"--fg-contrast: {c}; fill: var(--fg-color);"
+            ))
+    
+        # 2 border bars
+        bar1 = s.rect(
+            x=4, y=46, width=72, height=4, rx=2,
+            style="fill: var(--border);"
+        )
+        bar2 = s.rect(
+            x=4, y=52, width=72, height=4, rx=2,
+            style="fill: var(--Border);"
+        )
+    
+        return s.g(
+            cell_rect, *text_elements, bar1, bar2,
+            style=f"--bg: {bg}; --hue: {hue};"
+            )
+
+    # Create all rows
+    _rows = []
+    cell_width = 82  # 80 + 2px gap
+    cell_height = 62  # 60 + 2px gap
+
+    for row_idx, hue in enumerate(hues):
+        for col_idx, bg in enumerate(bgs):
+            _cell = svg_cell(bg, hue)
+            # Position each cell with transform
+            x_pos = col_idx * cell_width
+            y_pos = row_idx * cell_height
+            positioned_cell = s.g(
+                _cell,
+                transform=f"translate({x_pos}, {y_pos})"
+            )
+            _rows.append(positioned_cell)
+
+    total_width = len(bgs) * cell_width
+    total_height = len(hues) * cell_height
+
+    grid_svg = s.svg(
+        {"viewBox": f"0 0 {total_width} {total_height}", "xmlns": "http://www.w3.org/2000/svg"},
+        *_rows,
+        width=total_width, height=total_height,
+        cls="surface",
+        style="background: var(--surface-bg);"
+    )
+    preview(grid_svg, height=400, width=600)
+    return
+
+
+@app.cell
+def _():
+    import math as _math
+
+    _w_bar, _h_bar = 480, 280
+    _m_bar  = Margin(top=20, right=20, bottom=40, left=50)
+    _bm_bar = _m_bar.bind(_w_bar, _h_bar)
+
+    _cats = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+    _vals = [42, 68, 35, 85, 55, 72]
+
+    _x_band = BandScale(domain=_cats, range_=(0, _bm_bar.inner_width), padding=0.2)
+    _y_bar  = LinearScale(domain=(0, 100), range_=(_bm_bar.inner_height, 0))
+
+    _bar_marks = [
+        rect(
+            x=_x_band(cat),
+            y=_y_bar(val),
+            width=_x_band.bandwidth,
+            height=_bm_bar.inner_height - _y_bar(val),
+            rx=3,
+            style=f"--_bg: oklch(0.6 0.15 {i * 50});",
+        )
+        for i, (cat, val) in enumerate(zip(_cats, _vals))
+    ]
+
+    _bar_chart = chart(
+        _w_bar, _h_bar,
+        *_bar_marks,
+        axis(_x_band, "bottom"),
+        axis(_y_bar,  "left", tick_count=5),
+        margin=_m_bar,
+    ).__node__()
+
+    preview(_bar_chart, width=520, height=320, bg=0.05)
+    return
 
 
 @app.cell

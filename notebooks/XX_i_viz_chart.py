@@ -15,11 +15,11 @@ with app.setup:
     # in chart.py, add this constant
 
     CHART_STYLES = Safe("""
-      .mark          { fill: var(--bg); }
-      .mark-stroke   { fill: none; stroke: var(--bg); }
-      .axis-rule     { stroke: var(--bg); fill: none; opacity: 0.3; }
-      .tick-line     { stroke: var(--bg); fill: none; opacity: 0.3; }
-      .tick-label    { fill: var(--bg); font-family: inherit; }
+      .mark          { fill: var(--_bg); }
+      .mark-stroke   { fill: none; stroke: var(--_bg); }
+      .axis-rule     { stroke: var(--_bg); fill: none; opacity: 0.7; }
+      .tick-line     { stroke: var(--_bg); fill: none; opacity: 0.7; }
+      .tick-label    { fill: var(--_bg); font-family: inherit; }
     """)
 
 

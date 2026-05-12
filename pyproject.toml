@@ -1,6 +1,6 @@
 [project]
 name = "html-tags"
-version = "0.4.2"
+version = "0.4.4"
 description = "HTML/SVG generation via python functions."
 readme = "README.md"
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-
+    "ipython>=9.13.0",
 ]
 
 license = {text = "MIT"}  # or whatever license you use

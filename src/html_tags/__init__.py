@@ -1,40 +1,18 @@
 """HTML/SVG generation via python functions."""
-__version__ = '0.4.2'
+__version__ = '0.4.4'
 __author__ = 'Deufel'
 from .node import Node, Safe
 from .attrs import normalize_attrs
 from .ns import child_ns
 from .render import render
 from .dsl import TagFactory
-from .viz_scale import Scale, LinearScale, BandScale, HueScale, OrdinalHueScale
-from .viz_mark import rect, circle, line, polyline, path, path_d, area_d, text, group
-from .viz_axis import axis
-from .viz_chart import Margin, BoundMargin, chart
 __all__ = [
-    "BandScale",
-    "BoundMargin",
-    "HueScale",
-    "LinearScale",
-    "Margin",
     "Node",
-    "OrdinalHueScale",
     "Safe",
-    "Scale",
     "TagFactory",
-    "area_d",
-    "axis",
-    "chart",
     "child_ns",
-    "circle",
-    "group",
-    "line",
     "normalize_attrs",
-    "path",
-    "path_d",
-    "polyline",
-    "rect",
     "render",
-    "text",
 ]
 HTML = 'html'
 SVG = 'svg'
